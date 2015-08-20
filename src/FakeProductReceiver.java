@@ -24,4 +24,9 @@ public class FakeProductReceiver implements ProductReceiver{
     public void productInformationIsInvalid() {
 
     }
+
+    @Override
+    public boolean productFound() {
+        return true;
+    }
 }

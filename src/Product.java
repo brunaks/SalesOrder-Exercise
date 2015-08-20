@@ -6,6 +6,7 @@ public class Product {
     private String description;
     private double price;
     private int unitsInStock;
+    private String id;
 
     public void setName(String name) {
         this.name = name;
@@ -21,5 +22,13 @@ public class Product {
 
     public void setUnitsInStock(int unitsInStock) {
         this.unitsInStock = unitsInStock;
+    }
+
+    public void setId(String s) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 }

@@ -1,3 +1,5 @@
+import java.util.UUID;
+
 /**
  * Created by I848075 on 19/08/2015.
  */
@@ -32,6 +34,7 @@ public class RegisterProduct {
         product.setDescription(this.description);
         product.setPrice(this.price);
         product.setUnitsInStock(this.unitsInStock);
+        product.setId(UUID.randomUUID().toString());
     }
 
     private boolean productInformationIsValid() {
@@ -42,15 +45,15 @@ public class RegisterProduct {
     }
 
     private boolean unitsInStockIsValid() {
-        return true;
+        return this.unitsInStock > 0;
     }
 
     private boolean priceIsValid() {
-        return true;
+        return this.price > 0;
     }
 
     private boolean descriptionIsValid() {
-        return true;
+        return !this.description.isEmpty();
     }
 
     private boolean nameIsValid() {

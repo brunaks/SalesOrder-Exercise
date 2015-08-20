@@ -9,4 +9,6 @@ public interface ProductReceiver {
     void RegistrationWasSuccessful();
 
     void productInformationIsInvalid();
+
+    boolean productFound();
 }
