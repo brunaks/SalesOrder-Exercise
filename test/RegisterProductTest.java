@@ -26,7 +26,7 @@ public class RegisterProductTest {
     }
 
     @Test
-    public void productCouldNotBeRegistered() {
+    public void productCouldNotBeRegistered_nameIsBlank() {
         ProductInfo pi = givenProductInfo("", "productDescription", 10.0, 10);
         registerProduct = new RegisterProduct(productReceiver, pi);
         registerProduct.execute();

@@ -42,15 +42,15 @@ public class RegisterProduct {
     }
 
     private boolean unitsInStockIsValid() {
-        return this.unitsInStock >= 0;
+        return true;
     }
 
     private boolean priceIsValid() {
-        return this.price >= 0;
+        return true;
     }
 
     private boolean descriptionIsValid() {
-        return !this.description.isEmpty();
+        return true;
     }
 
     private boolean nameIsValid() {
