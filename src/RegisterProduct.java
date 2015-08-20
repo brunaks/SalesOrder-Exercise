@@ -4,32 +4,45 @@ import java.util.UUID;
  * Created by I848075 on 19/08/2015.
  */
 public class RegisterProduct {
-    private final ProductReceiver productReceiver;
-    public String name;
-    public String description;
-    public double price;
-    public int unitsInStock;
+    private ProductReceiver productReceiver;
+    private ProductRepository repository;
+    private String name;
+    private String description;
+    private double price;
+    private int unitsInStock;
+    private Product product;
 
-    public RegisterProduct(ProductReceiver productReceiver, ProductInfo productInfo) {
+    public RegisterProduct(ProductReceiver productReceiver, ProductInfo productInfo, ProductRepository repository) {
         this.productReceiver = productReceiver;
         this.name = productInfo.name;
         this.description = productInfo.description;
         this.price = productInfo.price;
         this.unitsInStock = productInfo.unitsInStock;
+        this.repository = repository;
     }
 
     public void execute() {
         if (productInformationIsValid()) {
             createProductAndSetInfo();
-            productReceiver.RegistrationWasSuccessful();
+            saveProduct();
+            if (this.productReceiver.productWasSavedSuccessfully()) {
+                productReceiver.registrationWasSuccessful();
+            } else {
+                productReceiver.productWasNotSaved();
+                productReceiver.registrationFailed();
+            }
         } else {
             productReceiver.productInformationIsInvalid();
             productReceiver.registrationFailed();
         }
     }
 
+    private void saveProduct() {
+        this.repository.saveProduct(this.product);
+    }
+
     private void createProductAndSetInfo() {
-        Product product = new Product();
+        this.product = new Product();
         product.setName(this.name);
         product.setDescription(this.description);
         product.setPrice(this.price);

@@ -14,65 +14,68 @@ public class RegisterProductTest {
 
     @Before
     public void setUp() throws Exception {
-        productReceiver = new FakeProductReceiver();
+        this.productReceiver = new FakeProductReceiver();
+        this.repository = new FakeProductRepository(productReceiver);
     }
 
     @Test
     public void canRegisterProductWithSuccess() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 10);
-        registerProduct = new RegisterProduct(productReceiver, pi);
-        registerProduct.execute();
+        createRegisterProductUseCase(pi);
         Assert.assertTrue(productReceiver.productWasRegisteredSuccessfully());
     }
 
     @Test
     public void productCouldNotBeRegistered_nameIsBlank() {
         ProductInfo pi = givenProductInfo("", "productDescription", 10.0, 10);
-        registerProduct = new RegisterProduct(productReceiver, pi);
-        registerProduct.execute();
+        createRegisterProductUseCase(pi);
         Assert.assertFalse(productReceiver.productWasRegisteredSuccessfully());
     }
 
     @Test
     public void productCouldNotBeRegistered_descriptionIsBlank() {
         ProductInfo pi = givenProductInfo("productName", "", 10.0, 10);
-        registerProduct = new RegisterProduct(productReceiver, pi);
-        registerProduct.execute();
+        createRegisterProductUseCase(pi);
         Assert.assertFalse(productReceiver.productWasRegisteredSuccessfully());
     }
 
     @Test
     public void productCouldNotBeRegistered_priceIsLowerThanZero() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", -1.0, 10);
-        registerProduct = new RegisterProduct(productReceiver, pi);
-        registerProduct.execute();
+        createRegisterProductUseCase(pi);
         Assert.assertFalse(productReceiver.productWasRegisteredSuccessfully());
     }
 
     @Test
     public void productCouldNotBeRegistered_unitsInStockIsLowerThanZero() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, -1);
-        registerProduct = new RegisterProduct(productReceiver, pi);
-        registerProduct.execute();
+        createRegisterProductUseCase(pi);
         Assert.assertFalse(productReceiver.productWasRegisteredSuccessfully());
     }
 
     @Test
     public void productCouldNotBeRegistered_unitsInStockIsEqualToZero() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 0);
-        registerProduct = new RegisterProduct(productReceiver, pi);
-        registerProduct.execute();
+        createRegisterProductUseCase(pi);
         Assert.assertFalse(productReceiver.productWasRegisteredSuccessfully());
     }
 
     @Test
     public void productValidIsInTheRepository() {
-        ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 0);
-        registerProduct = new RegisterProduct(productReceiver, pi);
-        registerProduct.execute();
+        ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 10);
+        createRegisterProductUseCase(pi);
         readProduct = new ReadProduct(this.repository, this.productReceiver);
-        readProduct.getProductByName("productName");
-        Assert.assertTrue(productReceiver.productFound());
+        readProduct.getProductInfoByProductName("productName");
+        Assert.assertTrue(productReceiver.productIsInRepository());
+    }
+
+    @Test
+    public void productInvalidIsNotInTheRepository() {
+        ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 0);
+        createRegisterProductUseCase(pi);
+        readProduct = new ReadProduct(this.repository, this.productReceiver);
+        readProduct.getProductInfoByProductName("productName");
+        Assert.assertFalse(productReceiver.productIsInRepository());
     }
 
     private ProductInfo givenProductInfo(String productName, String productDescription, double price, int unitsInStock) {
@@ -82,5 +85,10 @@ public class RegisterProductTest {
         productInfo.price = price;
         productInfo.unitsInStock = unitsInStock;
         return productInfo;
+    }
+
+    private void createRegisterProductUseCase(ProductInfo pi) {
+        registerProduct = new RegisterProduct(productReceiver, pi, repository);
+        registerProduct.execute();
     }
 }

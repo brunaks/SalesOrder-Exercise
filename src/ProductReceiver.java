@@ -6,9 +6,19 @@ public interface ProductReceiver {
 
     void registrationFailed();
 
-    void RegistrationWasSuccessful();
+    void registrationWasSuccessful();
 
     void productInformationIsInvalid();
 
-    boolean productFound();
+    void productFound();
+
+    boolean productIsInRepository();
+
+    void productWasNotSaved();
+
+    boolean productWasSavedSuccessfully();
+
+    void productWasSaved();
+
+    void productWasNotFound();
 }
