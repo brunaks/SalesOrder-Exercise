@@ -1,9 +1,11 @@
+import java.util.ArrayList;
+
 /**
  * Created by I848075 on 20/08/2015.
  */
 public class FakeProductRepository implements ProductRepository{
     private ProductReceiver receiver;
-    private Product product;
+    private ArrayList<Product> productsSaved = new ArrayList<Product>();
 
     public FakeProductRepository(ProductReceiver receiver) {
         this.receiver = receiver;
@@ -11,18 +13,19 @@ public class FakeProductRepository implements ProductRepository{
 
     @Override
     public void saveProduct(Product product) {
-        this.product = product;
+        this.productsSaved.add(product);
         this.receiver.productWasSaved();
     }
 
     @Override
     public Product getProductByName(String productName) {
-        if (this.product != null && this.product.getName().equalsIgnoreCase(productName)) {
-            this.receiver.productFound();
-            return this.product;
-        }   else {
-            this.receiver.productWasNotFound();
-            return null;
+        for (int i = 0; i < this.productsSaved.size(); i++) {
+            if (this.productsSaved.get(i).getName().equalsIgnoreCase(productName)) {
+                this.receiver.productFound();
+                return this.productsSaved.get(i);
+            }
         }
+        this.receiver.productWasNotFound();
+        return null;
     }
 }

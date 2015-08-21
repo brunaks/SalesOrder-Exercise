@@ -74,8 +74,22 @@ public class RegisterProductTest {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 0);
         createRegisterProductUseCase(pi);
         readProduct = new ReadProduct(this.repository, this.productReceiver);
-        readProduct.getProductInfoByProductName("productName");
+        ProductInfo piRetrieved = readProduct.getProductInfoByProductName("productName");
         Assert.assertFalse(productReceiver.productIsInRepository());
+        Assert.assertNull(piRetrieved);
+    }
+
+    @Test
+    public void productValidIsInTheRepository_CanRetrieveInfo() {
+        ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 10);
+        createRegisterProductUseCase(pi);
+        readProduct = new ReadProduct(this.repository, this.productReceiver);
+        ProductInfo piRetrieved = readProduct.getProductInfoByProductName("productName");
+        Assert.assertTrue(productReceiver.productIsInRepository());
+        Assert.assertEquals(pi.name, piRetrieved.name);
+        Assert.assertEquals(pi.description, piRetrieved.description);
+        Assert.assertEquals(pi.price, piRetrieved.price, 0.001);
+        Assert.assertEquals(pi.unitsInStock, piRetrieved.unitsInStock);
     }
 
     private ProductInfo givenProductInfo(String productName, String productDescription, double price, int unitsInStock) {
