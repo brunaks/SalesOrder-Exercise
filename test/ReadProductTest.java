@@ -26,7 +26,7 @@ public class ReadProductTest {
         register.execute();
         Assert.assertTrue(receiver.productWasRegisteredSuccessfully());
         ProductInfo infoRetrieved = read.getProductInfoByProductName("productName");
-        assertProductsInfoAreTheSame(info, infoRetrieved);
+        assertProductsInfoAreEqual(info, infoRetrieved);
     }
 
     @Test
@@ -38,13 +38,13 @@ public class ReadProductTest {
         register.execute();
         Assert.assertTrue(receiver.productWasRegisteredSuccessfully());
         ProductInfo infoRetrieved = read.getProductInfoByProductName("productName");
-        assertProductsInfoAreTheSame(info1, infoRetrieved);
+        assertProductsInfoAreEqual(info1, infoRetrieved);
 
         register = new RegisterProduct(receiver, info2, repository);
         register.execute();
         Assert.assertTrue(receiver.productWasRegisteredSuccessfully());
         infoRetrieved = read.getProductInfoByProductName("productName2");
-        assertProductsInfoAreTheSame(info2, infoRetrieved);
+        assertProductsInfoAreEqual(info2, infoRetrieved);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class ReadProductTest {
         return info;
     }
 
-    private void assertProductsInfoAreTheSame(ProductInfo info, ProductInfo infoRetrieved) {
+    private void assertProductsInfoAreEqual(ProductInfo info, ProductInfo infoRetrieved) {
         Assert.assertEquals(info.name, infoRetrieved.name);
         Assert.assertEquals(info.description, infoRetrieved.description);
         Assert.assertEquals(info.price, infoRetrieved.price, 0.001);

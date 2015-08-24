@@ -38,7 +38,13 @@ public class RegisterProduct {
     }
 
     private void saveProduct() {
-        this.repository.saveProduct(this.product);
+        Product aProduct = this.repository.getProductByName(this.name);
+        if (aProduct == null) {
+            this.repository.saveProduct(this.product);
+        } else {
+            this.productReceiver.productWasNotSaved();
+            this.productReceiver.registrationFailed();
+        }
     }
 
     private void createProductAndSetInfo() {

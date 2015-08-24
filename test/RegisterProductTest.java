@@ -21,49 +21,49 @@ public class RegisterProductTest {
     @Test
     public void canRegisterProductWithSuccess() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 10);
-        createRegisterProductUseCase(pi);
+        executeProductRegistration(pi);
         Assert.assertTrue(productReceiver.productWasRegisteredSuccessfully());
     }
 
     @Test
     public void productCouldNotBeRegistered_nameIsBlank() {
         ProductInfo pi = givenProductInfo("", "productDescription", 10.0, 10);
-        createRegisterProductUseCase(pi);
+        executeProductRegistration(pi);
         Assert.assertFalse(productReceiver.productWasRegisteredSuccessfully());
     }
 
     @Test
     public void productCouldNotBeRegistered_descriptionIsBlank() {
         ProductInfo pi = givenProductInfo("productName", "", 10.0, 10);
-        createRegisterProductUseCase(pi);
+        executeProductRegistration(pi);
         Assert.assertFalse(productReceiver.productWasRegisteredSuccessfully());
     }
 
     @Test
     public void productCouldNotBeRegistered_priceIsLowerThanZero() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", -1.0, 10);
-        createRegisterProductUseCase(pi);
+        executeProductRegistration(pi);
         Assert.assertFalse(productReceiver.productWasRegisteredSuccessfully());
     }
 
     @Test
     public void productCouldNotBeRegistered_unitsInStockIsLowerThanZero() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, -1);
-        createRegisterProductUseCase(pi);
+        executeProductRegistration(pi);
         Assert.assertFalse(productReceiver.productWasRegisteredSuccessfully());
     }
 
     @Test
     public void productCouldNotBeRegistered_unitsInStockIsEqualToZero() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 0);
-        createRegisterProductUseCase(pi);
+        executeProductRegistration(pi);
         Assert.assertFalse(productReceiver.productWasRegisteredSuccessfully());
     }
 
     @Test
     public void productValidIsInTheRepository() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 10);
-        createRegisterProductUseCase(pi);
+        executeProductRegistration(pi);
         readProduct = new ReadProduct(this.repository, this.productReceiver);
         readProduct.getProductInfoByProductName("productName");
         Assert.assertTrue(productReceiver.productIsInRepository());
@@ -72,7 +72,7 @@ public class RegisterProductTest {
     @Test
     public void productInvalidIsNotInTheRepository() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 0);
-        createRegisterProductUseCase(pi);
+        executeProductRegistration(pi);
         readProduct = new ReadProduct(this.repository, this.productReceiver);
         ProductInfo piRetrieved = readProduct.getProductInfoByProductName("productName");
         Assert.assertFalse(productReceiver.productIsInRepository());
@@ -82,14 +82,19 @@ public class RegisterProductTest {
     @Test
     public void productValidIsInTheRepository_CanRetrieveInfo() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 10);
-        createRegisterProductUseCase(pi);
+        executeProductRegistration(pi);
         readProduct = new ReadProduct(this.repository, this.productReceiver);
         ProductInfo piRetrieved = readProduct.getProductInfoByProductName("productName");
         Assert.assertTrue(productReceiver.productIsInRepository());
-        Assert.assertEquals(pi.name, piRetrieved.name);
-        Assert.assertEquals(pi.description, piRetrieved.description);
-        Assert.assertEquals(pi.price, piRetrieved.price, 0.001);
-        Assert.assertEquals(pi.unitsInStock, piRetrieved.unitsInStock);
+        assertProductsInfoAreEqual(pi, piRetrieved);
+    }
+
+    @Test
+    public void cannotSaveProductWithSameInfoAsAnotherOneAlreadySaved() {
+        ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 10);
+        executeProductRegistration(pi);
+        executeProductRegistration(pi);
+        Assert.assertFalse(productReceiver.productWasRegisteredSuccessfully());
     }
 
     private ProductInfo givenProductInfo(String productName, String productDescription, double price, int unitsInStock) {
@@ -101,8 +106,15 @@ public class RegisterProductTest {
         return productInfo;
     }
 
-    private void createRegisterProductUseCase(ProductInfo pi) {
+    private void executeProductRegistration(ProductInfo pi) {
         registerProduct = new RegisterProduct(productReceiver, pi, repository);
         registerProduct.execute();
+    }
+
+    private void assertProductsInfoAreEqual(ProductInfo pi, ProductInfo piRetrieved) {
+        Assert.assertEquals(pi.name, piRetrieved.name);
+        Assert.assertEquals(pi.description, piRetrieved.description);
+        Assert.assertEquals(pi.price, piRetrieved.price, 0.001);
+        Assert.assertEquals(pi.unitsInStock, piRetrieved.unitsInStock);
     }
 }
