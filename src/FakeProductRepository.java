@@ -13,8 +13,18 @@ public class FakeProductRepository implements ProductRepository{
 
     @Override
     public void saveProduct(Product product) {
-        this.productsSaved.add(product);
+        Product productToBeSaved = this.createProduct(product);
+        this.productsSaved.add(productToBeSaved);
         this.receiver.productWasSaved();
+    }
+
+    private Product createProduct(Product product) {
+        Product productToBeSaved = new Product();
+        productToBeSaved.setName(product.getName());
+        productToBeSaved.setDescription(product.getDescription());
+        productToBeSaved.setPrice(product.getPrice());
+        productToBeSaved.setUnitsInStock(product.getUnitsInStock());
+        return productToBeSaved;
     }
 
     @Override

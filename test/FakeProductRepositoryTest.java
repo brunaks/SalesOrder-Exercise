@@ -24,6 +24,31 @@ public class FakeProductRepositoryTest {
         assertProductsAreEqual(product, productRetrieved);
     }
 
+    @Test
+    public void canSaveAndReadTwoProducts() {
+        Product product = givenProduct("productName", "productDescription", 10.0, 10);
+        repository.saveProduct(product);
+        Product productRetrieved = repository.getProductByName("productName");
+        assertProductsAreEqual(product, productRetrieved);
+
+        Product product2 = givenProduct("productName2", "productDescription2", 20.0, 20);
+        repository.saveProduct(product2);
+        Product productRetrieved2 = repository.getProductByName("productName2");
+        assertProductsAreEqual(product2, productRetrieved2);
+    }
+
+    @Test
+    public void changesInTheExternalProductObjectAreNotReflectedInProductSaved() {
+        Product product = givenProduct("productName", "productDescription", 10.0, 10);
+        repository.saveProduct(product);
+        Product productRetrieved = repository.getProductByName("productName");
+        assertProductsAreEqual(product, productRetrieved);
+
+        product.setName("productNameChanged");
+        Assert.assertNotEquals(product.getName(), productRetrieved.getName());
+        Assert.assertNotEquals(product, productRetrieved);
+    }
+
     private Product givenProduct(String productName, String productDescription, double price, int unitsInStock) {
         Product product = new Product();
         product.setName(productName);

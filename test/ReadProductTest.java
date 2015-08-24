@@ -47,6 +47,12 @@ public class ReadProductTest {
         assertProductsInfoAreTheSame(info2, infoRetrieved);
     }
 
+    @Test
+    public void ReadingFailed_ProductDoesNotExist() {
+        ProductInfo infoRetrieved = read.getProductInfoByProductName("productName");
+        Assert.assertNull(infoRetrieved);
+    }
+
     private ProductInfo givenInfo(String productName, String productDescription, double price, int unitsInStock) {
         ProductInfo info = new ProductInfo();
         info.name = productName;
