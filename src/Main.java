@@ -6,8 +6,10 @@ import spark.Spark;
 public class Main {
 
     public static void main(String[] args) {
+        ProductRepository repository = new FakeProductRepository(new FakeProductReceiver());
         Spark.staticFileLocation("public");
-        Spark.get("/teste", new MyRoute());
+        Spark.get("/registerProduct", new RegisterOneProduct(repository));
+
     }
 
 }
