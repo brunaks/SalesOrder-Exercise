@@ -30,4 +30,9 @@ public class FakeProductRepository implements ProductRepository{
         }
         return null;
     }
+
+    @Override
+    public ArrayList<Product> getAllProductsSaved() {
+        return productsSaved;
+    }
 }

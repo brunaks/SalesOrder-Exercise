@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+
+    <script>
+        var request;
+
+        function showProductList() {
+            if (request.status === 200 && request.readyState === 4) {
+                var json = JSON.parse(request.response);
+                for (obj in json) {
+                   var content = document.getElementById("products");
+
+                }
+            }
+        }
+
+        function loadProductList() {
+            request = new XMLHttpRequest();
+            request.onreadystatechange = showProductList;
+            request.open("get", "products", true);
+            request.send();
+        }
+
+    </script>
+</head>
+<body onload="loadProductList();">
+<h1>What would you like to do?</h1>
+<ul>
+
+    <li><a href="/registerProduct.html">Register a Product</a></li>
+    <li><a href="#">See All Registered Products</a></li>
+</ul>
+<div id="products"></div>
+</body>
+</html>
