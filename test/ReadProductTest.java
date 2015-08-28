@@ -15,7 +15,7 @@ public class ReadProductTest {
     @Before
     public void setUp() throws Exception {
         receiver = new FakeProductReceiver();
-        repository = new FakeProductRepository(receiver);
+        repository = new FakeProductRepository();
         read = new ReadProduct(this.repository, this.receiver);
     }
 
@@ -24,7 +24,7 @@ public class ReadProductTest {
         ProductInfo info = givenInfo("productName", "ProductDescription", 10.0, 10);
         register = new RegisterProduct(receiver, info, repository);
         register.execute();
-        Assert.assertTrue(receiver.productWasRegisteredSuccessfully());
+        Assert.assertTrue(receiver.registrationWasSuccessful);
         ProductInfo infoRetrieved = read.getProductInfoByProductName("productName");
         assertProductsInfoAreEqual(info, infoRetrieved);
     }
@@ -36,13 +36,13 @@ public class ReadProductTest {
 
         register = new RegisterProduct(receiver, info1, repository);
         register.execute();
-        Assert.assertTrue(receiver.productWasRegisteredSuccessfully());
+        Assert.assertTrue(receiver.registrationWasSuccessful);
         ProductInfo infoRetrieved = read.getProductInfoByProductName("productName");
         assertProductsInfoAreEqual(info1, infoRetrieved);
 
         register = new RegisterProduct(receiver, info2, repository);
         register.execute();
-        Assert.assertTrue(receiver.productWasRegisteredSuccessfully());
+        Assert.assertTrue(receiver.registrationWasSuccessful);
         infoRetrieved = read.getProductInfoByProductName("productName2");
         assertProductsInfoAreEqual(info2, infoRetrieved);
     }

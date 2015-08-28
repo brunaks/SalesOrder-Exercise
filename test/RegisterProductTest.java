@@ -15,49 +15,49 @@ public class RegisterProductTest {
     @Before
     public void setUp() throws Exception {
         this.productReceiver = new FakeProductReceiver();
-        this.repository = new FakeProductRepository(productReceiver);
+        this.repository = new FakeProductRepository();
     }
 
     @Test
     public void canRegisterProductWithSuccess() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 10);
         executeProductRegistration(pi);
-        Assert.assertTrue(productReceiver.productWasRegisteredSuccessfully());
+        Assert.assertTrue(productReceiver.registrationWasSuccessful);
     }
 
     @Test
     public void productCouldNotBeRegistered_nameIsBlank() {
         ProductInfo pi = givenProductInfo("", "productDescription", 10.0, 10);
         executeProductRegistration(pi);
-        Assert.assertFalse(productReceiver.productWasRegisteredSuccessfully());
+        Assert.assertFalse(productReceiver.registrationWasSuccessful);
     }
 
     @Test
     public void productCouldNotBeRegistered_descriptionIsBlank() {
         ProductInfo pi = givenProductInfo("productName", "", 10.0, 10);
         executeProductRegistration(pi);
-        Assert.assertFalse(productReceiver.productWasRegisteredSuccessfully());
+        Assert.assertFalse(productReceiver.registrationWasSuccessful);
     }
 
     @Test
     public void productCouldNotBeRegistered_priceIsLowerThanZero() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", -1.0, 10);
         executeProductRegistration(pi);
-        Assert.assertFalse(productReceiver.productWasRegisteredSuccessfully());
+        Assert.assertFalse(productReceiver.registrationWasSuccessful);
     }
 
     @Test
     public void productCouldNotBeRegistered_unitsInStockIsLowerThanZero() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, -1);
         executeProductRegistration(pi);
-        Assert.assertFalse(productReceiver.productWasRegisteredSuccessfully());
+        Assert.assertFalse(productReceiver.registrationWasSuccessful);
     }
 
     @Test
     public void productCouldNotBeRegistered_unitsInStockIsEqualToZero() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 0);
         executeProductRegistration(pi);
-        Assert.assertFalse(productReceiver.productWasRegisteredSuccessfully());
+        Assert.assertFalse(productReceiver.registrationWasSuccessful);
     }
 
     @Test
@@ -65,8 +65,8 @@ public class RegisterProductTest {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 10);
         executeProductRegistration(pi);
         readProduct = new ReadProduct(this.repository, this.productReceiver);
-        readProduct.getProductInfoByProductName("productName");
-        Assert.assertTrue(productReceiver.productIsInRepository());
+        ProductInfo info = readProduct.getProductInfoByProductName("productName");
+        Assert.assertNotNull(info);
     }
 
     @Test
@@ -75,7 +75,6 @@ public class RegisterProductTest {
         executeProductRegistration(pi);
         readProduct = new ReadProduct(this.repository, this.productReceiver);
         ProductInfo piRetrieved = readProduct.getProductInfoByProductName("productName");
-        Assert.assertFalse(productReceiver.productIsInRepository());
         Assert.assertNull(piRetrieved);
     }
 
@@ -85,7 +84,6 @@ public class RegisterProductTest {
         executeProductRegistration(pi);
         readProduct = new ReadProduct(this.repository, this.productReceiver);
         ProductInfo piRetrieved = readProduct.getProductInfoByProductName("productName");
-        Assert.assertTrue(productReceiver.productIsInRepository());
         assertProductsInfoAreEqual(pi, piRetrieved);
     }
 
@@ -94,7 +92,7 @@ public class RegisterProductTest {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 10);
         executeProductRegistration(pi);
         executeProductRegistration(pi);
-        Assert.assertFalse(productReceiver.productWasRegisteredSuccessfully());
+        Assert.assertFalse(productReceiver.registrationWasSuccessful);
     }
 
     private ProductInfo givenProductInfo(String productName, String productDescription, double price, int unitsInStock) {

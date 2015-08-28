@@ -3,6 +3,5 @@
  */
 public interface ProductRepository {
     void saveProduct(Product product);
-
     Product getProductByName(String productName);
 }

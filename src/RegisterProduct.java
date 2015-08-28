@@ -25,12 +25,6 @@ public class RegisterProduct {
         if (productInformationIsValid()) {
             createProductAndSetInfo();
             saveProduct();
-            if (this.productReceiver.productWasSavedSuccessfully()) {
-                productReceiver.registrationWasSuccessful();
-            } else {
-                productReceiver.productWasNotSaved();
-                productReceiver.registrationFailed();
-            }
         } else {
             productReceiver.productInformationIsInvalid();
             productReceiver.registrationFailed();
@@ -41,9 +35,10 @@ public class RegisterProduct {
         Product aProduct = this.repository.getProductByName(this.name);
         if (aProduct == null) {
             this.repository.saveProduct(this.product);
-        } else {
-            this.productReceiver.productWasNotSaved();
-            this.productReceiver.registrationFailed();
+            productReceiver.registrationWasSuccessful();
+        }
+        else {
+            productReceiver.registrationFailed();
         }
     }
 

@@ -13,7 +13,7 @@ public class FakeProductRepositoryTest {
     @Before
     public void setUp() throws Exception {
         receiver = new FakeProductReceiver();
-        repository = new FakeProductRepository(receiver);
+        repository = new FakeProductRepository();
     }
 
     @Test

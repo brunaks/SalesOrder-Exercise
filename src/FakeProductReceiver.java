@@ -3,14 +3,8 @@
  */
 public class FakeProductReceiver implements ProductReceiver {
 
-    private boolean registrationWasSuccessful;
-    private boolean productWasSavedSucessfully;
-    private boolean productIsInRepository;
-
-    @Override
-    public boolean productWasRegisteredSuccessfully() {
-        return registrationWasSuccessful;
-    }
+    public boolean registrationWasSuccessful;
+    public boolean informationIsInvalid;
 
     @Override
     public void registrationFailed() {
@@ -24,37 +18,6 @@ public class FakeProductReceiver implements ProductReceiver {
 
     @Override
     public void productInformationIsInvalid() {
-
+        this.informationIsInvalid = true;
     }
-
-    @Override
-    public void productFound() {
-        productIsInRepository = true;
-    }
-
-    @Override
-    public void productWasNotFound() {
-        productIsInRepository = false;
-    }
-
-    @Override
-    public boolean productIsInRepository() {
-        return productIsInRepository;
-    }
-
-    @Override
-    public void productWasNotSaved() {
-        this.productWasSavedSucessfully = false;
-    }
-
-    @Override
-    public boolean productWasSavedSuccessfully() {
-        return this.productWasSavedSucessfully;
-    }
-
-    @Override
-    public void productWasSaved() {
-        this.productWasSavedSucessfully = true;
-    }
-
 }

@@ -9,10 +9,9 @@ public class Main {
 
     public static void main(String[] args) {
         ProductReceiver receiver = new FakeProductReceiver();
-        ProductRepository repository = new FakeProductRepository(receiver);
+        ProductRepository repository = new FakeProductRepository();
         Spark.staticFileLocation("public");
-        Spark.get("/registerProduct", new RegisterOneProduct(repository, receiver));
-
+        Spark.post("/registerProduct", new RegisterOneProduct(repository, receiver));
     }
 
 }

@@ -31,18 +31,27 @@ public class RegisterOneProduct implements Route{
     }
 
     private void getRequestInfo(Request rq) {
-        name = rq.queryParams("name");
-        description = rq.queryParams("description");
-        price = rq.queryParams("price");
-        units = rq.queryParams("units");
+        ProductInfoRequest input = converter.fromJson(rq.body(), ProductInfoRequest.class);
+        name = input.name;
+        description = input.description;
+        price = input.price;
+        units = input.units;
     }
 
     private void createProductInfo() {
         ProductInfo info = new ProductInfo();
         info.name = this.name;
         info.description = this.description;
-        info.price = Double.parseDouble(this.price);
-        info.unitsInStock = Integer.parseInt(this.units);
+        try {
+            info.price = Double.parseDouble(this.price);
+        } catch (NumberFormatException e) {
+            info.price = 0.0;
+        }
+        try {
+            info.unitsInStock = Integer.parseInt(this.units);
+        } catch (NumberFormatException e) {
+            info.unitsInStock = 0;
+        }
         this.productInfo = info;
     }
 }
