@@ -24,7 +24,7 @@ public class Product {
         this.unitsInStock = unitsInStock;
     }
 
-    public void setId(String s) {
+    public void setId(String id) {
         this.id = id;
     }
 

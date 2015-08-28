@@ -8,6 +8,7 @@ import spark.Route;
  */
 public class RegisterOneProduct implements Route{
 
+    private ProductReceiver receiver;
     private ProductRepository repository;
     String name;
     String description;
@@ -16,12 +17,12 @@ public class RegisterOneProduct implements Route{
     private ProductInfo productInfo;
     Gson converter = new Gson();
 
-    public RegisterOneProduct(ProductRepository repository) {
+    public RegisterOneProduct(ProductRepository repository, ProductReceiver receiver) {
         this.repository = repository;
+        this.receiver = receiver;
     }
 
     public Object handle(Request rq, Response rp) throws Exception {
-        Receiver receiver = new Receiver();
         getRequestInfo(rq);
         createProductInfo();
         RegisterProduct registerProduct = new RegisterProduct(receiver, productInfo, repository);
@@ -43,62 +44,5 @@ public class RegisterOneProduct implements Route{
         info.price = Double.parseDouble(this.price);
         info.unitsInStock = Integer.parseInt(this.units);
         this.productInfo = info;
-    }
-
-    private class Receiver implements ProductReceiver {
-
-        public boolean registrationWasSuccessful;
-        public boolean savingWasSuccessful;
-        public boolean invalidProductInformation;
-
-        @Override
-        public boolean productWasRegisteredSuccessfully() {
-            return false;
-        }
-
-        @Override
-        public void registrationFailed() {
-            this.registrationWasSuccessful = false;
-        }
-
-        @Override
-        public void registrationWasSuccessful() {
-            this.registrationWasSuccessful = true;
-        }
-
-        @Override
-        public void productInformationIsInvalid() {
-            invalidProductInformation = true;
-        }
-
-        @Override
-        public void productFound() {
-
-        }
-
-        @Override
-        public boolean productIsInRepository() {
-            return false;
-        }
-
-        @Override
-        public void productWasNotSaved() {
-            savingWasSuccessful = false;
-        }
-
-        @Override
-        public boolean productWasSavedSuccessfully() {
-            return savingWasSuccessful;
-        }
-
-        @Override
-        public void productWasSaved() {
-            savingWasSuccessful = true;
-        }
-
-        @Override
-        public void productWasNotFound() {
-
-        }
     }
 }
