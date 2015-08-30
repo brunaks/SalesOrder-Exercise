@@ -9,4 +9,5 @@ public interface ProductRepository {
     Product getProductByName(String productName);
     Collection<Product> getAllProductsSaved();
     Product getProductById(String id);
+    void updateProduct(String productId, ProductInfo newProductInfo);
 }

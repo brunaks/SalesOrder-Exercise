@@ -6,6 +6,7 @@ public class UpdateProduct {
     private ProductReceiver receiver;
     private ProductRepository repository;
     private String productId;
+    private ProductInfo newProductInfo;
 
     public UpdateProduct(ProductRepository repository, ProductReceiver receiver) {
         this.repository = repository;
@@ -16,7 +17,20 @@ public class UpdateProduct {
         this.productId = productId;
     }
 
-    public void setNewProductInfo(ProductInfo productInfo) {
+    public void setNewProductInfo(ProductInfo newProductInfo) {
+        this.newProductInfo = newProductInfo;
+        if (productExists() && newProductInfo.isValid()) {
+            setNewInfo();
+        } else {
+            receiver.updateFailed();
+        }
+    }
 
+    private void setNewInfo() {
+        repository.updateProduct(this.productId, this.newProductInfo);
+    }
+
+    private boolean productExists() {
+        return repository.getProductById(this.productId) != null;
     }
 }

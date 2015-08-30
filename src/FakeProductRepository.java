@@ -40,10 +40,21 @@ public class FakeProductRepository implements ProductRepository{
     @Override
     public Product getProductById(String id) {
         for (int i = 0; i < this.productsSaved.size(); i++) {
-            if (this.productsSaved.get(i).getId().equalsIgnoreCase(id)) {
+            if (this.productsSaved.get(i).getId().equals(id)) {
                 return this.productsSaved.get(i);
             }
         }
         return null;
+    }
+
+    @Override
+    public void updateProduct(String productId, ProductInfo newProductInfo) {
+        Product product = getProductById(productId);
+        if (product != null) {
+            product.setName(newProductInfo.name);
+            product.setDescription(newProductInfo.description);
+            product.setPrice(newProductInfo.price);
+            product.setUnitsInStock(newProductInfo.unitsInStock);
+        }
     }
 }

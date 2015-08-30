@@ -35,14 +35,35 @@ public class UpdateProductTest {
         RegisterProduct register = new RegisterProduct(receiver, oldInfo, repository);
         register.execute();
 
-        updateProduct.withId(oldInfo.id);
+        updateProduct.withId(repository.getProductByName("name").getId());
         updateProduct.setNewProductInfo(newInfo);
         Assert.assertFalse(receiver.updateFailed);
 
         ReadProduct read = new ReadProduct(repository, receiver);
-        ProductInfo retrievedInfo = read.getProductInfoById(oldInfo.id);
+        ProductInfo retrievedInfo = read.getProductInfoById(repository.getProductByName("name2").getId());
 
         Assert.assertEquals(retrievedInfo.name, newInfo.name);
+        Assert.assertEquals(retrievedInfo.description, oldInfo.description);
+        Assert.assertEquals(retrievedInfo.price, oldInfo.price, 0.001);
+        Assert.assertEquals(retrievedInfo.unitsInStock, oldInfo.unitsInStock);
+    }
+
+    @Test
+    public void updateFailed_newInfoIsNotValid() {
+        ProductInfo oldInfo = givenProductInfo("name", "description", 2, 10);
+        ProductInfo newInfo = givenProductInfo("", "", 0, 0);
+
+        RegisterProduct register = new RegisterProduct(receiver, oldInfo, repository);
+        register.execute();
+
+        updateProduct.withId(repository.getProductByName("name").getId());
+        updateProduct.setNewProductInfo(newInfo);
+        Assert.assertTrue(receiver.updateFailed);
+
+        ReadProduct read = new ReadProduct(repository, receiver);
+        ProductInfo retrievedInfo = read.getProductInfoById(repository.getProductByName("name").getId());
+
+        Assert.assertEquals(retrievedInfo.name, oldInfo.name);
         Assert.assertEquals(retrievedInfo.description, oldInfo.description);
         Assert.assertEquals(retrievedInfo.price, oldInfo.price, 0.001);
         Assert.assertEquals(retrievedInfo.unitsInStock, oldInfo.unitsInStock);
