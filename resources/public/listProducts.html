@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <style>
+        table {
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid green;
+        }
+
+        th {
+            background-color: #A7C942;
+            color: #ffffff;
+            text-transform: capitalize;
+        }
+
+        td {
+            color: #000000;
+            background-color: #EAF2D3;
+        }
+    </style>
+    
+    <script>
+        var request;
+
+        function createTableHeader(json, table) {
+            var headerRow = document.createElement("tr");
+            var obj = json[0];
+            for (var key in obj) {
+                var header = document.createElement("th");
+                var headerText = document.createTextNode(key);
+                header.appendChild(headerText);
+                headerRow.appendChild(header);
+            }
+            headerRow.appendChild(header);
+            table.appendChild(headerRow);
+        }
+
+        function createRow(obj, row) {
+            for (var key in obj) {
+                var eachValueInRow = obj[key];
+                var data = document.createElement("td");
+                var text = document.createTextNode(eachValueInRow);
+                data.appendChild(text);
+                row.appendChild(data);
+            }
+        }
+        function showProductList() {
+            if (request.status === 200 && request.readyState === 4) {
+                var json = JSON.parse(request.response);
+                for (var i = 0; i < json.length; i++) {
+                    var obj = json[i];
+                    var table = document.getElementById("table");
+                    createTableHeader(json, table);
+                    var row = document.createElement("tr");
+                    createRow(obj, row);
+                    table.appendChild(row);
+                }
+            }
+        }
+
+        function loadProductList() {
+            request = new XMLHttpRequest();
+            request.onreadystatechange = showProductList;
+            request.open("get", "products", true);
+            request.send();
+        }
+
+    </script>
+</head>
+<body onload="loadProductList()">
+<div id="products">
+    <table style="width:100%" id="table">
+    </table>
+</div>
+</body>
+</html>
