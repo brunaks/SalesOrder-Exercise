@@ -8,4 +8,5 @@ public interface ProductRepository {
     void saveProduct(Product product);
     Product getProductByName(String productName);
     Collection<Product> getAllProductsSaved();
+    Product getProductById(String id);
 }

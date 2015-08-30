@@ -5,6 +5,7 @@ public class FakeProductReceiver implements ProductReceiver {
 
     public boolean registrationWasSuccessful;
     public boolean informationIsInvalid;
+    public boolean updateFailed = true;
 
     @Override
     public void registrationFailed() {

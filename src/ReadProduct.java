@@ -26,4 +26,12 @@ public class ReadProduct {
         info.unitsInStock = product.getUnitsInStock();
         return info;
     }
+
+    public ProductInfo getProductInfoById(String id) {
+        Product product = this.repository.getProductById(id);
+        if (product != null)
+            return buildProductInfo(product);
+        else
+            return null;
+    }
 }

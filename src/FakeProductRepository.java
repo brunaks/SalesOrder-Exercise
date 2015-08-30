@@ -36,4 +36,14 @@ public class FakeProductRepository implements ProductRepository{
     public ArrayList<Product> getAllProductsSaved() {
         return productsSaved;
     }
+
+    @Override
+    public Product getProductById(String id) {
+        for (int i = 0; i < this.productsSaved.size(); i++) {
+            if (this.productsSaved.get(i).getId().equalsIgnoreCase(id)) {
+                return this.productsSaved.get(i);
+            }
+        }
+        return null;
+    }
 }
