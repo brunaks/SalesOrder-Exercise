@@ -18,6 +18,7 @@ public class FakeProductRepository implements ProductRepository{
         productToBeSaved.setDescription(product.getDescription());
         productToBeSaved.setPrice(product.getPrice());
         productToBeSaved.setUnitsInStock(product.getUnitsInStock());
+        productToBeSaved.setId(product.getId());
         return productToBeSaved;
     }
 

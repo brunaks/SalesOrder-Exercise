@@ -17,6 +17,7 @@ public class ListProducts {
         ArrayList<ProductInfo> productsInfo = new ArrayList<ProductInfo>();
         for (Product p: products) {
             ProductInfo productInfo = new ProductInfo();
+            productInfo.id = p.getId();
             productInfo.name = p.getName();
             productInfo.description = p.getDescription();
             productInfo.price = p.getPrice();

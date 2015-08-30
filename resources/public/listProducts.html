@@ -20,6 +20,10 @@
             color: #000000;
             background-color: #EAF2D3;
         }
+
+        .id {
+            display: none;
+        }
     </style>
     
     <script>
@@ -30,6 +34,7 @@
             var obj = json[0];
             for (var key in obj) {
                 var header = document.createElement("th");
+                header.setAttribute("class",key);
                 var headerText = document.createTextNode(key);
                 header.appendChild(headerText);
                 headerRow.appendChild(header);
@@ -42,6 +47,7 @@
             for (var key in obj) {
                 var eachValueInRow = obj[key];
                 var data = document.createElement("td");
+                data.setAttribute("class",key);
                 var text = document.createTextNode(eachValueInRow);
                 data.appendChild(text);
                 row.appendChild(data);
