@@ -11,6 +11,7 @@ public class Main {
         Spark.externalStaticFileLocation("resources/public");
         Spark.post("/registerProduct", new RegisterOneProduct(repository, receiver));
         Spark.get("/products", new ProductsRoute(repository));
+        Spark.post("/updateProduct", new UpdateProductRoute(repository, receiver));
     }
 
 }

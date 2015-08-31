@@ -3,6 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Register Product</title>
+    <style>
+
+        body{
+            margin-left: 5%;
+        }
+
+        form {
+            padding-top: 1%;
+        }
+
+        input  {
+            margin: 1%;
+            text-align: center;
+        }
+
+        #name, #description, #price, #units {
+            width: 20%;
+            height: 20px;
+            border-radius: 10px;
+        }
+    </style>
 
     <script>
         var request;
@@ -10,7 +31,6 @@
         function showRequestStatus() {
             if (request.status === 200 && request.readyState === 4) {
                 var json = JSON.parse(request.response);
-                //document.getElementById("content").innerHTML = json;
                 if (json.registrationWasSuccessful == true) {
                     document.getElementById("content").innerHTML = "Registration Successful";
                 }
@@ -36,12 +56,13 @@
     </script>
 </head>
 <body id="content">
-<form>
-    Name:           <input type="text" name="name" id="name">
-    Description:    <input type="text" name="description" id="description">
-    Price:          <input type="text" name="price" id="price">
-    Units in Stock: <input type="text" name="units" id="units">
-    <input type="button" value="Save" onclick="register();">
-</form>
+    <h1>Register a product using the form below:</h1>
+    <form>
+        <input type="text" name="name" placeholder="Product Name" id="name"><br>
+        <input type="text" name="description" placeholder="Product Description" id="description"><br>
+        <input type="number" name="price" placeholder="Price" id="price"><br>
+        <input type="number" name="units" placeholder="Units In Stock" id="units">
+        <input type="button" value="Save" onclick="register();">
+    </form>
 </body>
 </html>

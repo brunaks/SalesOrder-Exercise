@@ -47,6 +47,7 @@
             for (var key in obj) {
                 var eachValueInRow = obj[key];
                 var data = document.createElement("td");
+                data.setAttribute("onclick", "enableEditMode(this)");
                 data.setAttribute("class",key);
                 var text = document.createTextNode(eachValueInRow);
                 data.appendChild(text);
@@ -72,6 +73,43 @@
             request.onreadystatechange = showProductList;
             request.open("get", "products", true);
             request.send();
+        }
+
+        function disableEditMode(input) {
+            var newValue = input.value;
+            var parent = input.parentNode;
+            parent.removeChild(input);
+            parent.innerHTML = newValue;
+
+            var row = parent.parentNode;
+            var productId = row.firstElementChild.innerHTML;
+            var fieldToUpdate = parent.className;
+            var value = newValue;
+
+            var request;
+            request = new XMLHttpRequest();
+            request.onreadystatechange = updateProduct;
+            request.open("POST", "updateProduct", true);
+            request.send(JSON.stringify(
+                    {   id: productId,
+                        fieldToUpdate: fieldToUpdate,
+                        value: value
+                    }
+            ));
+        }
+
+        function enableEditMode(data) {
+            var input = document.createElement("input");
+            input.type = "text";
+            input.value = data.innerText;
+            input.setAttribute("onblur", "disableEditMode(this)");
+            data.innerHTML = '';
+            data.appendChild(input);
+            input.focus();
+        }
+
+        function updateProduct() {
+
         }
 
     </script>

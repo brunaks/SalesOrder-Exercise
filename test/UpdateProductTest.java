@@ -49,6 +49,27 @@ public class UpdateProductTest {
     }
 
     @Test
+    public void updateSuccessful_allValuesAreChanged() {
+        ProductInfo oldInfo = givenProductInfo("name", "description", 2, 10);
+        ProductInfo newInfo = givenProductInfo("name2", "description2", 3, 20);
+
+        RegisterProduct register = new RegisterProduct(receiver, oldInfo, repository);
+        register.execute();
+
+        updateProduct.withId(repository.getProductByName("name").getId());
+        updateProduct.setNewProductInfo(newInfo);
+        Assert.assertFalse(receiver.updateFailed);
+
+        ReadProduct read = new ReadProduct(repository, receiver);
+        ProductInfo retrievedInfo = read.getProductInfoById(repository.getProductByName("name2").getId());
+
+        Assert.assertEquals(retrievedInfo.name, newInfo.name);
+        Assert.assertEquals(retrievedInfo.description, newInfo.description);
+        Assert.assertEquals(retrievedInfo.price, newInfo.price, 0.001);
+        Assert.assertEquals(retrievedInfo.unitsInStock, newInfo.unitsInStock);
+    }
+
+    @Test
     public void updateFailed_newInfoIsNotValid() {
         ProductInfo oldInfo = givenProductInfo("name", "description", 2, 10);
         ProductInfo newInfo = givenProductInfo("", "", 0, 0);
@@ -78,6 +99,4 @@ public class UpdateProductTest {
         pi.id = UUID.randomUUID().toString();
         return pi;
     }
-
-
 }
