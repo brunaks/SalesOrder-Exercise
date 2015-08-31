@@ -28,7 +28,7 @@ public class UpdateProductTest {
     }
 
     @Test
-    public void updateSuccessful_nameChanged() {
+    public void updateSuccessful_onlyNameChanged() {
         ProductInfo oldInfo = givenProductInfo("name", "description", 2, 10);
         ProductInfo newInfo = givenProductInfo("name2", "description", 2, 10);
 

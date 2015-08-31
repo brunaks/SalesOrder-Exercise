@@ -33,4 +33,8 @@ public class UpdateProduct {
     private boolean productExists() {
         return repository.getProductById(this.productId) != null;
     }
+
+    public void setFieldWithValue(String fieldToUpdate, String value) {
+
+    }
 }

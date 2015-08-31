@@ -13,5 +13,4 @@ public class Main {
         Spark.get("/products", new ProductsRoute(repository));
         Spark.post("/updateProduct", new UpdateProductRoute(repository, receiver));
     }
-
 }

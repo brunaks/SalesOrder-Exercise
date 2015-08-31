@@ -28,6 +28,7 @@
     
     <script>
         var request;
+        var updateRequest;
 
         function createTableHeader(json, table) {
             var headerRow = document.createElement("tr");
@@ -83,17 +84,24 @@
 
             var row = parent.parentNode;
             var productId = row.firstElementChild.innerHTML;
-            var fieldToUpdate = parent.className;
-            var value = newValue;
+            var name = row.childNodes[1].innerHTML;
+            var description = row.childNodes[2].innerHTML;
+            var price = row.childNodes[3].innerHTML;
+            var units = row.childNodes[4].innerHTML;
+            //var fieldToUpdate = parent.className;
+            //var value = newValue;
 
-            var request;
-            request = new XMLHttpRequest();
-            request.onreadystatechange = updateProduct;
-            request.open("POST", "updateProduct", true);
-            request.send(JSON.stringify(
-                    {   id: productId,
-                        fieldToUpdate: fieldToUpdate,
-                        value: value
+            updateRequest = new XMLHttpRequest();
+            updateRequest.onreadystatechange = function() {
+                updateProductOnScreen(row);
+            };
+            updateRequest.open("POST", "updateProduct", true);
+            updateRequest.send(JSON.stringify(
+                    {   "id": productId,
+                        "name": name,
+                        "description": description,
+                        "price": price,
+                        "units": units
                     }
             ));
         }
@@ -108,8 +116,19 @@
             input.focus();
         }
 
-        function updateProduct() {
-
+        function updateProductOnScreen(row) {
+            if (updateRequest.status === 200 && updateRequest.readyState === 4) {
+                var infoUpdated = JSON.parse(updateRequest.response);
+                row.childNodes[1].innerHTML = infoUpdated.name;
+                row.childNodes[2].innerHTML = infoUpdated.description;
+                row.childNodes[3].innerHTML = infoUpdated.price;
+                row.childNodes[4].innerHTML = infoUpdated.unitsInStock;
+                if (infoUpdated.updateFailed == true) {
+                    alert("O update falhou. Tente novamente.");
+                } else {
+                    alert("Update feito com sucesso!");
+                }
+            }
         }
 
     </script>
