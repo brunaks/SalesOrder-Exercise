@@ -12,5 +12,6 @@ public class Main {
         Spark.post("/registerProduct", new RegisterOneProduct(repository, receiver));
         Spark.get("/products", new ProductsRoute(repository));
         Spark.post("/updateProduct", new UpdateProductRoute(repository, receiver));
+        Spark.post("/deleteProduct", new DeleteProductRoute(repository, receiver));
     }
 }

@@ -6,4 +6,5 @@ public interface ProductReceiver {
     void registrationWasSuccessful();
     void productInformationIsInvalid();
     void updateFailed();
+    void deleteFailed();
 }

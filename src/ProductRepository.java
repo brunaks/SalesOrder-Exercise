@@ -10,4 +10,5 @@ public interface ProductRepository {
     Collection<Product> getAllProductsSaved();
     Product getProductById(String id);
     void updateProduct(String productId, ProductInfo newProductInfo);
+    void deleteProductWithId(String productId);
 }

@@ -6,6 +6,7 @@ public class FakeProductReceiver implements ProductReceiver {
     public boolean registrationWasSuccessful;
     public boolean informationIsInvalid = false;
     public boolean updateFailed = false;
+    public boolean deleteFailed = false;
 
     @Override
     public void registrationFailed() {
@@ -25,5 +26,10 @@ public class FakeProductReceiver implements ProductReceiver {
     @Override
     public void updateFailed() {
         this.updateFailed = true;
+    }
+
+    @Override
+    public void deleteFailed() {
+        this.deleteFailed = true;
     }
 }

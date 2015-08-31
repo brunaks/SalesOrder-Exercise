@@ -24,11 +24,26 @@
         .id {
             display: none;
         }
+
+        .deleteImage {
+            width: 10%;
+            height: 30%;
+        }
+
     </style>
     
     <script>
         var request;
         var updateRequest;
+        var deleteRequest;
+
+        function createDeleteHeader(headerRow) {
+            var deleteHeader = document.createElement("th");
+            deleteHeader.setAttribute("class", "delete");
+            var deleteHeaderText = document.createTextNode("Delete");
+            deleteHeader.appendChild(deleteHeaderText);
+            headerRow.appendChild(deleteHeader);
+        }
 
         function createTableHeader(json, table) {
             var headerRow = document.createElement("tr");
@@ -40,7 +55,7 @@
                 header.appendChild(headerText);
                 headerRow.appendChild(header);
             }
-            headerRow.appendChild(header);
+            createDeleteHeader(headerRow);
             table.appendChild(headerRow);
         }
 
@@ -55,15 +70,51 @@
                 row.appendChild(data);
             }
         }
+        function updateListAfterDelete(td) {
+            if (deleteRequest.status === 200 && deleteRequest.readyState === 4) {
+                var json = JSON.parse(deleteRequest.response);
+                if (json.deleteFailed === false) {
+                    var row = td.parentNode;
+                    row.parentNode.removeChild(row);
+                    alert("Delete successful!");
+                } else {
+                    alert("Delete failed.");
+                }
+            }
+        }
+
+        function deleteProduct(img) {
+            deleteRequest = new XMLHttpRequest();
+            deleteRequest.onreadystatechange = function() {
+                updateListAfterDelete(img.parentNode);
+            };
+            deleteRequest.open("POST", "deleteProduct", true);
+            deleteRequest.send(JSON.stringify(
+                    {   "id": img.parentNode.parentNode.childNodes[0].innerHTML
+                    }
+            ));
+        }
+
+        function createDeleteColumn(row) {
+            var deleteColumn = document.createElement("td");
+            var img = document.createElement("img");
+            img.src = "http://www2.psd100.com/ppp/2013/12/0201/Empty-the-trash-can-1202120531.png";
+            img.className = "deleteImage";
+            img.setAttribute("onclick", "deleteProduct(this)");
+            deleteColumn.appendChild(img);
+            row.appendChild(deleteColumn);
+        }
+
         function showProductList() {
             if (request.status === 200 && request.readyState === 4) {
+                var table = document.getElementById("table");
                 var json = JSON.parse(request.response);
+                createTableHeader(json, table);
                 for (var i = 0; i < json.length; i++) {
                     var obj = json[i];
-                    var table = document.getElementById("table");
-                    createTableHeader(json, table);
                     var row = document.createElement("tr");
                     createRow(obj, row);
+                    createDeleteColumn(row);
                     table.appendChild(row);
                 }
             }
@@ -124,9 +175,9 @@
                 row.childNodes[3].innerHTML = infoUpdated.price;
                 row.childNodes[4].innerHTML = infoUpdated.unitsInStock;
                 if (infoUpdated.updateFailed == true) {
-                    alert("O update falhou. Tente novamente.");
+                    alert("Update failed.");
                 } else {
-                    alert("Update feito com sucesso!");
+                    alert("Update successful!");
                 }
             }
         }

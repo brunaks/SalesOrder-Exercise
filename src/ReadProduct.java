@@ -20,6 +20,7 @@ public class ReadProduct {
 
     private ProductInfo buildProductInfo(Product product) {
         ProductInfo info = new ProductInfo();
+        info.id = product.getId();
         info.name = product.getName();
         info.description = product.getDescription();
         info.price = product.getPrice();

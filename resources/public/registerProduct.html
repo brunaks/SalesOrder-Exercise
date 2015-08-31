@@ -23,6 +23,12 @@
             height: 20px;
             border-radius: 10px;
         }
+
+        #message {
+            text-align: center;
+            font-size: 16px;
+        }
+
     </style>
 
     <script>
@@ -32,10 +38,10 @@
             if (request.status === 200 && request.readyState === 4) {
                 var json = JSON.parse(request.response);
                 if (json.registrationWasSuccessful == true) {
-                    document.getElementById("content").innerHTML = "Registration Successful";
+                    document.getElementById("message").innerHTML = "Registration Successful";
                 }
                 else {
-                    document.getElementById("content").innerHTML = "Registration Failed. Please check your input and try again.";
+                    document.getElementById("message").innerHTML = "Registration Failed. Please check your input and try again.";
                 }
             }
         }
@@ -56,6 +62,7 @@
     </script>
 </head>
 <body id="content">
+<h2 id="message"></h2>
     <h1>Register a product using the form below:</h1>
     <form>
         <input type="text" name="name" placeholder="Product Name" id="name"><br>

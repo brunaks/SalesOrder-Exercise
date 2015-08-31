@@ -57,4 +57,12 @@ public class FakeProductRepository implements ProductRepository{
             product.setUnitsInStock(newProductInfo.unitsInStock);
         }
     }
+
+    @Override
+    public void deleteProductWithId(String productId) {
+        Product productToDelete = getProductById(productId);
+        if (productToDelete != null) {
+            productsSaved.remove(productToDelete);
+        }
+    }
 }
