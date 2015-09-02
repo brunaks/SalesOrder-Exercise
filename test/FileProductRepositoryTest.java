@@ -13,11 +13,11 @@ public class FileProductRepositoryTest extends FakeProductRepositoryTest {
 
     @Test
     public void dataMustBePersistedIndependentlyFromTheRepositoryInstance() {
-        ProductRepository repository  = createRepository();
+        ProductRepository repository  = new FileProductRepository();
         Product product = givenProduct("name", "description", 10, 10);
         repository.saveProduct(product);
 
-        ProductRepository repository2 = createRepository();
+        ProductRepository repository2 = new FileProductRepository();
         Product retrievedProduct = repository2.getProductByName("name");
         Assert.assertNotNull(retrievedProduct);
     }

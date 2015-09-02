@@ -1,7 +1,9 @@
+import java.io.Serializable;
+
 /**
  * Created by I848075 on 19/08/2015.
  */
-public class Product {
+public class Product implements Serializable{
     private String name;
     private String description;
     private double price;

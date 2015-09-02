@@ -4,7 +4,7 @@ import java.util.ArrayList;
  * Created by I848075 on 20/08/2015.
  */
 public class FakeProductRepository implements ProductRepository{
-    private ArrayList<Product> productsSaved = new ArrayList<Product>();
+    protected ArrayList<Product> productsSaved = new ArrayList<Product>();
 
     @Override
     public void saveProduct(Product product) {
