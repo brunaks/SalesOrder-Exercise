@@ -7,14 +7,16 @@ import org.junit.Test;
  */
 public class FakeProductRepositoryTest {
 
-    FakeProductRepository repository;
+    ProductRepository repository;
     FakeProductReceiver receiver;
 
     @Before
     public void setUp() throws Exception {
         receiver = new FakeProductReceiver();
-        repository = new FakeProductRepository();
+        repository = createRepository();
     }
+
+    protected ProductRepository createRepository() {return new FakeProductRepository();}
 
     @Test
     public void canSaveAndReadOneProduct() {
@@ -49,7 +51,7 @@ public class FakeProductRepositoryTest {
         Assert.assertNotEquals(product, productRetrieved);
     }
 
-    private Product givenProduct(String productName, String productDescription, double price, int unitsInStock) {
+    protected Product givenProduct(String productName, String productDescription, double price, int unitsInStock) {
         Product product = new Product();
         product.setName(productName);
         product.setDescription(productDescription);
