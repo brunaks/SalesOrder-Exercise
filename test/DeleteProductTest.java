@@ -1,4 +1,5 @@
 import Entities.Product.ProductInfo;
+import Interfaces.Persistence.ProductRepository;
 import UseCases.Product.DeleteProductUseCase;
 import UseCases.Product.ListProductsUseCase;
 import UseCases.Product.ReadProductUseCase;
@@ -12,29 +13,20 @@ import java.util.UUID;
 /**
  * Created by Bruna Koch Schmitt on 30/08/2015.
  */
-public class DeleteProductTest {
+public abstract class DeleteProductTest {
 
     public DeleteProductUseCase deleteProduct;
-    public FakeProductRepository repository;
+    public ProductRepository repository;
     public FakeProductReceiver receiver;
 
     @Before
-    public void setUp() throws Exception {
-        repository = new FakeProductRepository();
-        receiver = new FakeProductReceiver();
-        deleteProduct = new DeleteProductUseCase(repository, receiver);
-    }
+    public abstract void setUp() throws Exception;
 
     @Test
     public void deleteFailed_ProductNotFound() {
         deleteProduct.executeWithId(UUID.randomUUID().toString());
         Assert.assertTrue(receiver.deleteFailed);
         assertSizeOfList(0);
-    }
-
-    private void assertSizeOfList(int size) {
-        ListProductsUseCase list = new ListProductsUseCase(repository);
-        Assert.assertEquals(list.returnsAllProducts().size(), size);
     }
 
     @Test
@@ -47,6 +39,12 @@ public class DeleteProductTest {
         Assert.assertFalse(receiver.updateFailed);
         assertSizeOfList(0);
     }
+
+    private void assertSizeOfList(int size) {
+        ListProductsUseCase list = new ListProductsUseCase(repository);
+        Assert.assertEquals(list.returnsAllProducts().size(), size);
+    }
+
 
     private String getProductIdByName(String name) {
         ReadProductUseCase read = new ReadProductUseCase(repository, receiver);

@@ -38,10 +38,12 @@ public class FileProductRepository implements ProductRepository {
 
     public void saveProduct(Product product) {
 
-        //super.saveProduct(product);
         Product productToSave = createProductToSave(product);
         this.productsSaved.add(productToSave);
+        updateFile();
+    }
 
+    private void updateFile() {
         File file = new File("products.csv");
         file.delete();
 
@@ -107,6 +109,10 @@ public class FileProductRepository implements ProductRepository {
 
     @Override
     public void deleteProductWithId(String productId) {
-
+        Product productToDelete = getProductById(productId);
+        if (productToDelete != null) {
+            productsSaved.remove(productToDelete);
+            updateFile();
+        }
     }
 }
