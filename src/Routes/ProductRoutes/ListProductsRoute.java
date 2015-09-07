@@ -1,7 +1,7 @@
-package Routes;
+package Routes.ProductRoutes;
 
-import Interfaces.ProductRepository;
-import UseCases.ListProductsUseCase;
+import Interfaces.Persistence.ProductRepository;
+import UseCases.Product.ListProductsUseCase;
 import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;

@@ -1,9 +1,9 @@
-package Routes;
+package Routes.ProductRoutes;
 
-import Interfaces.ProductReceiver;
-import Interfaces.ProductRepository;
+import Interfaces.Receivers.ProductReceiver;
+import Interfaces.Persistence.ProductRepository;
 import Routes.RequestObjects.ProductInfoRequest;
-import UseCases.DeleteProductUseCase;
+import UseCases.Product.DeleteProductUseCase;
 import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;

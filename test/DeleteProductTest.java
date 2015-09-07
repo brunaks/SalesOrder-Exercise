@@ -1,8 +1,8 @@
-import Entities.ProductInfo;
-import UseCases.DeleteProductUseCase;
-import UseCases.ListProductsUseCase;
-import UseCases.ReadProductUseCase;
-import UseCases.RegisterProductUseCase;
+import Entities.Product.ProductInfo;
+import UseCases.Product.DeleteProductUseCase;
+import UseCases.Product.ListProductsUseCase;
+import UseCases.Product.ReadProductUseCase;
+import UseCases.Product.RegisterProductUseCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

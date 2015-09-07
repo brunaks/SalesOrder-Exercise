@@ -1,11 +1,11 @@
-package Routes;
+package Routes.ProductRoutes;
 
-import Entities.ProductInfo;
-import Interfaces.ProductReceiver;
-import Interfaces.ProductRepository;
+import Entities.Product.ProductInfo;
+import Interfaces.Receivers.ProductReceiver;
+import Interfaces.Persistence.ProductRepository;
 import Routes.RequestObjects.ProductInfoRequest;
-import UseCases.ReadProductUseCase;
-import UseCases.UpdateProductUseCase;
+import UseCases.Product.ReadProductUseCase;
+import UseCases.Product.UpdateProductUseCase;
 import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;

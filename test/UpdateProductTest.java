@@ -1,8 +1,8 @@
-import Entities.ProductInfo;
-import Interfaces.ProductRepository;
-import UseCases.ReadProductUseCase;
-import UseCases.RegisterProductUseCase;
-import UseCases.UpdateProductUseCase;
+import Entities.Product.ProductInfo;
+import Interfaces.Persistence.ProductRepository;
+import UseCases.Product.ReadProductUseCase;
+import UseCases.Product.RegisterProductUseCase;
+import UseCases.Product.UpdateProductUseCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,6 +1,6 @@
-import Entities.Product;
-import Entities.ProductInfo;
-import Interfaces.ProductRepository;
+import Entities.Product.Product;
+import Entities.Product.ProductInfo;
+import Interfaces.Persistence.ProductRepository;
 
 import java.util.ArrayList;
 

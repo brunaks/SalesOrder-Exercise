@@ -1,4 +1,4 @@
-import Interfaces.ProductReceiver;
+import Interfaces.Receivers.ProductReceiver;
 
 /**
  * Created by I848075 on 19/08/2015.

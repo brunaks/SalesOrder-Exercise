@@ -1,5 +1,5 @@
-import Entities.Product;
-import Interfaces.ProductRepository;
+import Entities.Product.Product;
+import Interfaces.Persistence.ProductRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

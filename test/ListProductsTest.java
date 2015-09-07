@@ -1,6 +1,6 @@
-import Entities.ProductInfo;
-import UseCases.ListProductsUseCase;
-import UseCases.RegisterProductUseCase;
+import Entities.Product.ProductInfo;
+import UseCases.Product.ListProductsUseCase;
+import UseCases.Product.RegisterProductUseCase;
 import org.junit.Before;
 import org.junit.Test;
 

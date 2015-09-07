@@ -1,9 +1,9 @@
-import Interfaces.ProductReceiver;
-import Interfaces.ProductRepository;
-import Routes.DeleteProductRoute;
-import Routes.ListProductsRoute;
-import Routes.RegisterProductRoute;
-import Routes.UpdateProductRoute;
+import Interfaces.Receivers.ProductReceiver;
+import Interfaces.Persistence.ProductRepository;
+import Routes.ProductRoutes.DeleteProductRoute;
+import Routes.ProductRoutes.ListProductsRoute;
+import Routes.ProductRoutes.RegisterProductRoute;
+import Routes.ProductRoutes.UpdateProductRoute;
 import spark.Spark;
 
 /**

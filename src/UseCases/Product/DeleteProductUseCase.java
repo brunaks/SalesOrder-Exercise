@@ -1,7 +1,7 @@
-package UseCases;
+package UseCases.Product;
 
-import Interfaces.ProductReceiver;
-import Interfaces.ProductRepository;
+import Interfaces.Receivers.ProductReceiver;
+import Interfaces.Persistence.ProductRepository;
 
 /**
  * Created by Bruna Koch Schmitt on 30/08/2015.

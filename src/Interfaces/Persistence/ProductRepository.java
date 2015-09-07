@@ -1,7 +1,7 @@
-package Interfaces;
+package Interfaces.Persistence;
 
-import Entities.Product;
-import Entities.ProductInfo;
+import Entities.Product.Product;
+import Entities.Product.ProductInfo;
 
 import java.util.Collection;
 

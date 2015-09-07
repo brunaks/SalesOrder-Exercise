@@ -1,8 +1,8 @@
-package UseCases;
+package UseCases.Product;
 
-import Entities.ProductInfo;
-import Interfaces.ProductReceiver;
-import Interfaces.ProductRepository;
+import Entities.Product.ProductInfo;
+import Interfaces.Receivers.ProductReceiver;
+import Interfaces.Persistence.ProductRepository;
 
 /**
  * Created by Bruna Koch Schmitt on 30/08/2015.
