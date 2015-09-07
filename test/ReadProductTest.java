@@ -1,3 +1,6 @@
+import Entities.ProductInfo;
+import UseCases.ReadProductUseCase;
+import UseCases.RegisterProductUseCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,8 +10,8 @@ import org.junit.Test;
  */
 public class ReadProductTest {
 
-    ReadProduct read;
-    RegisterProduct register;
+    ReadProductUseCase read;
+    RegisterProductUseCase register;
     FakeProductRepository repository;
     FakeProductReceiver receiver;
 
@@ -16,13 +19,13 @@ public class ReadProductTest {
     public void setUp() throws Exception {
         receiver = new FakeProductReceiver();
         repository = new FakeProductRepository();
-        read = new ReadProduct(this.repository, this.receiver);
+        read = new ReadProductUseCase(this.repository, this.receiver);
     }
 
     @Test
     public void ReadingSuccessful_CanReadOneProduct() {
         ProductInfo info = givenInfo("productName", "ProductDescription", 10.0, 10);
-        register = new RegisterProduct(receiver, info, repository);
+        register = new RegisterProductUseCase(receiver, info, repository);
         register.execute();
         Assert.assertTrue(receiver.registrationWasSuccessful);
         ProductInfo infoRetrieved = read.getProductInfoByProductName("productName");
@@ -34,13 +37,13 @@ public class ReadProductTest {
         ProductInfo info1 = givenInfo("productName", "ProductDescription", 10.0, 10);
         ProductInfo info2 = givenInfo("productName2", "ProductDescription2", 20.0, 20);
 
-        register = new RegisterProduct(receiver, info1, repository);
+        register = new RegisterProductUseCase(receiver, info1, repository);
         register.execute();
         Assert.assertTrue(receiver.registrationWasSuccessful);
         ProductInfo infoRetrieved = read.getProductInfoByProductName("productName");
         assertProductsInfoAreEqual(info1, infoRetrieved);
 
-        register = new RegisterProduct(receiver, info2, repository);
+        register = new RegisterProductUseCase(receiver, info2, repository);
         register.execute();
         Assert.assertTrue(receiver.registrationWasSuccessful);
         infoRetrieved = read.getProductInfoByProductName("productName2");

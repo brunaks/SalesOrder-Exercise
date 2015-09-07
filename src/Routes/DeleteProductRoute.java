@@ -1,3 +1,9 @@
+package Routes;
+
+import Interfaces.ProductReceiver;
+import Interfaces.ProductRepository;
+import Routes.RequestObjects.ProductInfoRequest;
+import UseCases.DeleteProductUseCase;
 import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;
@@ -20,7 +26,7 @@ public class DeleteProductRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        DeleteProduct deleteProduct = new DeleteProduct(this.repository, this.receiver);
+        DeleteProductUseCase deleteProduct = new DeleteProductUseCase(this.repository, this.receiver);
         getRequestInfo(request);
         deleteProduct.executeWithId(this.id);
         return converter.toJson(receiver);

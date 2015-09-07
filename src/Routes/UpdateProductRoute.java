@@ -1,5 +1,12 @@
+package Routes;
+
+import Entities.ProductInfo;
+import Interfaces.ProductReceiver;
+import Interfaces.ProductRepository;
+import Routes.RequestObjects.ProductInfoRequest;
+import UseCases.ReadProductUseCase;
+import UseCases.UpdateProductUseCase;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -26,13 +33,13 @@ public class UpdateProductRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        UpdateProduct updateProduct = new UpdateProduct(repository, receiver);
+        UpdateProductUseCase updateProduct = new UpdateProductUseCase(repository, receiver);
         getRequestInfo(request);
         updateProduct.withId(this.productId);
         createProductInfo();
         updateProduct.setNewProductInfo(this.productInfo);
 
-        ReadProduct read = new ReadProduct(repository, receiver);
+        ReadProductUseCase read = new ReadProductUseCase(repository, receiver);
         ProductInfo info = read.getProductInfoById(this.productId);
         String jsonInfo = converter.toJson(info);
         String jsonReceiver = converter.toJson(receiver);

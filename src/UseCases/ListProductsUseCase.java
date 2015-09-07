@@ -1,14 +1,20 @@
+package UseCases;
+
+import Entities.Product;
+import Entities.ProductInfo;
+import Interfaces.ProductRepository;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * Created by i848075 on 28/08/2015.
  */
-public class ListProducts {
+public class ListProductsUseCase {
 
     ProductRepository repository;
 
-    public ListProducts(ProductRepository repository) {
+    public ListProductsUseCase(ProductRepository repository) {
         this.repository = repository;
     }
 

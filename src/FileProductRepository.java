@@ -1,3 +1,7 @@
+import Entities.Product;
+import Entities.ProductInfo;
+import Interfaces.ProductRepository;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -5,7 +9,7 @@ import java.util.Collection;
 /**
  * Created by i848075 on 01/09/2015.
  */
-public class FileProductRepository implements ProductRepository{
+public class FileProductRepository implements ProductRepository {
 
     ArrayList<Product> productsSaved = new ArrayList<Product>();
 

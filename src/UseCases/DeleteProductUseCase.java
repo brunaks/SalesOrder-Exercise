@@ -1,11 +1,16 @@
+package UseCases;
+
+import Interfaces.ProductReceiver;
+import Interfaces.ProductRepository;
+
 /**
  * Created by Bruna Koch Schmitt on 30/08/2015.
  */
-public class DeleteProduct {
+public class DeleteProductUseCase {
     private ProductRepository repository;
     private ProductReceiver receiver;
 
-    public DeleteProduct(ProductRepository repository, ProductReceiver receiver) {
+    public DeleteProductUseCase(ProductRepository repository, ProductReceiver receiver) {
         this.repository = repository;
         this.receiver = receiver;
     }

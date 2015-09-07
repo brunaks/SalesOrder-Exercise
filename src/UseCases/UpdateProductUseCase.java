@@ -1,14 +1,20 @@
+package UseCases;
+
+import Entities.ProductInfo;
+import Interfaces.ProductReceiver;
+import Interfaces.ProductRepository;
+
 /**
  * Created by Bruna Koch Schmitt on 30/08/2015.
  */
-public class UpdateProduct {
+public class UpdateProductUseCase {
 
     private ProductReceiver receiver;
     private ProductRepository repository;
     private String productId;
     private ProductInfo newProductInfo;
 
-    public UpdateProduct(ProductRepository repository, ProductReceiver receiver) {
+    public UpdateProductUseCase(ProductRepository repository, ProductReceiver receiver) {
         this.repository = repository;
         this.receiver = receiver;
     }
@@ -34,7 +40,4 @@ public class UpdateProduct {
         return repository.getProductById(this.productId) != null;
     }
 
-    public void setFieldWithValue(String fieldToUpdate, String value) {
-
-    }
 }

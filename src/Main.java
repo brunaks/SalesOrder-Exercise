@@ -1,3 +1,9 @@
+import Interfaces.ProductReceiver;
+import Interfaces.ProductRepository;
+import Routes.DeleteProductRoute;
+import Routes.ListProductsRoute;
+import Routes.RegisterProductRoute;
+import Routes.UpdateProductRoute;
 import spark.Spark;
 
 /**
@@ -9,8 +15,8 @@ public class Main {
         ProductReceiver receiver = new FakeProductReceiver();
         ProductRepository repository = new FakeProductRepository();
         Spark.externalStaticFileLocation("resources/public");
-        Spark.post("/registerProduct", new RegisterOneProduct(repository, receiver));
-        Spark.get("/products", new ProductsRoute(repository));
+        Spark.post("/registerProduct", new RegisterProductRoute(repository, receiver));
+        Spark.get("/products", new ListProductsRoute(repository));
         Spark.post("/updateProduct", new UpdateProductRoute(repository, receiver));
         Spark.post("/deleteProduct", new DeleteProductRoute(repository, receiver));
     }

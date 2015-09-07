@@ -1,9 +1,13 @@
+import Entities.Product;
+import Entities.ProductInfo;
+import Interfaces.ProductRepository;
+
 import java.util.ArrayList;
 
 /**
  * Created by I848075 on 20/08/2015.
  */
-public class FakeProductRepository implements ProductRepository{
+public class FakeProductRepository implements ProductRepository {
     protected ArrayList<Product> productsSaved = new ArrayList<Product>();
 
     @Override

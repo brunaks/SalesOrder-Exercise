@@ -1,3 +1,8 @@
+import Entities.ProductInfo;
+import Interfaces.ProductRepository;
+import UseCases.ReadProductUseCase;
+import UseCases.RegisterProductUseCase;
+import UseCases.UpdateProductUseCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +14,7 @@ import java.util.UUID;
  */
 public class UpdateProductTest {
 
-    UpdateProduct updateProduct;
+    UpdateProductUseCase updateProduct;
     ProductRepository repository;
     FakeProductReceiver receiver;
 
@@ -17,7 +22,7 @@ public class UpdateProductTest {
     public void setUp() throws Exception {
         repository = new FakeProductRepository();
         receiver = new FakeProductReceiver();
-        updateProduct = new UpdateProduct(repository, receiver);
+        updateProduct = new UpdateProductUseCase(repository, receiver);
     }
 
     @Test
@@ -32,14 +37,14 @@ public class UpdateProductTest {
         ProductInfo oldInfo = givenProductInfo("name", "description", 2, 10);
         ProductInfo newInfo = givenProductInfo("name2", "description", 2, 10);
 
-        RegisterProduct register = new RegisterProduct(receiver, oldInfo, repository);
+        RegisterProductUseCase register = new RegisterProductUseCase(receiver, oldInfo, repository);
         register.execute();
 
         updateProduct.withId(repository.getProductByName("name").getId());
         updateProduct.setNewProductInfo(newInfo);
         Assert.assertFalse(receiver.updateFailed);
 
-        ReadProduct read = new ReadProduct(repository, receiver);
+        ReadProductUseCase read = new ReadProductUseCase(repository, receiver);
         ProductInfo retrievedInfo = read.getProductInfoById(repository.getProductByName("name2").getId());
 
         Assert.assertEquals(retrievedInfo.name, newInfo.name);
@@ -53,14 +58,14 @@ public class UpdateProductTest {
         ProductInfo oldInfo = givenProductInfo("name", "description", 2, 10);
         ProductInfo newInfo = givenProductInfo("name2", "description2", 3, 20);
 
-        RegisterProduct register = new RegisterProduct(receiver, oldInfo, repository);
+        RegisterProductUseCase register = new RegisterProductUseCase(receiver, oldInfo, repository);
         register.execute();
 
         updateProduct.withId(repository.getProductByName("name").getId());
         updateProduct.setNewProductInfo(newInfo);
         Assert.assertFalse(receiver.updateFailed);
 
-        ReadProduct read = new ReadProduct(repository, receiver);
+        ReadProductUseCase read = new ReadProductUseCase(repository, receiver);
         ProductInfo retrievedInfo = read.getProductInfoById(repository.getProductByName("name2").getId());
 
         Assert.assertEquals(retrievedInfo.name, newInfo.name);
@@ -74,14 +79,14 @@ public class UpdateProductTest {
         ProductInfo oldInfo = givenProductInfo("name", "description", 2, 10);
         ProductInfo newInfo = givenProductInfo("", "", 0, 0);
 
-        RegisterProduct register = new RegisterProduct(receiver, oldInfo, repository);
+        RegisterProductUseCase register = new RegisterProductUseCase(receiver, oldInfo, repository);
         register.execute();
 
         updateProduct.withId(repository.getProductByName("name").getId());
         updateProduct.setNewProductInfo(newInfo);
         Assert.assertTrue(receiver.updateFailed);
 
-        ReadProduct read = new ReadProduct(repository, receiver);
+        ReadProductUseCase read = new ReadProductUseCase(repository, receiver);
         ProductInfo retrievedInfo = read.getProductInfoById(repository.getProductByName("name").getId());
 
         Assert.assertEquals(retrievedInfo.name, oldInfo.name);

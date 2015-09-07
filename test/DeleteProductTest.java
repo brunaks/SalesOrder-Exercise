@@ -1,3 +1,8 @@
+import Entities.ProductInfo;
+import UseCases.DeleteProductUseCase;
+import UseCases.ListProductsUseCase;
+import UseCases.ReadProductUseCase;
+import UseCases.RegisterProductUseCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +14,7 @@ import java.util.UUID;
  */
 public class DeleteProductTest {
 
-    public DeleteProduct deleteProduct;
+    public DeleteProductUseCase deleteProduct;
     public FakeProductRepository repository;
     public FakeProductReceiver receiver;
 
@@ -17,7 +22,7 @@ public class DeleteProductTest {
     public void setUp() throws Exception {
         repository = new FakeProductRepository();
         receiver = new FakeProductReceiver();
-        deleteProduct = new DeleteProduct(repository, receiver);
+        deleteProduct = new DeleteProductUseCase(repository, receiver);
     }
 
     @Test
@@ -28,7 +33,7 @@ public class DeleteProductTest {
     }
 
     private void assertSizeOfList(int size) {
-        ListProducts list = new ListProducts(repository);
+        ListProductsUseCase list = new ListProductsUseCase(repository);
         Assert.assertEquals(list.returnsAllProducts().size(), size);
     }
 
@@ -44,12 +49,12 @@ public class DeleteProductTest {
     }
 
     private String getProductIdByName(String name) {
-        ReadProduct read = new ReadProduct(repository, receiver);
+        ReadProductUseCase read = new ReadProductUseCase(repository, receiver);
         return read.getProductInfoByProductName(name).id;
     }
 
     private void registerProduct(ProductInfo info) {
-        RegisterProduct register = new RegisterProduct(receiver, info, repository);
+        RegisterProductUseCase register = new RegisterProductUseCase(receiver, info, repository);
         register.execute();
     }
 

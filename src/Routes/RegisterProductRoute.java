@@ -1,3 +1,10 @@
+package Routes;
+
+import Entities.ProductInfo;
+import Interfaces.ProductReceiver;
+import Interfaces.ProductRepository;
+import Routes.RequestObjects.ProductInfoRequest;
+import UseCases.RegisterProductUseCase;
 import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;
@@ -6,7 +13,7 @@ import spark.Route;
 /**
  * Created by i848075 on 26/08/2015.
  */
-public class RegisterOneProduct implements Route{
+public class RegisterProductRoute implements Route{
 
     private ProductReceiver receiver;
     private ProductRepository repository;
@@ -17,7 +24,7 @@ public class RegisterOneProduct implements Route{
     private ProductInfo productInfo;
     Gson converter = new Gson();
 
-    public RegisterOneProduct(ProductRepository repository, ProductReceiver receiver) {
+    public RegisterProductRoute(ProductRepository repository, ProductReceiver receiver) {
         this.repository = repository;
         this.receiver = receiver;
     }
@@ -25,7 +32,7 @@ public class RegisterOneProduct implements Route{
     public Object handle(Request rq, Response rp) throws Exception {
         getRequestInfo(rq);
         createProductInfo();
-        RegisterProduct registerProduct = new RegisterProduct(receiver, productInfo, repository);
+        RegisterProductUseCase registerProduct = new RegisterProductUseCase(receiver, productInfo, repository);
         registerProduct.execute();
         return converter.toJson(receiver);
     }

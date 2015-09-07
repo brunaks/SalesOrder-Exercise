@@ -1,3 +1,6 @@
+import Entities.ProductInfo;
+import UseCases.ReadProductUseCase;
+import UseCases.RegisterProductUseCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,9 +10,9 @@ import org.junit.Test;
  */
 public class RegisterProductTest {
 
-    RegisterProduct registerProduct;
+    RegisterProductUseCase registerProduct;
     FakeProductReceiver productReceiver;
-    ReadProduct readProduct;
+    ReadProductUseCase readProduct;
     private FakeProductRepository repository;
 
     @Before
@@ -64,7 +67,7 @@ public class RegisterProductTest {
     public void productValidIsInTheRepository() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 10);
         executeProductRegistration(pi);
-        readProduct = new ReadProduct(this.repository, this.productReceiver);
+        readProduct = new ReadProductUseCase(this.repository, this.productReceiver);
         ProductInfo info = readProduct.getProductInfoByProductName("productName");
         Assert.assertNotNull(info);
     }
@@ -73,7 +76,7 @@ public class RegisterProductTest {
     public void productInvalidIsNotInTheRepository() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, -1);
         executeProductRegistration(pi);
-        readProduct = new ReadProduct(this.repository, this.productReceiver);
+        readProduct = new ReadProductUseCase(this.repository, this.productReceiver);
         ProductInfo piRetrieved = readProduct.getProductInfoByProductName("productName");
         Assert.assertNull(piRetrieved);
     }
@@ -82,7 +85,7 @@ public class RegisterProductTest {
     public void productValidIsInTheRepository_CanRetrieveInfo() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 10);
         executeProductRegistration(pi);
-        readProduct = new ReadProduct(this.repository, this.productReceiver);
+        readProduct = new ReadProductUseCase(this.repository, this.productReceiver);
         ProductInfo piRetrieved = readProduct.getProductInfoByProductName("productName");
         assertProductsInfoAreEqual(pi, piRetrieved);
     }
@@ -105,7 +108,7 @@ public class RegisterProductTest {
     }
 
     private void executeProductRegistration(ProductInfo pi) {
-        registerProduct = new RegisterProduct(productReceiver, pi, repository);
+        registerProduct = new RegisterProductUseCase(productReceiver, pi, repository);
         registerProduct.execute();
     }
 

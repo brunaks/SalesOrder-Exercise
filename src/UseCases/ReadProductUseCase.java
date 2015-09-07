@@ -1,11 +1,18 @@
+package UseCases;
+
+import Entities.Product;
+import Entities.ProductInfo;
+import Interfaces.ProductReceiver;
+import Interfaces.ProductRepository;
+
 /**
  * Created by I848075 on 20/08/2015.
  */
-public class ReadProduct {
+public class ReadProductUseCase {
     private ProductRepository repository;
     private ProductReceiver productReceiver;
 
-    public ReadProduct(ProductRepository repository, ProductReceiver productReceiver) {
+    public ReadProductUseCase(ProductRepository repository, ProductReceiver productReceiver) {
         this.repository = repository;
         this.productReceiver = productReceiver;
     }

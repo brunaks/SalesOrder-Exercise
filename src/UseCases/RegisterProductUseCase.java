@@ -1,15 +1,22 @@
+package UseCases;
+
+import Entities.Product;
+import Entities.ProductInfo;
+import Interfaces.ProductReceiver;
+import Interfaces.ProductRepository;
+
 import java.util.UUID;
 
 /**
  * Created by I848075 on 19/08/2015.
  */
-public class RegisterProduct {
+public class RegisterProductUseCase {
     private ProductReceiver productReceiver;
     private ProductRepository repository;
     private Product product;
     private ProductInfo productInfo = new ProductInfo();
 
-    public RegisterProduct(ProductReceiver productReceiver, ProductInfo productInfo, ProductRepository repository) {
+    public RegisterProductUseCase(ProductReceiver productReceiver, ProductInfo productInfo, ProductRepository repository) {
         this.productReceiver = productReceiver;
         this.repository = repository;
         copyProductInfo(productInfo);

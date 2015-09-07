@@ -1,3 +1,6 @@
+import Entities.ProductInfo;
+import UseCases.ListProductsUseCase;
+import UseCases.RegisterProductUseCase;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,14 +13,14 @@ import static org.junit.Assert.assertEquals;
  */
 public class ListProductsTest {
 
-    private ListProducts list;
+    private ListProductsUseCase list;
     private FakeProductRepository repository;
     private ArrayList<ProductInfo> listOfProducts;
 
     @Before
     public void setUp() {
         repository = new FakeProductRepository();
-        list = new ListProducts(repository);
+        list = new ListProductsUseCase(repository);
     }
 
     @Test
@@ -53,6 +56,6 @@ public class ListProductsTest {
         productInfo.description = description;
         productInfo.price = price;
         productInfo.unitsInStock = unitsInStock;
-        new RegisterProduct(new FakeProductReceiver(), productInfo, repository).execute();
+        new RegisterProductUseCase(new FakeProductReceiver(), productInfo, repository).execute();
     }
 }

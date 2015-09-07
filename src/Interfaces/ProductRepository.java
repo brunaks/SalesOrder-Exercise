@@ -1,4 +1,8 @@
-import java.util.ArrayList;
+package Interfaces;
+
+import Entities.Product;
+import Entities.ProductInfo;
+
 import java.util.Collection;
 
 /**

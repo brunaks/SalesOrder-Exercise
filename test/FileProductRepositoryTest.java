@@ -1,5 +1,6 @@
+import Entities.Product;
+import Interfaces.ProductRepository;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
