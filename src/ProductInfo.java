@@ -16,7 +16,7 @@ public class ProductInfo {
     }
 
     private boolean unitsInStockIsValid() {
-        return this.unitsInStock > 0;
+        return this.unitsInStock >= 0;
     }
 
     private boolean priceIsValid() {

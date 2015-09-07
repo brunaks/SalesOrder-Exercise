@@ -57,7 +57,7 @@ public class RegisterProductTest {
     public void productCouldNotBeRegistered_unitsInStockIsEqualToZero() {
         ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 0);
         executeProductRegistration(pi);
-        Assert.assertFalse(productReceiver.registrationWasSuccessful);
+        Assert.assertTrue(productReceiver.registrationWasSuccessful);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class RegisterProductTest {
 
     @Test
     public void productInvalidIsNotInTheRepository() {
-        ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, 0);
+        ProductInfo pi = givenProductInfo("productName", "productDescription", 10.0, -1);
         executeProductRegistration(pi);
         readProduct = new ReadProduct(this.repository, this.productReceiver);
         ProductInfo piRetrieved = readProduct.getProductInfoByProductName("productName");
