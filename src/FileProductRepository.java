@@ -104,7 +104,14 @@ public class FileProductRepository implements ProductRepository {
 
     @Override
     public void updateProduct(String productId, ProductInfo newProductInfo) {
-
+        Product product = getProductById(productId);
+        if (product != null) {
+            product.setName(newProductInfo.name);
+            product.setDescription(newProductInfo.description);
+            product.setPrice(newProductInfo.price);
+            product.setUnitsInStock(newProductInfo.unitsInStock);
+        }
+        updateFile();
     }
 
     @Override

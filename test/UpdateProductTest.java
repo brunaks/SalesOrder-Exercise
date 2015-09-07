@@ -12,18 +12,14 @@ import java.util.UUID;
 /**
  * Created by Bruna Koch Schmitt on 30/08/2015.
  */
-public class UpdateProductTest {
+public abstract class UpdateProductTest {
 
     UpdateProductUseCase updateProduct;
     ProductRepository repository;
     FakeProductReceiver receiver;
 
     @Before
-    public void setUp() throws Exception {
-        repository = new FakeProductRepository();
-        receiver = new FakeProductReceiver();
-        updateProduct = new UpdateProductUseCase(repository, receiver);
-    }
+    public abstract void setUp() throws Exception;
 
     @Test
     public void updateFailed_productIdNotValid() {
