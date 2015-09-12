@@ -30,7 +30,6 @@ public class RegisterProductUseCase {
 
     public void execute() {
         if (productInfo.isValid()) {
-            createProductInfoID();
             saveProduct();
         } else {
             productReceiver.productInformationIsInvalid();
@@ -47,9 +46,5 @@ public class RegisterProductUseCase {
         else {
             productReceiver.registrationFailed();
         }
-    }
-
-    private void createProductInfoID() {
-        productInfo.id = UUID.randomUUID().toString();
     }
 }

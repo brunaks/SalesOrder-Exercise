@@ -1,4 +1,3 @@
-import Entities.Product.Product;
 import Entities.Product.ProductInfo;
 import Interfaces.Persistence.ProductRepository;
 import org.junit.Assert;
@@ -13,10 +12,10 @@ import java.io.File;
 public class FileProductRepositoryTest extends ProductRepositoryTest {
 
     protected ProductRepository createRepository() {
+        deleteTestFile();
         return new FileProductRepository();
     }
 
-    @Before
     public void deleteTestFile() {
         File file = new File("products.csv");
         file.delete();
@@ -46,6 +45,6 @@ public class FileProductRepositoryTest extends ProductRepositoryTest {
         ProductInfo productInfo2 = givenProductInfo("name2", "description2", 20, 20);
         repository.saveProduct(productInfo2);
 
-        Assert.assertEquals(2, repository.getAllProductsSaved().size());
+        Assert.assertEquals(2, repository.getAllProductsInfoSaved().size());
     }
 }

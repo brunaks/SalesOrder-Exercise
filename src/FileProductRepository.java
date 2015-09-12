@@ -5,6 +5,7 @@ import Interfaces.Persistence.ProductRepository;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.UUID;
 
 /**
  * Created by i848075 on 01/09/2015.
@@ -38,6 +39,7 @@ public class FileProductRepository implements ProductRepository {
 
     public void saveProduct(ProductInfo productInfo) {
 
+        createProductInfoID(productInfo);
         Product productToSave = createProductToSave(productInfo);
         this.productsSaved.add(productToSave);
         updateFile();
@@ -98,8 +100,16 @@ public class FileProductRepository implements ProductRepository {
     }
 
     @Override
-    public Collection<Product> getAllProductsSaved() {
-        return this.productsSaved;
+    public ArrayList<ProductInfo> getAllProductsInfoSaved() {
+        return createProductsInfo();
+    }
+
+    private ArrayList<ProductInfo> createProductsInfo() {
+        ArrayList<ProductInfo> productsInfo = new ArrayList<ProductInfo>();
+        for (int i = 0; i < this.productsSaved.size(); i++) {
+            productsInfo.add(createProductInfo(productsSaved.get(i)));
+        }
+        return productsInfo;
     }
 
     @Override
@@ -140,5 +150,10 @@ public class FileProductRepository implements ProductRepository {
             productsSaved.remove(productToDelete);
             updateFile();
         }
+    }
+
+    @Override
+    public void createProductInfoID(ProductInfo productInfo) {
+        productInfo.id = UUID.randomUUID().toString();
     }
 }

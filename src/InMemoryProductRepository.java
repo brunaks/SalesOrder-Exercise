@@ -3,6 +3,7 @@ import Entities.Product.ProductInfo;
 import Interfaces.Persistence.ProductRepository;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Created by I848075 on 20/08/2015.
@@ -12,6 +13,7 @@ public class InMemoryProductRepository implements ProductRepository {
 
     @Override
     public void saveProduct(ProductInfo productInfo) {
+        createProductInfoID(productInfo);
         Product productToBeSaved = this.createProduct(productInfo);
         this.productsSaved.add(productToBeSaved);
     }
@@ -47,8 +49,12 @@ public class InMemoryProductRepository implements ProductRepository {
     }
 
     @Override
-    public ArrayList<Product> getAllProductsSaved() {
-        return productsSaved;
+    public ArrayList<ProductInfo> getAllProductsInfoSaved() {
+        ArrayList<ProductInfo> productsInfo = new ArrayList<ProductInfo>();
+        for (int i = 0; i < this.productsSaved.size(); i++) {
+            productsInfo.add(createProductInfo(productsSaved.get(i)));
+        }
+        return productsInfo;
     }
 
     @Override
@@ -87,5 +93,10 @@ public class InMemoryProductRepository implements ProductRepository {
         if (productToDelete != null) {
             productsSaved.remove(productToDelete);
         }
+    }
+
+    @Override
+    public void createProductInfoID(ProductInfo productInfo) {
+        productInfo.id = UUID.randomUUID().toString();
     }
 }

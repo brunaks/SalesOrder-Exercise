@@ -19,17 +19,7 @@ public class ListProductsUseCase {
     }
 
     public ArrayList<ProductInfo> returnsAllProducts() {
-        Collection<Product> products = this.repository.getAllProductsSaved();
-        ArrayList<ProductInfo> productsInfo = new ArrayList<ProductInfo>();
-        for (Product p: products) {
-            ProductInfo productInfo = new ProductInfo();
-            productInfo.id = p.getId();
-            productInfo.name = p.getName();
-            productInfo.description = p.getDescription();
-            productInfo.price = p.getPrice();
-            productInfo.unitsInStock = p.getUnitsInStock();
-            productsInfo.add(productInfo);
-        }
+        ArrayList<ProductInfo> productsInfo = this.repository.getAllProductsInfoSaved();
         return productsInfo;
     }
 }

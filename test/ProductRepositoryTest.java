@@ -1,6 +1,5 @@
 import Entities.Product.ProductInfo;
 import Interfaces.Persistence.ProductRepository;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +24,7 @@ public abstract class ProductRepositoryTest {
         ProductInfo productInfo = givenProductInfo("productName", "productDescription", 10.0, 10);
         repository.saveProduct(productInfo);
         ProductInfo productRetrieved = repository.getProductInfoByName("productName");
-        assertProductsInfosAreEqual(productInfo, productRetrieved);
+        assertProductsInfoAreEqual(productInfo, productRetrieved);
     }
 
     @Test
@@ -33,12 +32,12 @@ public abstract class ProductRepositoryTest {
         ProductInfo productInfo = givenProductInfo("productName", "productDescription", 10.0, 10);
         repository.saveProduct(productInfo);
         ProductInfo productInfoRetrieved = repository.getProductInfoByName("productName");
-        assertProductsInfosAreEqual(productInfo, productInfoRetrieved);
+        assertProductsInfoAreEqual(productInfo, productInfoRetrieved);
 
         ProductInfo productInfo2 = givenProductInfo("productName2", "productDescription2", 20.0, 20);
         repository.saveProduct(productInfo2);
         ProductInfo productInfoRetrieved2 = repository.getProductInfoByName("productName2");
-        assertProductsInfosAreEqual(productInfo2, productInfoRetrieved2);
+        assertProductsInfoAreEqual(productInfo2, productInfoRetrieved2);
     }
 
     @Test
@@ -46,21 +45,23 @@ public abstract class ProductRepositoryTest {
         ProductInfo productInfo = givenProductInfo("productName", "productDescription", 10.0, 10);
         repository.saveProduct(productInfo);
         ProductInfo productInfoRetrieved = repository.getProductInfoByName("productName");
-        assertProductsInfosAreEqual(productInfo, productInfoRetrieved);
+        assertProductsInfoAreEqual(productInfo, productInfoRetrieved);
 
         productInfo.name = "productNameChanged";
         Assert.assertNotEquals(productInfo.name, productInfoRetrieved.name);
     }
 
-    @Ignore
     @Test
     public void canUpdateOneProduct() {
         ProductInfo productInfo = givenProductInfo("productName", "productDescription", 10.0, 10);
         repository.saveProduct(productInfo);
         ProductInfo productInfoRetrieved = repository.getProductInfoByName("productName");
-        assertProductsInfosAreEqual(productInfo, productInfoRetrieved);
+        assertProductsInfoAreEqual(productInfo, productInfoRetrieved);
 
-        ProductInfo info = createProductInfo("productNameChanged", "productDescriptionChanged", 20.0, 20);
+        ProductInfo newInfo = createProductInfo("productNameChanged", "productDescriptionChanged", 20.0, 20);
+        repository.updateProduct(productInfoRetrieved.id, newInfo);
+        ProductInfo productInfoUpdated = repository.getProductInfoById(productInfoRetrieved.id);
+        assertProductsInfoAreEqual(newInfo, productInfoUpdated);
     }
 
     private ProductInfo createProductInfo(String name, String description, double price, int unitsInStock) {
@@ -81,7 +82,7 @@ public abstract class ProductRepositoryTest {
         return productInfo;
     }
 
-    private void assertProductsInfosAreEqual(ProductInfo productInfo, ProductInfo productInfoRetrieved) {
+    private void assertProductsInfoAreEqual(ProductInfo productInfo, ProductInfo productInfoRetrieved) {
         Assert.assertEquals(productInfo.name, productInfoRetrieved.name);
         Assert.assertEquals(productInfo.description, productInfoRetrieved.description);
         Assert.assertEquals(productInfo.price, productInfoRetrieved.price, 0.001);
