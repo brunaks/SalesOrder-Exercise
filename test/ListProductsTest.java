@@ -14,12 +14,12 @@ import static org.junit.Assert.assertEquals;
 public class ListProductsTest {
 
     private ListProductsUseCase list;
-    private FakeProductRepository repository;
+    private InMemoryProductRepository repository;
     private ArrayList<ProductInfo> listOfProducts;
 
     @Before
     public void setUp() {
-        repository = new FakeProductRepository();
+        repository = new InMemoryProductRepository();
         list = new ListProductsUseCase(repository);
     }
 

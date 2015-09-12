@@ -16,7 +16,7 @@ public class DeleteProductUseCase {
     }
 
     public void executeWithId(String productId) {
-        if (repository.getProductById(productId) != null) {
+        if (repository.getProductInfoById(productId) != null) {
             repository.deleteProductWithId(productId);
         } else {
             receiver.deleteFailed();

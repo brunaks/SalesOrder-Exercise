@@ -13,7 +13,6 @@ import java.util.UUID;
 public class RegisterProductUseCase {
     private ProductReceiver productReceiver;
     private ProductRepository repository;
-    private Product product;
     private ProductInfo productInfo = new ProductInfo();
 
     public RegisterProductUseCase(ProductReceiver productReceiver, ProductInfo productInfo, ProductRepository repository) {
@@ -31,7 +30,7 @@ public class RegisterProductUseCase {
 
     public void execute() {
         if (productInfo.isValid()) {
-            createProductAndSetInfo();
+            createProductInfoID();
             saveProduct();
         } else {
             productReceiver.productInformationIsInvalid();
@@ -40,9 +39,9 @@ public class RegisterProductUseCase {
     }
 
     private void saveProduct() {
-        Product aProduct = this.repository.getProductByName(this.productInfo.name);
-        if (aProduct == null) {
-            this.repository.saveProduct(this.product);
+        ProductInfo info = this.repository.getProductInfoByName(this.productInfo.name);
+        if (info == null) {
+            this.repository.saveProduct(this.productInfo);
             productReceiver.registrationWasSuccessful();
         }
         else {
@@ -50,12 +49,7 @@ public class RegisterProductUseCase {
         }
     }
 
-    private void createProductAndSetInfo() {
-        this.product = new Product();
-        product.setName(this.productInfo.name);
-        product.setDescription(this.productInfo.description);
-        product.setPrice(this.productInfo.price);
-        product.setUnitsInStock(this.productInfo.unitsInStock);
-        product.setId(UUID.randomUUID().toString());
+    private void createProductInfoID() {
+        productInfo.id = UUID.randomUUID().toString();
     }
 }

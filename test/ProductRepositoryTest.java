@@ -1,0 +1,90 @@
+import Entities.Product.ProductInfo;
+import Interfaces.Persistence.ProductRepository;
+import jdk.nashorn.internal.ir.annotations.Ignore;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+/**
+ * Created by Bruna Koch Schmitt on 12/09/2015.
+ */
+public abstract class ProductRepositoryTest {
+    ProductRepository repository;
+    FakeProductReceiver receiver;
+
+    @Before
+    public void setUp() throws Exception {
+        receiver = new FakeProductReceiver();
+        repository = createRepository();
+    }
+
+    protected abstract ProductRepository createRepository();
+
+    @Test
+    public void canSaveAndReadOneProduct() {
+        ProductInfo productInfo = givenProductInfo("productName", "productDescription", 10.0, 10);
+        repository.saveProduct(productInfo);
+        ProductInfo productRetrieved = repository.getProductInfoByName("productName");
+        assertProductsInfosAreEqual(productInfo, productRetrieved);
+    }
+
+    @Test
+    public void canSaveAndReadTwoProducts() {
+        ProductInfo productInfo = givenProductInfo("productName", "productDescription", 10.0, 10);
+        repository.saveProduct(productInfo);
+        ProductInfo productInfoRetrieved = repository.getProductInfoByName("productName");
+        assertProductsInfosAreEqual(productInfo, productInfoRetrieved);
+
+        ProductInfo productInfo2 = givenProductInfo("productName2", "productDescription2", 20.0, 20);
+        repository.saveProduct(productInfo2);
+        ProductInfo productInfoRetrieved2 = repository.getProductInfoByName("productName2");
+        assertProductsInfosAreEqual(productInfo2, productInfoRetrieved2);
+    }
+
+    @Test
+    public void changesInTheExternalProductObjectAreNotReflectedInProductSaved() {
+        ProductInfo productInfo = givenProductInfo("productName", "productDescription", 10.0, 10);
+        repository.saveProduct(productInfo);
+        ProductInfo productInfoRetrieved = repository.getProductInfoByName("productName");
+        assertProductsInfosAreEqual(productInfo, productInfoRetrieved);
+
+        productInfo.name = "productNameChanged";
+        Assert.assertNotEquals(productInfo.name, productInfoRetrieved.name);
+    }
+
+    @Ignore
+    @Test
+    public void canUpdateOneProduct() {
+        ProductInfo productInfo = givenProductInfo("productName", "productDescription", 10.0, 10);
+        repository.saveProduct(productInfo);
+        ProductInfo productInfoRetrieved = repository.getProductInfoByName("productName");
+        assertProductsInfosAreEqual(productInfo, productInfoRetrieved);
+
+        ProductInfo info = createProductInfo("productNameChanged", "productDescriptionChanged", 20.0, 20);
+    }
+
+    private ProductInfo createProductInfo(String name, String description, double price, int unitsInStock) {
+        ProductInfo info = new ProductInfo();
+        info.name = name;
+        info.description = description;
+        info.price = price;
+        info.unitsInStock = unitsInStock;
+        return info;
+    }
+
+    protected ProductInfo givenProductInfo(String productName, String productDescription, double price, int unitsInStock) {
+        ProductInfo productInfo = new ProductInfo();
+        productInfo.name = productName;
+        productInfo.description = productDescription;
+        productInfo.price = price;
+        productInfo.unitsInStock = unitsInStock;
+        return productInfo;
+    }
+
+    private void assertProductsInfosAreEqual(ProductInfo productInfo, ProductInfo productInfoRetrieved) {
+        Assert.assertEquals(productInfo.name, productInfoRetrieved.name);
+        Assert.assertEquals(productInfo.description, productInfoRetrieved.description);
+        Assert.assertEquals(productInfo.price, productInfoRetrieved.price, 0.001);
+        Assert.assertEquals(productInfo.unitsInStock, productInfoRetrieved.unitsInStock);
+    }
+}

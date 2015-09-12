@@ -13,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) {
         ProductReceiver receiver = new FakeProductReceiver();
-        ProductRepository repository = new FakeProductRepository();
+        ProductRepository repository = new InMemoryProductRepository();
         Spark.externalStaticFileLocation("resources/public");
         Spark.post("/registerProduct", new RegisterProductRoute(repository, receiver));
         Spark.get("/products", new ListProductsRoute(repository));

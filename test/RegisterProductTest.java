@@ -13,12 +13,12 @@ public class RegisterProductTest {
     RegisterProductUseCase registerProduct;
     FakeProductReceiver productReceiver;
     ReadProductUseCase readProduct;
-    private FakeProductRepository repository;
+    private InMemoryProductRepository repository;
 
     @Before
     public void setUp() throws Exception {
         this.productReceiver = new FakeProductReceiver();
-        this.repository = new FakeProductRepository();
+        this.repository = new InMemoryProductRepository();
     }
 
     @Test

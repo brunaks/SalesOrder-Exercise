@@ -36,12 +36,12 @@ public abstract class UpdateProductTest {
         RegisterProductUseCase register = new RegisterProductUseCase(receiver, oldInfo, repository);
         register.execute();
 
-        updateProduct.withId(repository.getProductByName("name").getId());
+        updateProduct.withId(repository.getProductInfoByName("name").id);
         updateProduct.setNewProductInfo(newInfo);
         Assert.assertFalse(receiver.updateFailed);
 
         ReadProductUseCase read = new ReadProductUseCase(repository, receiver);
-        ProductInfo retrievedInfo = read.getProductInfoById(repository.getProductByName("name2").getId());
+        ProductInfo retrievedInfo = read.getProductInfoById(repository.getProductInfoByName("name2").id);
 
         Assert.assertEquals(retrievedInfo.name, newInfo.name);
         Assert.assertEquals(retrievedInfo.description, oldInfo.description);
@@ -57,12 +57,12 @@ public abstract class UpdateProductTest {
         RegisterProductUseCase register = new RegisterProductUseCase(receiver, oldInfo, repository);
         register.execute();
 
-        updateProduct.withId(repository.getProductByName("name").getId());
+        updateProduct.withId(repository.getProductInfoByName("name").id);
         updateProduct.setNewProductInfo(newInfo);
         Assert.assertFalse(receiver.updateFailed);
 
         ReadProductUseCase read = new ReadProductUseCase(repository, receiver);
-        ProductInfo retrievedInfo = read.getProductInfoById(repository.getProductByName("name2").getId());
+        ProductInfo retrievedInfo = read.getProductInfoById(repository.getProductInfoByName("name2").id);
 
         Assert.assertEquals(retrievedInfo.name, newInfo.name);
         Assert.assertEquals(retrievedInfo.description, newInfo.description);
@@ -78,12 +78,12 @@ public abstract class UpdateProductTest {
         RegisterProductUseCase register = new RegisterProductUseCase(receiver, oldInfo, repository);
         register.execute();
 
-        updateProduct.withId(repository.getProductByName("name").getId());
+        updateProduct.withId(repository.getProductInfoByName("name").id);
         updateProduct.setNewProductInfo(newInfo);
         Assert.assertTrue(receiver.updateFailed);
 
         ReadProductUseCase read = new ReadProductUseCase(repository, receiver);
-        ProductInfo retrievedInfo = read.getProductInfoById(repository.getProductByName("name").getId());
+        ProductInfo retrievedInfo = read.getProductInfoById(repository.getProductInfoByName("name").id);
 
         Assert.assertEquals(retrievedInfo.name, oldInfo.name);
         Assert.assertEquals(retrievedInfo.description, oldInfo.description);

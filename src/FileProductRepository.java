@@ -36,9 +36,9 @@ public class FileProductRepository implements ProductRepository {
         }
     }
 
-    public void saveProduct(Product product) {
+    public void saveProduct(ProductInfo productInfo) {
 
-        Product productToSave = createProductToSave(product);
+        Product productToSave = createProductToSave(productInfo);
         this.productsSaved.add(productToSave);
         updateFile();
     }
@@ -67,24 +67,34 @@ public class FileProductRepository implements ProductRepository {
         }
     }
 
-    private Product createProductToSave(Product product) {
+    private Product createProductToSave(ProductInfo productInfo) {
         Product productToSave = new Product();
-        productToSave.setId(product.getId());
-        productToSave.setName(product.getName());
-        productToSave.setDescription(product.getDescription());
-        productToSave.setPrice(product.getPrice());
-        productToSave.setUnitsInStock(product.getUnitsInStock());
+        productToSave.setId(productInfo.id);
+        productToSave.setName(productInfo.name);
+        productToSave.setDescription(productInfo.description);
+        productToSave.setPrice(productInfo.price);
+        productToSave.setUnitsInStock(productInfo.unitsInStock);
         return productToSave;
     }
 
     @Override
-    public Product getProductByName(String productName) {
+    public ProductInfo getProductInfoByName(String productName) {
         for (int i = 0; i < this.productsSaved.size(); i++) {
             if (this.productsSaved.get(i).getName().equalsIgnoreCase(productName)) {
-                return this.productsSaved.get(i);
+                return createProductInfo(this.productsSaved.get(i));
             }
         }
         return null;
+    }
+
+    private ProductInfo createProductInfo(Product product) {
+        ProductInfo info = new ProductInfo();
+        info.id = product.getId();
+        info.name = product.getName();
+        info.description = product.getDescription();
+        info.price = product.getPrice();
+        info.unitsInStock = product.getUnitsInStock();
+        return info;
     }
 
     @Override
@@ -93,7 +103,16 @@ public class FileProductRepository implements ProductRepository {
     }
 
     @Override
-    public Product getProductById(String id) {
+    public ProductInfo getProductInfoById(String id) {
+        for (int i = 0; i < this.productsSaved.size(); i++) {
+            if (this.productsSaved.get(i).getId().equals(id)) {
+                return createProductInfo(this.productsSaved.get(i));
+            }
+        }
+        return null;
+    }
+
+    private Product getProductById(String id) {
         for (int i = 0; i < this.productsSaved.size(); i++) {
             if (this.productsSaved.get(i).getId().equals(id)) {
                 return this.productsSaved.get(i);

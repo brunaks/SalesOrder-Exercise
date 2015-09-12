@@ -8,7 +8,7 @@ public class UpdateProductTestForInMemoryRepository extends UpdateProductTest {
 
     @Before
     public void setUp() throws Exception {
-        repository = new FakeProductRepository();
+        repository = new InMemoryProductRepository();
         receiver = new FakeProductReceiver();
         updateProduct = new UpdateProductUseCase(repository, receiver);
     }

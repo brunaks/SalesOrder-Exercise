@@ -7,33 +7,43 @@ import java.util.ArrayList;
 /**
  * Created by I848075 on 20/08/2015.
  */
-public class FakeProductRepository implements ProductRepository {
+public class InMemoryProductRepository implements ProductRepository {
     protected ArrayList<Product> productsSaved = new ArrayList<Product>();
 
     @Override
-    public void saveProduct(Product product) {
-        Product productToBeSaved = this.createProduct(product);
+    public void saveProduct(ProductInfo productInfo) {
+        Product productToBeSaved = this.createProduct(productInfo);
         this.productsSaved.add(productToBeSaved);
     }
 
-    private Product createProduct(Product product) {
+    private Product createProduct(ProductInfo productInfo) {
         Product productToBeSaved = new Product();
-        productToBeSaved.setName(product.getName());
-        productToBeSaved.setDescription(product.getDescription());
-        productToBeSaved.setPrice(product.getPrice());
-        productToBeSaved.setUnitsInStock(product.getUnitsInStock());
-        productToBeSaved.setId(product.getId());
+        productToBeSaved.setName(productInfo.name);
+        productToBeSaved.setDescription(productInfo.description);
+        productToBeSaved.setPrice(productInfo.price);
+        productToBeSaved.setUnitsInStock(productInfo.unitsInStock);
+        productToBeSaved.setId(productInfo.id);
         return productToBeSaved;
     }
 
     @Override
-    public Product getProductByName(String productName) {
+    public ProductInfo getProductInfoByName(String productName) {
         for (int i = 0; i < this.productsSaved.size(); i++) {
             if (this.productsSaved.get(i).getName().equalsIgnoreCase(productName)) {
-                return this.productsSaved.get(i);
+                return createProductInfo(this.productsSaved.get(i));
             }
         }
         return null;
+    }
+
+    private ProductInfo createProductInfo(Product product) {
+        ProductInfo info = new ProductInfo();
+        info.id = product.getId();
+        info.name = product.getName();
+        info.description = product.getDescription();
+        info.price = product.getPrice();
+        info.unitsInStock = product.getUnitsInStock();
+        return info;
     }
 
     @Override
@@ -42,7 +52,16 @@ public class FakeProductRepository implements ProductRepository {
     }
 
     @Override
-    public Product getProductById(String id) {
+    public ProductInfo getProductInfoById(String id) {
+        for (int i = 0; i < this.productsSaved.size(); i++) {
+            if (this.productsSaved.get(i).getId().equals(id)) {
+                return createProductInfo(this.productsSaved.get(i));
+            }
+        }
+        return null;
+    }
+
+    private Product getProductById(String id) {
         for (int i = 0; i < this.productsSaved.size(); i++) {
             if (this.productsSaved.get(i).getId().equals(id)) {
                 return this.productsSaved.get(i);

@@ -1,6 +1,5 @@
 package UseCases.Product;
 
-import Entities.Product.Product;
 import Entities.Product.ProductInfo;
 import Interfaces.Receivers.ProductReceiver;
 import Interfaces.Persistence.ProductRepository;
@@ -18,27 +17,17 @@ public class ReadProductUseCase {
     }
 
     public ProductInfo getProductInfoByProductName(String productName) {
-        Product product = this.repository.getProductByName(productName);
-        if (product != null)
-            return buildProductInfo(product);
+        ProductInfo productInfo = this.repository.getProductInfoByName(productName);
+        if (productInfo != null)
+            return productInfo;
         else
             return null;
     }
 
-    private ProductInfo buildProductInfo(Product product) {
-        ProductInfo info = new ProductInfo();
-        info.id = product.getId();
-        info.name = product.getName();
-        info.description = product.getDescription();
-        info.price = product.getPrice();
-        info.unitsInStock = product.getUnitsInStock();
-        return info;
-    }
-
     public ProductInfo getProductInfoById(String id) {
-        Product product = this.repository.getProductById(id);
-        if (product != null)
-            return buildProductInfo(product);
+        ProductInfo productInfo = this.repository.getProductInfoById(id);
+        if (productInfo != null)
+            return productInfo;
         else
             return null;
     }

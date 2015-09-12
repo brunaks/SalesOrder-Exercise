@@ -37,7 +37,7 @@ public class UpdateProductUseCase {
     }
 
     private boolean productExists() {
-        return repository.getProductById(this.productId) != null;
+        return repository.getProductInfoById(this.productId) != null;
     }
 
 }
