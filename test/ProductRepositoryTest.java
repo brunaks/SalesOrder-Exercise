@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 /**
  * Created by Bruna Koch Schmitt on 12/09/2015.
  */
@@ -62,6 +64,17 @@ public abstract class ProductRepositoryTest {
         repository.updateProduct(productInfoRetrieved.id, newInfo);
         ProductInfo productInfoUpdated = repository.getProductInfoById(productInfoRetrieved.id);
         assertProductsInfoAreEqual(newInfo, productInfoUpdated);
+    }
+
+    @Test
+    public void canDeleteOneProduct() {
+        ProductInfo productInfo = givenProductInfo("productName", "productDescription", 10.0, 10);
+        repository.saveProduct(productInfo);
+        Assert.assertEquals(1, repository.getAllProductsInfoSaved().size());
+
+        ProductInfo productInfoRetrieved = repository.getProductInfoByName("productName");
+        repository.deleteProductWithId(productInfoRetrieved.id);
+        Assert.assertEquals(0, repository.getAllProductsInfoSaved().size());
     }
 
     private ProductInfo createProductInfo(String name, String description, double price, int unitsInStock) {

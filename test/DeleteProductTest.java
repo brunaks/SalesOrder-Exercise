@@ -13,14 +13,18 @@ import java.util.UUID;
 /**
  * Created by Bruna Koch Schmitt on 30/08/2015.
  */
-public abstract class DeleteProductTest {
+public class DeleteProductTest {
 
     public DeleteProductUseCase deleteProduct;
     public ProductRepository repository;
     public FakeProductReceiver receiver;
 
     @Before
-    public abstract void setUp() throws Exception;
+    public void setUp() throws Exception {
+        repository = new InMemoryProductRepository();
+        receiver = new FakeProductReceiver();
+        deleteProduct = new DeleteProductUseCase(repository, receiver);
+    }
 
     @Test
     public void deleteFailed_ProductNotFound() {
