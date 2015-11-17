@@ -17,5 +17,5 @@ public interface ProductRepository {
     ProductInfo getProductInfoById(String id);
     void updateProduct(String productId, ProductInfo newProductInfo);
     void deleteProductWithId(String productId);
-    void createProductInfoID(ProductInfo productInfo);
+    String createProductInfoID();
 }
