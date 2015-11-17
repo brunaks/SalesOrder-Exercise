@@ -1,4 +1,3 @@
-import Entities.Customer.Customer;
 import Entities.Customer.CustomerInfo;
 import Entities.Order.SalesOrderInfo;
 import Entities.Product.ProductInfo;
@@ -19,7 +18,7 @@ import java.util.UUID;
  */
 public class CreateSalesOrderTest {
 
-    OrderReceiver receiver;
+    FakeSalesOrderReceiver receiver;
     SalesOrderRepository repository;
     CreateSalesOrder createOrder;
     private SalesOrderInfo orderInfo;
@@ -34,14 +33,36 @@ public class CreateSalesOrderTest {
 
     @Test
     public void canCreateOrderWithSuccess_OneProduct() {
-        SalesOrderInfo orderInfo = createOrderInfo();
-        createOrder = new CreateSalesOrder(repository, receiver, orderInfo);
-        ProductInfo productInfo = givenProductInfo("Name", "Description", 10, 10);
         Date date = givenDate("01/01/2015");
-        createOrder.addProduct(productInfo.id, 1, date);
+        createOrder = new CreateSalesOrder(repository, productRepository, receiver, date);
+        ProductInfo productInfo = givenProductInfo("Name", "Description", 10, 10);
+        createOrder.addProduct(productInfo.id, 1);
         createOrder.addCustomer(new CustomerInfo());
-        Assert.assertFalse(receiver.createOrderFailed());
+        Assert.assertFalse(receiver.orderFailed);
         Assert.assertEquals(10, createOrder.getTotal(), 0.01);
+    }
+
+    @Test
+    public void canCreateOrderWithSuccess_TwoProducts() {
+        Date date = givenDate("01/01/2015");
+        createOrder = new CreateSalesOrder(repository, productRepository, receiver, date);
+        ProductInfo productInfo = givenProductInfo("Name1", "Description1", 10, 10);
+        ProductInfo productInfo2 = givenProductInfo("Name2", "Description2", 20, 20);
+        createOrder.addProduct(productInfo.id,  1);
+        createOrder.addProduct(productInfo2.id, 2);
+        createOrder.addCustomer(new CustomerInfo());
+        Assert.assertFalse(receiver.orderFailed);
+        Assert.assertEquals(50, createOrder.getTotal(), 0.01);
+    }
+
+    @Test
+    public void createOrderFailed_productIdDoesNotExist() {
+        Date date = givenDate("01/01/2015");
+        createOrder = new CreateSalesOrder(repository, productRepository, receiver, date);
+        createOrder.addProduct(UUID.randomUUID().toString(), 1);
+        createOrder.addCustomer(new CustomerInfo());
+        Assert.assertTrue(receiver.orderFailed);
+        Assert.assertEquals(0, createOrder.getTotal(), 0.01);
     }
 
     private Date givenDate(String date) {

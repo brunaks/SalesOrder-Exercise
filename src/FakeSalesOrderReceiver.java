@@ -5,8 +5,16 @@ import Interfaces.Receivers.OrderReceiver;
  */
 public class FakeSalesOrderReceiver implements OrderReceiver {
 
+    public boolean orderFailed = false;
+    public boolean productDoesNotExist = false;
+
     @Override
-    public boolean createOrderFailed() {
-        return false;
+    public void productDoesNotExist() {
+        this.productDoesNotExist = true;
+    }
+
+    @Override
+    public void createOrderFailed() {
+        this.orderFailed = true;
     }
 }
