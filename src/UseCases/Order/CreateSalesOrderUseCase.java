@@ -1,6 +1,7 @@
 package UseCases.Order;
 
 import Entities.Customer.CustomerInfo;
+import Entities.Order.SalesOrderInfo;
 import Entities.Order.SalesOrderItem;
 import Entities.Product.ProductInfo;
 import Interfaces.Persistence.CustomerRepository;
@@ -17,18 +18,23 @@ import java.util.List;
  */
 public class CreateSalesOrderUseCase {
 
+    private Date date;
+    private String id;
     private CustomerRepository customerRepository;
     private SalesOrderRepository salesOrderRepository;
     private ProductRepository productRepository;
     private OrderReceiver receiver;
     private List<SalesOrderItem> items = new ArrayList<SalesOrderItem>();
     private CustomerInfo customerInfo;
+    private SalesOrderInfo salesOrderInfo;
 
-    public CreateSalesOrderUseCase(SalesOrderRepository salesOrderRepository, ProductRepository productRepository, CustomerRepository customerRepository, OrderReceiver receiver, Date date) {
+    public CreateSalesOrderUseCase(String id, SalesOrderRepository salesOrderRepository, ProductRepository productRepository, CustomerRepository customerRepository, OrderReceiver receiver, Date date) {
         this.salesOrderRepository = salesOrderRepository;
         this.productRepository = productRepository;
         this.receiver = receiver;
         this.customerRepository = customerRepository;
+        this.id = id;
+        this.date = date;
     }
 
     public void addProduct(String productInfoID, int quantity) {
@@ -61,5 +67,20 @@ public class CreateSalesOrderUseCase {
             }
         }
         return total;
+    }
+
+    public void execute() {
+        SalesOrderInfo salesOrderInfo = this.createSalesOrderInfoToSave();
+        this.salesOrderRepository.save(salesOrderInfo);
+    }
+
+    private SalesOrderInfo createSalesOrderInfoToSave() {
+        this.salesOrderInfo = new SalesOrderInfo();
+        this.salesOrderInfo.id = this.id;
+        this.salesOrderInfo.date = this.date;
+        this.salesOrderInfo.customerInfo = this.customerInfo;
+        this.salesOrderInfo.items = this.items;
+        this.salesOrderInfo.total = this.getTotal();
+        return salesOrderInfo;
     }
 }

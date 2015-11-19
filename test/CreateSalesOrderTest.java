@@ -1,8 +1,8 @@
 import Entities.Customer.CustomerInfo;
+import Entities.Order.SalesOrderInfo;
 import Entities.Product.ProductInfo;
-import Interfaces.Persistence.CustomerRepository;
-import Interfaces.Persistence.SalesOrderRepository;
 import UseCases.Order.CreateSalesOrderUseCase;
+import UseCases.Order.ListSalesOrdersUseCase;
 import UseCases.Product.RegisterProductUseCase;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,6 +12,7 @@ import org.junit.Test;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -20,15 +21,15 @@ import java.util.UUID;
 public class CreateSalesOrderTest {
 
     FakeSalesOrderReceiver receiver;
-    SalesOrderRepository repository;
+    InMemorySalesOrderRepository salesOrderRepository;
     CreateSalesOrderUseCase createOrder;
     InMemoryProductRepository productRepository;
-    CustomerRepository customerRepository;
+    InMemoryCustomerRepository customerRepository;
 
     @Before
     public void setUp() throws Exception {
         receiver = new FakeSalesOrderReceiver();
-        repository = new InMemoryOrderRepository();
+        salesOrderRepository = new InMemorySalesOrderRepository();
         productRepository = new InMemoryProductRepository();
         customerRepository = new InMemoryCustomerRepository();
     }
@@ -36,11 +37,13 @@ public class CreateSalesOrderTest {
     @Test
     public void canCreateOrderWithSuccess_OneProduct() {
         Date date = givenDate("01/01/2015");
-        createOrder = new CreateSalesOrderUseCase(repository, productRepository, customerRepository, receiver, date);
+        String id = UUID.randomUUID().toString();
+        createOrder = new CreateSalesOrderUseCase(id, salesOrderRepository, productRepository, customerRepository, receiver, date);
         ProductInfo productInfo = givenProductInfo("Name", "Description", 10, 10);
         createOrder.addProduct(productInfo.id, 1);
         CustomerInfo customerInfo = givenCustomerInfo("Name", "99999999999", "99999999999", "Rua AAAA, 999, Bairro BBB, Cidade AAAA, CEP 99999999");
         createOrder.addCustomer(customerInfo.id);
+        createOrder.execute();
         Assert.assertFalse(receiver.orderFailed);
         assertTotalEquals(10.0);
     }
@@ -53,7 +56,8 @@ public class CreateSalesOrderTest {
     @Test
     public void canCreateOrderWithSuccess_TwoProducts() {
         Date date = givenDate("01/01/2015");
-        createOrder = new CreateSalesOrderUseCase(repository, productRepository, customerRepository, receiver, date);
+        String id = UUID.randomUUID().toString();
+        createOrder = new CreateSalesOrderUseCase(id, salesOrderRepository, productRepository, customerRepository, receiver, date);
         ProductInfo productInfo = givenProductInfo("Name1", "Description1", 10, 10);
         ProductInfo productInfo2 = givenProductInfo("Name2", "Description2", 20, 20);
         createOrder.addProduct(productInfo.id, 1);
@@ -67,7 +71,8 @@ public class CreateSalesOrderTest {
     @Test
     public void createOrderFailed_productIdDoesNotExist() {
         Date date = givenDate("01/01/2015");
-        createOrder = new CreateSalesOrderUseCase(repository, productRepository, customerRepository, receiver, date);
+        String id = UUID.randomUUID().toString();
+        createOrder = new CreateSalesOrderUseCase(id, salesOrderRepository, productRepository, customerRepository, receiver, date);
         createOrder.addProduct(UUID.randomUUID().toString(), 1);
         CustomerInfo customerInfo = givenCustomerInfo("Name", "99999999999", "99999999999", "Rua AAAA, 999, Bairro BBB, Cidade AAAA, CEP 99999999");
         createOrder.addCustomer(customerInfo.id);
@@ -81,7 +86,8 @@ public class CreateSalesOrderTest {
     @Test
     public void createOrderFailed_clientIdDoesNotExist() {
         Date date = givenDate("01/01/2015");
-        createOrder = new CreateSalesOrderUseCase(repository, productRepository, customerRepository, receiver, date);
+        String id = UUID.randomUUID().toString();
+        createOrder = new CreateSalesOrderUseCase(id, salesOrderRepository, productRepository, customerRepository, receiver, date);
         ProductInfo productInfo = givenProductInfo("Name1", "Description1", 10, 10);
         createOrder.addProduct(productInfo.id, 1);
         createOrder.addCustomer(UUID.randomUUID().toString());
@@ -92,18 +98,25 @@ public class CreateSalesOrderTest {
     }
 
     @Test
-    @Ignore
     public void createOrderSuccessful_canRetrieveSalesOrder() {
         Date date = givenDate("01/01/2015");
-        createOrder = new CreateSalesOrderUseCase(repository, productRepository, customerRepository, receiver, date);
+        String id = UUID.randomUUID().toString();
+        createOrder = new CreateSalesOrderUseCase(id, salesOrderRepository, productRepository, customerRepository, receiver, date);
         ProductInfo productInfo = givenProductInfo("Name1", "Description1", 10, 10);
         createOrder.addProduct(productInfo.id, 1);
         CustomerInfo customerInfo = givenCustomerInfo("Name", "99999999999", "99999999999", "Rua AAAA, 999, Bairro BBB, Cidade AAAA, CEP 99999999");
         createOrder.addCustomer(customerInfo.id);
+        createOrder.execute();
         Assert.assertFalse(receiver.orderFailed);
         Assert.assertFalse(receiver.productDoesNotExist);
         Assert.assertFalse(receiver.customerDoesNotExist);
-        assertTotalEquals(0.0);
+        assertTotalEquals(10.0);
+        ListSalesOrdersUseCase listSalesOrders = new ListSalesOrdersUseCase(salesOrderRepository);
+        List<SalesOrderInfo> salesOrderInfos = listSalesOrders.getAll();
+
+        Assert.assertEquals(id, salesOrderInfos.get(0).id);
+        Assert.assertEquals(date, salesOrderInfos.get(0).date);
+        Assert.assertEquals(SalesOrderInfo.IN_PROCESS, salesOrderInfos.get(0).status);
     }
 
     private CustomerInfo givenCustomerInfo(String name, String cpf, String telephoneNumber, String address) {
