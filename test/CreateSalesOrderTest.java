@@ -48,10 +48,6 @@ public class CreateSalesOrderTest {
         assertTotalEquals(10.0);
     }
 
-    private void assertTotalEquals(Double expectedTotal) {
-        Assert.assertEquals(expectedTotal, createOrder.getTotal(), 0.01);
-    }
-
 
     @Test
     public void canCreateOrderWithSuccess_TwoProducts() {
@@ -117,6 +113,10 @@ public class CreateSalesOrderTest {
         Assert.assertEquals(id, salesOrderInfos.get(0).id);
         Assert.assertEquals(date, salesOrderInfos.get(0).date);
         Assert.assertEquals(SalesOrderInfo.IN_PROCESS, salesOrderInfos.get(0).status);
+    }
+
+    private void assertTotalEquals(Double expectedTotal) {
+        Assert.assertEquals(expectedTotal, createOrder.getTotal(), 0.01);
     }
 
     private CustomerInfo givenCustomerInfo(String name, String cpf, String telephoneNumber, String address) {

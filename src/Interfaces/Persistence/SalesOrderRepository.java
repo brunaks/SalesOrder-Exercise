@@ -10,4 +10,6 @@ import java.util.List;
 public interface SalesOrderRepository {
     List<SalesOrderInfo> getAllSalesOrderInfos();
     void save(SalesOrderInfo salesOrderInfo);
+    SalesOrderInfo getSalesOrderById(String id);
+    void deleteWithId(String id);
 }

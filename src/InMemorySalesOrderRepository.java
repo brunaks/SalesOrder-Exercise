@@ -22,6 +22,21 @@ public class InMemorySalesOrderRepository implements SalesOrderRepository {
         this.salesOrders.add(salesOrderInfo);
     }
 
+    @Override
+    public SalesOrderInfo getSalesOrderById(String id) {
+        for (SalesOrderInfo salesOrderInfo : salesOrders) {
+            if (salesOrderInfo.id == id) {
+                return salesOrderInfo;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void deleteWithId(String id) {
+        salesOrders.remove(this.getSalesOrderById(id));
+    }
+
     private void addInProcessStatusToSalesOrder(SalesOrderInfo salesOrderInfo) {
         salesOrderInfo.status = SalesOrderInfo.IN_PROCESS;
     }

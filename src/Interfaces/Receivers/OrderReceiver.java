@@ -7,4 +7,6 @@ public interface OrderReceiver {
     void productDoesNotExist();
     void createOrderFailed();
     void clientDoesNotExist();
+    void salesOrderIdIsInvalid();
+    void deleteFailed();
 }
