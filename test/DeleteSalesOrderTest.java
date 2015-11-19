@@ -42,6 +42,14 @@ public class DeleteSalesOrderTest {
         this.assertSalesOrderWasDeleted();
     }
 
+    @Test
+    public void cannotDeleteSalesOrder_IdIsInvalid_OrderDoesNotExist() {
+        DeleteSalesOrderUseCase deleteSalesOrder = new DeleteSalesOrderUseCase(salesOrderRepository, receiver);
+        deleteSalesOrder.executeWithSalesOrderID(UUID.randomUUID().toString());
+        Assert.assertTrue(receiver.salesOrderIdIsInvalid);
+        Assert.assertTrue(receiver.deleteFailed);
+    }
+
     private void assertSalesOrderWasDeleted() {
         ListSalesOrdersUseCase listSalesOrdersUseCase = new ListSalesOrdersUseCase(salesOrderRepository);
         List<SalesOrderInfo> salesOrderInfos = listSalesOrdersUseCase.getAll();

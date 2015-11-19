@@ -2,17 +2,17 @@ package UseCases.Order;
 
 import Entities.Order.SalesOrderInfo;
 import Interfaces.Persistence.SalesOrderRepository;
-import Interfaces.Receivers.OrderReceiver;
+import Interfaces.Receivers.SalesOrderReceiver;
 
 /**
  * Created by Bruna Koch Schmitt on 19/11/2015.
  */
 public class DeleteSalesOrderUseCase {
 
-    private OrderReceiver salesOrderReceiver;
+    private SalesOrderReceiver salesOrderReceiver;
     private SalesOrderRepository salesOrderRepository;
 
-    public DeleteSalesOrderUseCase(SalesOrderRepository salesOrderRepository, OrderReceiver receiver) {
+    public DeleteSalesOrderUseCase(SalesOrderRepository salesOrderRepository, SalesOrderReceiver receiver) {
         this.salesOrderRepository = salesOrderRepository;
         this.salesOrderReceiver = receiver;
     }

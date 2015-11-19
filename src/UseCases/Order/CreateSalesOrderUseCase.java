@@ -7,7 +7,7 @@ import Entities.Product.ProductInfo;
 import Interfaces.Persistence.CustomerRepository;
 import Interfaces.Persistence.ProductRepository;
 import Interfaces.Persistence.SalesOrderRepository;
-import Interfaces.Receivers.OrderReceiver;
+import Interfaces.Receivers.SalesOrderReceiver;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,12 +23,12 @@ public class CreateSalesOrderUseCase {
     private CustomerRepository customerRepository;
     private SalesOrderRepository salesOrderRepository;
     private ProductRepository productRepository;
-    private OrderReceiver receiver;
+    private SalesOrderReceiver receiver;
     private List<SalesOrderItem> items = new ArrayList<SalesOrderItem>();
     private CustomerInfo customerInfo;
     private SalesOrderInfo salesOrderInfo;
 
-    public CreateSalesOrderUseCase(String id, SalesOrderRepository salesOrderRepository, ProductRepository productRepository, CustomerRepository customerRepository, OrderReceiver receiver, Date date) {
+    public CreateSalesOrderUseCase(String id, SalesOrderRepository salesOrderRepository, ProductRepository productRepository, CustomerRepository customerRepository, SalesOrderReceiver receiver, Date date) {
         this.salesOrderRepository = salesOrderRepository;
         this.productRepository = productRepository;
         this.receiver = receiver;

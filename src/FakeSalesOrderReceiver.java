@@ -1,9 +1,9 @@
-import Interfaces.Receivers.OrderReceiver;
+import Interfaces.Receivers.SalesOrderReceiver;
 
 /**
  * Created by Bruna Koch Schmitt on 12/09/2015.
  */
-public class FakeSalesOrderReceiver implements OrderReceiver {
+public class FakeSalesOrderReceiver implements SalesOrderReceiver {
 
     public boolean orderFailed = false;
     public boolean productDoesNotExist = false;
