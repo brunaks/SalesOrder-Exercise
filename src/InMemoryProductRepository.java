@@ -13,7 +13,7 @@ public class InMemoryProductRepository implements ProductRepository {
 
     @Override
     public void saveProduct(ProductInfo productInfo) {
-        productInfo.id = createProductInfoID();
+        // productInfo.id = createProductInfoID();
         Product productToBeSaved = this.createProduct(productInfo);
         this.productsSaved.add(productToBeSaved);
     }

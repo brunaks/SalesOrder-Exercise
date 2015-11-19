@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Created by Bruna Koch Schmitt on 12/09/2015.
@@ -23,7 +23,7 @@ public abstract class ProductRepositoryTest {
 
     @Test
     public void canSaveAndReadOneProduct() {
-        ProductInfo productInfo = givenProductInfo("productName", "productDescription", 10.0, 10);
+        ProductInfo productInfo = givenProductInfo(UUID.randomUUID().toString(), "productName", "productDescription", 10.0, 10);
         repository.saveProduct(productInfo);
         ProductInfo productRetrieved = repository.getProductInfoByName("productName");
         assertProductsInfoAreEqual(productInfo, productRetrieved);
@@ -31,12 +31,12 @@ public abstract class ProductRepositoryTest {
 
     @Test
     public void canSaveAndReadTwoProducts() {
-        ProductInfo productInfo = givenProductInfo("productName", "productDescription", 10.0, 10);
+        ProductInfo productInfo = givenProductInfo(UUID.randomUUID().toString(), "productName", "productDescription", 10.0, 10);
         repository.saveProduct(productInfo);
         ProductInfo productInfoRetrieved = repository.getProductInfoByName("productName");
         assertProductsInfoAreEqual(productInfo, productInfoRetrieved);
 
-        ProductInfo productInfo2 = givenProductInfo("productName2", "productDescription2", 20.0, 20);
+        ProductInfo productInfo2 = givenProductInfo(UUID.randomUUID().toString(), "productName2", "productDescription2", 20.0, 20);
         repository.saveProduct(productInfo2);
         ProductInfo productInfoRetrieved2 = repository.getProductInfoByName("productName2");
         assertProductsInfoAreEqual(productInfo2, productInfoRetrieved2);
@@ -44,7 +44,7 @@ public abstract class ProductRepositoryTest {
 
     @Test
     public void changesInTheExternalProductObjectAreNotReflectedInProductSaved() {
-        ProductInfo productInfo = givenProductInfo("productName", "productDescription", 10.0, 10);
+        ProductInfo productInfo = givenProductInfo(UUID.randomUUID().toString(), "productName", "productDescription", 10.0, 10);
         repository.saveProduct(productInfo);
         ProductInfo productInfoRetrieved = repository.getProductInfoByName("productName");
         assertProductsInfoAreEqual(productInfo, productInfoRetrieved);
@@ -55,7 +55,7 @@ public abstract class ProductRepositoryTest {
 
     @Test
     public void canUpdateOneProduct() {
-        ProductInfo productInfo = givenProductInfo("productName", "productDescription", 10.0, 10);
+        ProductInfo productInfo = givenProductInfo(UUID.randomUUID().toString(), "productName", "productDescription", 10.0, 10);
         repository.saveProduct(productInfo);
         ProductInfo productInfoRetrieved = repository.getProductInfoByName("productName");
         assertProductsInfoAreEqual(productInfo, productInfoRetrieved);
@@ -68,7 +68,7 @@ public abstract class ProductRepositoryTest {
 
     @Test
     public void canDeleteOneProduct() {
-        ProductInfo productInfo = givenProductInfo("productName", "productDescription", 10.0, 10);
+        ProductInfo productInfo = givenProductInfo(UUID.randomUUID().toString(), "productName", "productDescription", 10.0, 10);
         repository.saveProduct(productInfo);
         Assert.assertEquals(1, repository.getAllProductsInfoSaved().size());
 
@@ -86,12 +86,13 @@ public abstract class ProductRepositoryTest {
         return info;
     }
 
-    protected ProductInfo givenProductInfo(String productName, String productDescription, double price, int unitsInStock) {
+    protected ProductInfo givenProductInfo(String ID, String productName, String productDescription, double price, int unitsInStock) {
         ProductInfo productInfo = new ProductInfo();
         productInfo.name = productName;
         productInfo.description = productDescription;
         productInfo.price = price;
         productInfo.unitsInStock = unitsInStock;
+        productInfo.id = ID;
         return productInfo;
     }
 

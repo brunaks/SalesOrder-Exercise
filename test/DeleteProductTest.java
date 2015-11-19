@@ -35,10 +35,10 @@ public class DeleteProductTest {
 
     @Test
     public void deleteSuccessful() {
-        ProductInfo info = givenProduct("name", "description", 10, 10);
+        String id = UUID.randomUUID().toString();
+        ProductInfo info = givenProduct(id, "name", "description", 10, 10);
         registerProduct(info);
         assertSizeOfList(1);
-        String id = getProductIdByName("name");
         deleteProduct.executeWithId(id);
         Assert.assertFalse(receiver.updateFailed);
         assertSizeOfList(0);
@@ -60,12 +60,13 @@ public class DeleteProductTest {
         register.execute();
     }
 
-    private ProductInfo givenProduct(String name, String description, int price, int unitsInStock) {
+    private ProductInfo givenProduct(String id, String name, String description, int price, int unitsInStock) {
         ProductInfo info = new ProductInfo();
         info.name = name;
         info.description = description;
         info.price = price;
         info.unitsInStock = unitsInStock;
+        info.id = id;
         return info;
     }
 }

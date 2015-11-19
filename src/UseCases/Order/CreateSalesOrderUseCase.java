@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by Bruna Koch Schmitt on 12/09/2015.
  */
-public class CreateSalesOrder {
+public class CreateSalesOrderUseCase {
 
     private CustomerRepository customerRepository;
     private SalesOrderRepository salesOrderRepository;
@@ -24,7 +24,7 @@ public class CreateSalesOrder {
     private List<SalesOrderItem> items = new ArrayList<SalesOrderItem>();
     private CustomerInfo customerInfo;
 
-    public CreateSalesOrder(SalesOrderRepository salesOrderRepository, ProductRepository productRepository, CustomerRepository customerRepository, OrderReceiver receiver, Date date) {
+    public CreateSalesOrderUseCase(SalesOrderRepository salesOrderRepository, ProductRepository productRepository, CustomerRepository customerRepository, OrderReceiver receiver, Date date) {
         this.salesOrderRepository = salesOrderRepository;
         this.productRepository = productRepository;
         this.receiver = receiver;

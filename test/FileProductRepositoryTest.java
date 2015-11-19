@@ -1,10 +1,10 @@
 import Entities.Product.ProductInfo;
 import Interfaces.Persistence.ProductRepository;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.UUID;
 
 /**
  * Created by i848075 on 01/09/2015.
@@ -25,7 +25,7 @@ public class FileProductRepositoryTest extends ProductRepositoryTest {
     public void dataMustBePersistedIndependentlyFromTheRepositoryInstance() {
 
         ProductRepository repository  = new FileProductRepository();
-        ProductInfo productInfo = givenProductInfo("name", "description", 10, 10);
+        ProductInfo productInfo = givenProductInfo(UUID.randomUUID().toString(), "name", "description", 10, 10);
         repository.saveProduct(productInfo);
 
         ProductRepository repository2 = new FileProductRepository();
@@ -39,10 +39,10 @@ public class FileProductRepositoryTest extends ProductRepositoryTest {
         file.delete();
 
         ProductRepository repository  = new FileProductRepository();
-        ProductInfo productInfo = givenProductInfo("name", "description", 10, 10);
+        ProductInfo productInfo = givenProductInfo(UUID.randomUUID().toString(), "name", "description", 10, 10);
         repository.saveProduct(productInfo);
 
-        ProductInfo productInfo2 = givenProductInfo("name2", "description2", 20, 20);
+        ProductInfo productInfo2 = givenProductInfo(UUID.randomUUID().toString(), "name2", "description2", 20, 20);
         repository.saveProduct(productInfo2);
 
         Assert.assertEquals(2, repository.getAllProductsInfoSaved().size());

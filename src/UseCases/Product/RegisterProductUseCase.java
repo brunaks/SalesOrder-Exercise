@@ -26,6 +26,7 @@ public class RegisterProductUseCase {
         this.productInfo.description = productInfo.description;
         this.productInfo.price = productInfo.price;
         this.productInfo.unitsInStock = productInfo.unitsInStock;
+        this.productInfo.id = productInfo.id;
     }
 
     public void execute() {
