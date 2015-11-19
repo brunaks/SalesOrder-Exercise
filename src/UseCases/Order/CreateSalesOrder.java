@@ -3,6 +3,7 @@ package UseCases.Order;
 import Entities.Customer.CustomerInfo;
 import Entities.Order.SalesOrderItem;
 import Entities.Product.ProductInfo;
+import Interfaces.Persistence.CustomerRepository;
 import Interfaces.Persistence.ProductRepository;
 import Interfaces.Persistence.SalesOrderRepository;
 import Interfaces.Receivers.OrderReceiver;
@@ -16,15 +17,18 @@ import java.util.List;
  */
 public class CreateSalesOrder {
 
+    private CustomerRepository customerRepository;
+    private SalesOrderRepository salesOrderRepository;
+    private ProductRepository productRepository;
     private OrderReceiver receiver;
     private List<SalesOrderItem> items = new ArrayList<SalesOrderItem>();
-    SalesOrderRepository salesOrderRepository;
-    ProductRepository productRepository;
+    private CustomerInfo customerInfo;
 
-    public CreateSalesOrder(SalesOrderRepository salesOrderRepository, ProductRepository productRepository, OrderReceiver receiver, Date date) {
+    public CreateSalesOrder(SalesOrderRepository salesOrderRepository, ProductRepository productRepository, CustomerRepository customerRepository, OrderReceiver receiver, Date date) {
         this.salesOrderRepository = salesOrderRepository;
         this.productRepository = productRepository;
         this.receiver = receiver;
+        this.customerRepository = customerRepository;
     }
 
     public void addProduct(String productInfoID, int quantity) {
@@ -37,8 +41,12 @@ public class CreateSalesOrder {
         }
     }
 
-    public void addCustomer(CustomerInfo customerInfo) {
-
+    public void addCustomer(String customerID) {
+        this.customerInfo = customerRepository.getCustomerByID(customerID);
+        if (this.customerInfo == null) {
+            receiver.createOrderFailed();
+            receiver.clientDoesNotExist();
+        }
     }
 
     public double getTotal() {
@@ -47,8 +55,10 @@ public class CreateSalesOrder {
 
     private double calculateTotalValueOfOrder() {
         Double total = 0.0;
-        for (SalesOrderItem item: items) {
-            total += item.getProductInfo().price*item.getQuantity();
+        if (this.customerInfo != null) {
+            for (SalesOrderItem item : items) {
+                total += item.getProductInfo().price * item.getQuantity();
+            }
         }
         return total;
     }

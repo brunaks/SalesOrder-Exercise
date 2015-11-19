@@ -6,4 +6,5 @@ package Interfaces.Receivers;
 public interface OrderReceiver {
     void productDoesNotExist();
     void createOrderFailed();
+    void clientDoesNotExist();
 }

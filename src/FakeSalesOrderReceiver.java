@@ -7,6 +7,7 @@ public class FakeSalesOrderReceiver implements OrderReceiver {
 
     public boolean orderFailed = false;
     public boolean productDoesNotExist = false;
+    public boolean customerDoesNotExist = false;
 
     @Override
     public void productDoesNotExist() {
@@ -16,5 +17,10 @@ public class FakeSalesOrderReceiver implements OrderReceiver {
     @Override
     public void createOrderFailed() {
         this.orderFailed = true;
+    }
+
+    @Override
+    public void clientDoesNotExist() {
+        this.customerDoesNotExist = true;
     }
 }
