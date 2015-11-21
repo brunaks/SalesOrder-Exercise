@@ -1,3 +1,5 @@
+package TestDoubles.Persistence;
+
 import Entities.Customer.CustomerInfo;
 
 import java.util.ArrayList;

@@ -1,5 +1,9 @@
+package UseCases.Product;
+
 import Entities.Product.ProductInfo;
 import Interfaces.Persistence.ProductRepository;
+import TestDoubles.Persistence.InMemoryProductRepository;
+import TestDoubles.Receiver.FakeProductReceiver;
 import UseCases.Product.DeleteProductUseCase;
 import UseCases.Product.ListProductsUseCase;
 import UseCases.Product.ReadProductUseCase;

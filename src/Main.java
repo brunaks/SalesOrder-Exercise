@@ -1,9 +1,11 @@
-import Interfaces.Receivers.ProductReceiver;
 import Interfaces.Persistence.ProductRepository;
+import Interfaces.Receivers.ProductReceiver;
 import Routes.ProductRoutes.DeleteProductRoute;
 import Routes.ProductRoutes.ListProductsRoute;
 import Routes.ProductRoutes.RegisterProductRoute;
 import Routes.ProductRoutes.UpdateProductRoute;
+import TestDoubles.Persistence.InMemoryProductRepository;
+import TestDoubles.Receiver.FakeProductReceiver;
 import spark.Spark;
 
 /**

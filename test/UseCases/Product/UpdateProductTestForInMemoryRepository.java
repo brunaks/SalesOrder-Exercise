@@ -1,4 +1,7 @@
-import UseCases.Product.UpdateProductUseCase;
+package UseCases.Product;
+
+import TestDoubles.Persistence.InMemoryProductRepository;
+import TestDoubles.Receiver.FakeProductReceiver;
 import org.junit.Before;
 
 /**

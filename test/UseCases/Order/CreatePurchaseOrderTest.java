@@ -1,6 +1,11 @@
-import Entities.Customer.CustomerInfo;
+package UseCases.Order;
+
 import Entities.Product.ProductInfo;
-import UseCases.Order.CreatePurchaseOrderUseCase;
+import TestDoubles.Persistence.InMemoryCustomerRepository;
+import TestDoubles.Persistence.InMemoryProductRepository;
+import TestDoubles.Persistence.InMemoryPurchaseOrderRepository;
+import TestDoubles.Receiver.FakeProductReceiver;
+import TestDoubles.Receiver.FakePurchaseOrderReceiver;
 import UseCases.Product.RegisterProductUseCase;
 import org.junit.Assert;
 import org.junit.Before;

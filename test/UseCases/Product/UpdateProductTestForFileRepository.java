@@ -1,4 +1,7 @@
-import UseCases.Product.UpdateProductUseCase;
+package UseCases.Product;
+
+import TestDoubles.Persistence.FileProductRepository;
+import TestDoubles.Receiver.FakeProductReceiver;
 import org.junit.Before;
 
 import java.io.File;

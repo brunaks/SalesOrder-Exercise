@@ -1,6 +1,13 @@
+package UseCases.Order;
+
 import Entities.Customer.CustomerInfo;
 import Entities.Order.SalesOrderInfo;
 import Entities.Product.ProductInfo;
+import TestDoubles.Persistence.InMemoryCustomerRepository;
+import TestDoubles.Persistence.InMemoryProductRepository;
+import TestDoubles.Persistence.InMemorySalesOrderRepository;
+import TestDoubles.Receiver.FakeProductReceiver;
+import TestDoubles.Receiver.FakeSalesOrderReceiver;
 import UseCases.Order.CreateSalesOrderUseCase;
 import UseCases.Order.DeleteSalesOrderUseCase;
 import UseCases.Order.ListSalesOrdersUseCase;

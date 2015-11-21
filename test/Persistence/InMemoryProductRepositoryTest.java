@@ -1,8 +1,7 @@
-import Entities.Product.Product;
+package Persistence;
+
 import Interfaces.Persistence.ProductRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import TestDoubles.Persistence.InMemoryProductRepository;
 
 /**
  * Created by I848075 on 21/08/2015.

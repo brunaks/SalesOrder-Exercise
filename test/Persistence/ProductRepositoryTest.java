@@ -1,5 +1,8 @@
+package Persistence;
+
 import Entities.Product.ProductInfo;
 import Interfaces.Persistence.ProductRepository;
+import TestDoubles.Receiver.FakeProductReceiver;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

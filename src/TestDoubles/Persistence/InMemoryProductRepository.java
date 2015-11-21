@@ -1,3 +1,5 @@
+package TestDoubles.Persistence;
+
 import Entities.Product.Product;
 import Entities.Product.ProductInfo;
 import Interfaces.Persistence.ProductRepository;
