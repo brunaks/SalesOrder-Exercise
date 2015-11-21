@@ -3,7 +3,6 @@ package UseCases.Order;
 import Entities.Order.SalesOrderInfo;
 import Interfaces.Persistence.SalesOrderRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +17,6 @@ public class ListSalesOrdersUseCase {
     }
 
     public List<SalesOrderInfo> getAll() {
-        return salesOrderRepository.getAllSalesOrderInfos();
+        return salesOrderRepository.getAll();
     }
 }

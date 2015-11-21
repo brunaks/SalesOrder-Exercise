@@ -20,11 +20,24 @@ public class InMemoryPurchaseOrderRepository implements PurchaseOrderRepository 
 
     @Override
     public void save(PurchaseOrderInfo purchaseOrderInfo) {
-        this.addInProcessStatusToOrder(purchaseOrderInfo);
         this.orders.add(purchaseOrderInfo);
     }
 
-    private void addInProcessStatusToOrder(PurchaseOrderInfo purchaseOrderInfo) {
-        purchaseOrderInfo.status = purchaseOrderInfo.IN_PROCESS;
+    @Override
+    public PurchaseOrderInfo getById(String id) {
+        for (PurchaseOrderInfo order : orders) {
+            if (order.id.equals(id)) {
+                return order;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void removeWithId(String id) {
+        PurchaseOrderInfo orderToBeDeleted = this.getById(id);
+        if (orderToBeDeleted != null) {
+            this.orders.remove(orderToBeDeleted);
+        }
     }
 }

@@ -54,6 +54,7 @@ public class CreatePurchaseOrderUseCase {
         this.purchaseOrderInfo.date = this.date;
         this.purchaseOrderInfo.items = this.items;
         this.purchaseOrderInfo.total = this.getTotal();
+        this.purchaseOrderInfo.status = PurchaseOrderInfo.IN_PROCESS;
         return this.purchaseOrderInfo;
     }
 

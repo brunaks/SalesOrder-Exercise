@@ -81,6 +81,7 @@ public class CreateSalesOrderUseCase {
         this.salesOrderInfo.customerInfo = this.customerInfo;
         this.salesOrderInfo.items = this.items;
         this.salesOrderInfo.total = this.getTotal();
+        this.salesOrderInfo.status = SalesOrderInfo.IN_PROCESS;
         return salesOrderInfo;
     }
 }

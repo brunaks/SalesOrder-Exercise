@@ -18,7 +18,7 @@ public class DeleteSalesOrderUseCase {
     }
 
     public void executeWithSalesOrderID(String id) {
-        SalesOrderInfo salesOrderInfo = this.salesOrderRepository.getSalesOrderById(id);
+        SalesOrderInfo salesOrderInfo = this.salesOrderRepository.getById(id);
         if (salesOrderInfo != null) {
             deleteSalesOrder(id);
         } else {

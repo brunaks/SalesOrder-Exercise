@@ -8,6 +8,8 @@ import Interfaces.Receivers.PurchaseOrderReceiver;
 public class FakePurchaseOrderReceiver implements PurchaseOrderReceiver {
     public boolean orderFailed = false;
     public boolean productDoesNotExist = false;
+    public boolean deleteFailed = false;
+    public boolean OrderIdIsInvalid = false;
 
     @Override
     public void createOrderFailed() {

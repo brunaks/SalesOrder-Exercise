@@ -14,18 +14,17 @@ public class InMemorySalesOrderRepository implements SalesOrderRepository {
     private List<SalesOrderInfo> salesOrders = new ArrayList<SalesOrderInfo>();
 
     @Override
-    public List<SalesOrderInfo> getAllSalesOrderInfos() {
+    public List<SalesOrderInfo> getAll() {
         return this.salesOrders;
     }
 
     @Override
     public void save(SalesOrderInfo salesOrderInfo) {
-        this.addInProcessStatusToSalesOrder(salesOrderInfo);
         this.salesOrders.add(salesOrderInfo);
     }
 
     @Override
-    public SalesOrderInfo getSalesOrderById(String id) {
+    public SalesOrderInfo getById(String id) {
         for (SalesOrderInfo salesOrderInfo : salesOrders) {
             if (salesOrderInfo.id == id) {
                 return salesOrderInfo;
@@ -36,10 +35,6 @@ public class InMemorySalesOrderRepository implements SalesOrderRepository {
 
     @Override
     public void deleteWithId(String id) {
-        salesOrders.remove(this.getSalesOrderById(id));
-    }
-
-    private void addInProcessStatusToSalesOrder(SalesOrderInfo salesOrderInfo) {
-        salesOrderInfo.status = SalesOrderInfo.IN_PROCESS;
+        salesOrders.remove(this.getById(id));
     }
 }

@@ -11,4 +11,6 @@ public interface PurchaseOrderRepository {
 
     List<PurchaseOrderInfo> getAll();
     void save(PurchaseOrderInfo purchaseOrderInfo);
+    PurchaseOrderInfo getById(String id);
+    void removeWithId(String id);
 }
