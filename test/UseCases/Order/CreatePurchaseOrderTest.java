@@ -1,5 +1,8 @@
 package UseCases.Order;
 
+import Entities.Customer.CustomerInfo;
+import Entities.Order.PurchaseOrderInfo;
+import Entities.Order.SalesOrderInfo;
 import Entities.Product.ProductInfo;
 import TestDoubles.Persistence.InMemoryCustomerRepository;
 import TestDoubles.Persistence.InMemoryProductRepository;
@@ -14,6 +17,7 @@ import org.junit.Test;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -45,6 +49,50 @@ public class CreatePurchaseOrderTest {
         createPurchaseOrder.execute();
         Assert.assertFalse(receiver.orderFailed);
         assertTotalEquals(10.0);
+    }
+
+    @Test
+    public void canCreateOrderWithSucess_TwoProducts() {
+        Date date = givenDate("01/01/2015");
+        String id = UUID.randomUUID().toString();
+        createPurchaseOrder = new CreatePurchaseOrderUseCase(id, purchaseOrderRepository, productRepository, receiver, date);
+        ProductInfo productInfo = givenProductInfo("Name1", "Description1", 10, 10);
+        ProductInfo productInfo2 = givenProductInfo("Name2", "Description2", 20, 20);
+        createPurchaseOrder.addProduct(productInfo.id, 1);
+        createPurchaseOrder.addProduct(productInfo2.id, 2);
+        createPurchaseOrder.execute();
+        Assert.assertFalse(receiver.orderFailed);
+        assertTotalEquals(50.0);
+    }
+
+    @Test
+    public void createOrderFailed_productIdDoesNotExist() {
+        Date date = givenDate("01/01/2015");
+        String id = UUID.randomUUID().toString();
+        createPurchaseOrder = new CreatePurchaseOrderUseCase(id, purchaseOrderRepository, productRepository, receiver, date);
+        createPurchaseOrder.addProduct(UUID.randomUUID().toString(), 1);
+        Assert.assertTrue(receiver.orderFailed);
+        Assert.assertTrue(receiver.productDoesNotExist);
+        assertTotalEquals(0.0);
+    }
+
+    @Test
+    public void createOrderSuccessful_canRetrievePurchaseOrder() {
+        Date date = givenDate("01/01/2015");
+        String id = UUID.randomUUID().toString();
+        createPurchaseOrder = new CreatePurchaseOrderUseCase(id, purchaseOrderRepository, productRepository, receiver, date);
+        ProductInfo productInfo = givenProductInfo("Name1", "Description1", 10, 10);
+        createPurchaseOrder.addProduct(productInfo.id, 1);
+        createPurchaseOrder.execute();
+        Assert.assertFalse(receiver.orderFailed);
+        Assert.assertFalse(receiver.productDoesNotExist);
+        assertTotalEquals(10.0);
+        ListPurchaseOrdersUseCase listPurchaseOrders = new ListPurchaseOrdersUseCase(purchaseOrderRepository);
+        List<PurchaseOrderInfo> purchaseOrderInfos = listPurchaseOrders.getAll();
+
+        Assert.assertEquals(id, purchaseOrderInfos.get(0).id);
+        Assert.assertEquals(date, purchaseOrderInfos.get(0).date);
+        Assert.assertEquals(SalesOrderInfo.IN_PROCESS, purchaseOrderInfos.get(0).status);
     }
 
     private void assertTotalEquals(Double expectedTotal) {

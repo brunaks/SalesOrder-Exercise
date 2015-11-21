@@ -5,12 +5,12 @@ import Entities.Product.ProductInfo;
 /**
  * Created by Bruna Koch Schmitt on 17/11/2015.
  */
-public class SalesOrderItem {
+public class OrderItem {
 
     private ProductInfo productInfo;
     private int quantity;
 
-    public SalesOrderItem(ProductInfo productInfo, int quantity) {
+    public OrderItem(ProductInfo productInfo, int quantity) {
         this.productInfo = productInfo;
         this.quantity = quantity;
     }

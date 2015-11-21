@@ -9,6 +9,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.UUID;
+
 /**
  * Created by I848075 on 20/08/2015.
  */
@@ -58,6 +60,12 @@ public class ReadProductTest {
     public void ReadingFailed_ProductDoesNotExist() {
         ProductInfo infoRetrieved = read.getProductInfoByProductName("productName");
         Assert.assertNull(infoRetrieved);
+    }
+
+    @Test
+    public void readingFailed_ProductIdDoesNotExist() {
+        ProductInfo info = read.getProductInfoById(UUID.randomUUID().toString());
+        Assert.assertNull(info);
     }
 
     private ProductInfo givenInfo(String productName, String productDescription, double price, int unitsInStock) {

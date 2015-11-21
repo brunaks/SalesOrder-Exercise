@@ -2,7 +2,7 @@ package UseCases.Order;
 
 import Entities.Customer.CustomerInfo;
 import Entities.Order.SalesOrderInfo;
-import Entities.Order.SalesOrderItem;
+import Entities.Order.OrderItem;
 import Entities.Product.ProductInfo;
 import Interfaces.Persistence.CustomerRepository;
 import Interfaces.Persistence.ProductRepository;
@@ -24,7 +24,7 @@ public class CreateSalesOrderUseCase {
     private SalesOrderRepository salesOrderRepository;
     private ProductRepository productRepository;
     private SalesOrderReceiver receiver;
-    private List<SalesOrderItem> items = new ArrayList<SalesOrderItem>();
+    private List<OrderItem> items = new ArrayList<OrderItem>();
     private CustomerInfo customerInfo;
     private SalesOrderInfo salesOrderInfo;
 
@@ -40,7 +40,7 @@ public class CreateSalesOrderUseCase {
     public void addProduct(String productInfoID, int quantity) {
         ProductInfo productInfo = productRepository.getProductInfoById(productInfoID);
         if (productInfo != null) {
-            items.add(new SalesOrderItem(productInfo, quantity));
+            items.add(new OrderItem(productInfo, quantity));
         } else {
             this.receiver.createOrderFailed();
             this.receiver.productDoesNotExist();
@@ -62,7 +62,7 @@ public class CreateSalesOrderUseCase {
     private double calculateTotalValueOfOrder() {
         Double total = 0.0;
         if (this.customerInfo != null) {
-            for (SalesOrderItem item : items) {
+            for (OrderItem item : items) {
                 total += item.getProductInfo().price * item.getQuantity();
             }
         }
