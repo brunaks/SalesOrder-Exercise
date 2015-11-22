@@ -13,4 +13,5 @@ public interface PurchaseOrderRepository {
     void save(PurchaseOrderInfo purchaseOrderInfo);
     PurchaseOrderInfo getById(String id);
     void removeWithId(String id);
+    void updateStatus(String id, String newStatus);
 }

@@ -9,7 +9,8 @@ public class FakePurchaseOrderReceiver implements PurchaseOrderReceiver {
     public boolean orderFailed = false;
     public boolean productDoesNotExist = false;
     public boolean deleteFailed = false;
-    public boolean OrderIdIsInvalid = false;
+    public boolean statusUpdateFailed = false;
+    public boolean orderIdIsInvalid = false;
 
     @Override
     public void createOrderFailed() {
@@ -19,5 +20,20 @@ public class FakePurchaseOrderReceiver implements PurchaseOrderReceiver {
     @Override
     public void productDoesNotExist() {
         productDoesNotExist = true;
+    }
+
+    @Override
+    public void deleteFailed() {
+        this.deleteFailed = true;
+    }
+
+    @Override
+    public void orderIdIsInvalid() {
+        this.orderIdIsInvalid = true;
+    }
+
+    @Override
+    public void updateStatusFailed() {
+        this.statusUpdateFailed = true;
     }
 }

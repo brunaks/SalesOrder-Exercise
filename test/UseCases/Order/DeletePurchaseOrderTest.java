@@ -42,13 +42,13 @@ public class DeletePurchaseOrderTest {
         this.assertOrderWasDeleted();
     }
 
-    /*@Test
+    @Test
     public void cannotDeleteSalesOrder_IdIsInvalid_OrderDoesNotExist() {
-        DeleteSalesOrderUseCase deleteSalesOrder = new DeleteSalesOrderUseCase(salesOrderRepository, receiver);
-        deleteSalesOrder.executeWithSalesOrderID(UUID.randomUUID().toString());
-        Assert.assertTrue(receiver.salesOrderIdIsInvalid);
+        DeletePurchaseOrderUseCase deleteOrder = new DeletePurchaseOrderUseCase(purchaseOrderRepository, receiver);
+        deleteOrder.executeWithOrderID(UUID.randomUUID().toString());
+        Assert.assertTrue(receiver.orderIdIsInvalid);
         Assert.assertTrue(receiver.deleteFailed);
-    }*/
+    }
 
     private void assertOrderWasDeleted() {
         ListPurchaseOrdersUseCase listPurchaseOrdersUseCase = new ListPurchaseOrdersUseCase(purchaseOrderRepository);
@@ -56,7 +56,7 @@ public class DeletePurchaseOrderTest {
         Assert.assertEquals(0, orderInfos.size());
 
         Assert.assertFalse(this.receiver.deleteFailed);
-        Assert.assertFalse(this.receiver.OrderIdIsInvalid);
+        Assert.assertFalse(this.receiver.orderIdIsInvalid);
     }
 
     private PurchaseOrderInfo givenValidOrder() {

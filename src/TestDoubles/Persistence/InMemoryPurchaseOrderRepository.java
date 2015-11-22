@@ -40,4 +40,9 @@ public class InMemoryPurchaseOrderRepository implements PurchaseOrderRepository 
             this.orders.remove(orderToBeDeleted);
         }
     }
+
+    @Override
+    public void updateStatus(String id, String newStatus) {
+        this.getById(id).status = newStatus;
+    }
 }

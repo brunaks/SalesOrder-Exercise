@@ -23,6 +23,9 @@ public class DeletePurchaseOrderUseCase {
         PurchaseOrderInfo infoToBeDeleted = this.repository.getById(id);
         if (infoToBeDeleted != null) {
             this.repository.removeWithId(id);
+        } else {
+            this.receiver.deleteFailed();
+            this.receiver.orderIdIsInvalid();
         }
     }
 }

@@ -6,4 +6,7 @@ package Interfaces.Receivers;
 public interface PurchaseOrderReceiver {
     void createOrderFailed();
     void productDoesNotExist();
+    void deleteFailed();
+    void orderIdIsInvalid();
+    void updateStatusFailed();
 }

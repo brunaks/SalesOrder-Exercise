@@ -40,7 +40,6 @@ public class InMemorySalesOrderRepository implements SalesOrderRepository {
 
     @Override
     public void updateStatus(String id, String newStatus) {
-        SalesOrderInfo salesOrderInfo = this.getById(id);
-        salesOrderInfo.status = newStatus;
+        this.getById(id).status = newStatus;
     }
 }
