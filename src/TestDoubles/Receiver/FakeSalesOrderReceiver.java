@@ -12,6 +12,7 @@ public class FakeSalesOrderReceiver implements SalesOrderReceiver {
     public boolean customerDoesNotExist = false;
     public boolean salesOrderIdIsInvalid = false;
     public boolean deleteFailed = false;
+    public boolean statusUpdateFailed = false;
 
     @Override
     public void productDoesNotExist() {
@@ -36,5 +37,10 @@ public class FakeSalesOrderReceiver implements SalesOrderReceiver {
     @Override
     public void deleteFailed() {
         this.deleteFailed = true;
+    }
+
+    @Override
+    public void updateStatusFailed() {
+        this.statusUpdateFailed = true;
     }
 }

@@ -9,6 +9,7 @@ import java.util.List;
 public abstract class OrderInfo {
 
     public static final String IN_PROCESS = "In Process";
+    public static final String DELIVERED = "Delivered";
     public String id;
     public Date date;
     public String status;

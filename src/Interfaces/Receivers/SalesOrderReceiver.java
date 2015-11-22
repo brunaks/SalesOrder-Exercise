@@ -9,4 +9,5 @@ public interface SalesOrderReceiver {
     void clientDoesNotExist();
     void salesOrderIdIsInvalid();
     void deleteFailed();
+    void updateStatusFailed();
 }

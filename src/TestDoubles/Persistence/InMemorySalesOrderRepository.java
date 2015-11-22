@@ -37,4 +37,10 @@ public class InMemorySalesOrderRepository implements SalesOrderRepository {
     public void deleteWithId(String id) {
         salesOrders.remove(this.getById(id));
     }
+
+    @Override
+    public void updateStatus(String id, String newStatus) {
+        SalesOrderInfo salesOrderInfo = this.getById(id);
+        salesOrderInfo.status = newStatus;
+    }
 }
