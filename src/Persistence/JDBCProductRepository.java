@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class JDBCProductRepository implements ProductRepository {
     private final Connection connection;
@@ -33,13 +34,11 @@ public class JDBCProductRepository implements ProductRepository {
                 "where id = ?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-
-            stmt.setString(1, product.id);
-            stmt.setString(2, product.name);
-            stmt.setString(3, product.description);
-            stmt.setDouble(4, product.price);
-            stmt.setInt(5, product.unitsInStock);
-            stmt.setString(6, product.id);
+            stmt.setString(1, product.name);
+            stmt.setString(2, product.description);
+            stmt.setDouble(3, product.price);
+            stmt.setInt(4, product.unitsInStock);
+            stmt.setString(5, product.id);
 
             stmt.execute();
             stmt.close();
@@ -104,22 +103,74 @@ public class JDBCProductRepository implements ProductRepository {
     }
 
     public ArrayList<ProductInfo> getAllProductsInfoSaved() {
-        return null;
+        String sql = "select * from product";
+        ResultSet result;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            result = stmt.executeQuery();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return buildProductInfos(result);
+    }
+
+    private ArrayList<ProductInfo> buildProductInfos(ResultSet result) {
+        ArrayList<ProductInfo> infos = new ArrayList<>();
+        try {
+            while (result.next()) {
+                ProductInfo info = new ProductInfo();
+                info.id = result.getString("id");
+                info.name = result.getString("name");
+                info.description = result.getString("description");
+                info.price = result.getDouble("price");
+                info.unitsInStock = result.getInt("units_in_stock");
+                infos.add(info);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return infos;
     }
 
     public ProductInfo getProductInfoById(String id) {
-        return null;
+        String sql = "select single * from product where id = ?;";
+        ResultSet result;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+
+            stmt.setString(1, id);
+
+            result = stmt.executeQuery();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return buildProductInfo(result);
     }
 
     public void updateProduct(String productId, ProductInfo newProductInfo) {
-
+        this.update(newProductInfo);
     }
 
     public void deleteProductWithId(String productId) {
+        String sql = "delete from product where id = ?";
+        ResultSet result;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
 
+            stmt.setString(1, productId);
+
+            result = stmt.executeQuery();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String createProductInfoID() {
-        return null;
+        return UUID.randomUUID().toString();
     }
 }
