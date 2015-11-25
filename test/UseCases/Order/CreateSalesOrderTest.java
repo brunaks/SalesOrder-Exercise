@@ -8,12 +8,9 @@ import TestDoubles.Persistence.InMemoryProductRepository;
 import TestDoubles.Persistence.InMemorySalesOrderRepository;
 import TestDoubles.Receiver.FakeProductReceiver;
 import TestDoubles.Receiver.FakeSalesOrderReceiver;
-import UseCases.Order.CreateSalesOrderUseCase;
-import UseCases.Order.ListSalesOrdersUseCase;
 import UseCases.Product.RegisterProductUseCase;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.text.ParseException;

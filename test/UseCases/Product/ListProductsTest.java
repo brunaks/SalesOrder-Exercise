@@ -3,8 +3,6 @@ package UseCases.Product;
 import Entities.Product.ProductInfo;
 import TestDoubles.Persistence.InMemoryProductRepository;
 import TestDoubles.Receiver.FakeProductReceiver;
-import UseCases.Product.ListProductsUseCase;
-import UseCases.Product.RegisterProductUseCase;
 import org.junit.Before;
 import org.junit.Test;
 

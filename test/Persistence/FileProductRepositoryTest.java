@@ -2,7 +2,6 @@ package Persistence;
 
 import Entities.Product.ProductInfo;
 import Interfaces.Persistence.ProductRepository;
-import TestDoubles.Persistence.FileProductRepository;
 import org.junit.Assert;
 import org.junit.Test;
 

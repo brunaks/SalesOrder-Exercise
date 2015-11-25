@@ -1,6 +1,6 @@
 package UseCases.Product;
 
-import TestDoubles.Persistence.FileProductRepository;
+import Persistence.FileProductRepository;
 import TestDoubles.Receiver.FakeProductReceiver;
 import org.junit.Before;
 

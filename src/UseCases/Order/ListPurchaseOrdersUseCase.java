@@ -2,7 +2,6 @@ package UseCases.Order;
 
 import Entities.Order.PurchaseOrderInfo;
 import Interfaces.Persistence.PurchaseOrderRepository;
-import TestDoubles.Persistence.InMemoryPurchaseOrderRepository;
 
 import java.util.List;
 

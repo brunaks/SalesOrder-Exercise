@@ -3,7 +3,6 @@ package UseCases.Order;
 import Entities.Order.PurchaseOrderInfo;
 import Interfaces.Persistence.PurchaseOrderRepository;
 import Interfaces.Receivers.PurchaseOrderReceiver;
-import TestDoubles.Persistence.InMemoryPurchaseOrderRepository;
 import TestDoubles.Receiver.FakePurchaseOrderReceiver;
 
 /**

@@ -1,10 +1,7 @@
 package UseCases.Order;
 
-import Entities.Order.SalesOrderInfo;
 import Interfaces.Persistence.SalesOrderRepository;
 import Interfaces.Receivers.SalesOrderReceiver;
-import TestDoubles.Persistence.InMemorySalesOrderRepository;
-import TestDoubles.Receiver.FakeSalesOrderReceiver;
 
 /**
  * Created by Bruna Koch Schmitt on 22/11/2015.

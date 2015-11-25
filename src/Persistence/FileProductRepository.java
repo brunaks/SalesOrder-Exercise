@@ -1,4 +1,4 @@
-package TestDoubles.Persistence;
+package Persistence;
 
 import Entities.Product.Product;
 import Entities.Product.ProductInfo;

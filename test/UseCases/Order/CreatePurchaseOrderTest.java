@@ -1,6 +1,5 @@
 package UseCases.Order;
 
-import Entities.Customer.CustomerInfo;
 import Entities.Order.PurchaseOrderInfo;
 import Entities.Order.SalesOrderInfo;
 import Entities.Product.ProductInfo;
