@@ -1,5 +1,6 @@
 import Interfaces.Persistence.ProductRepository;
 import Interfaces.Receivers.ProductReceiver;
+import Persistence.JDBCProductRepository;
 import Routes.ProductRoutes.DeleteProductRoute;
 import Routes.ProductRoutes.ListProductsRoute;
 import Routes.ProductRoutes.RegisterProductRoute;
@@ -15,7 +16,7 @@ public class Main {
 
     public static void main(String[] args) {
         ProductReceiver receiver = new FakeProductReceiver();
-        ProductRepository repository = new InMemoryProductRepository();
+        ProductRepository repository = new JDBCProductRepository();
         Spark.externalStaticFileLocation("resources/public");
         Spark.post("/registerProduct", new RegisterProductRoute(repository, receiver));
         Spark.get("/products", new ListProductsRoute(repository));
