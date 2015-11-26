@@ -78,8 +78,12 @@ public class CreateSalesOrderUseCase {
         this.salesOrderInfo = new SalesOrderInfo();
         this.salesOrderInfo.id = this.id;
         this.salesOrderInfo.date = this.date;
-        this.salesOrderInfo.customerInfo = this.customerInfo;
-        this.salesOrderInfo.items = this.items;
+        if (this.customerInfo != null) {
+            this.salesOrderInfo.customerInfo = this.customerInfo;
+        }
+        if (this.items != null) {
+            this.salesOrderInfo.items = this.items;
+        }
         this.salesOrderInfo.total = this.getTotal();
         this.salesOrderInfo.status = SalesOrderInfo.IN_PROCESS;
         return salesOrderInfo;

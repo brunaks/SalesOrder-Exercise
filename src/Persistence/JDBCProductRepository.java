@@ -18,14 +18,10 @@ public class JDBCProductRepository implements ProductRepository {
     }
 
     public void saveProduct(ProductInfo product) {
-        if (hasWithId(product.id))
+        if (getProductInfoById(product.id) == null)
             insert(product);
         else
             update(product);
-    }
-
-    private boolean hasWithId(String id) {
-        return false;
     }
 
     private void update(ProductInfo product) {
@@ -68,33 +64,33 @@ public class JDBCProductRepository implements ProductRepository {
     }
 
     public ProductInfo getProductInfoByName(String productName) {
-        String sql = "select single * from product where name = ?;";
+        String sql = "select * from product where name = ?";
         ResultSet result;
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, productName);
-
             result = stmt.executeQuery();
-            stmt.close();
-        } catch (SQLException e) {
+            if (result.next() == false) {
+                return null;
+            } else {
+                return buildProductInfo(result);
+            }
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        return buildProductInfo(result);
     }
 
     private ProductInfo buildProductInfo(ResultSet result) {
         ProductInfo info = new ProductInfo();
         try {
-            while (result.next()) {
-
-                info = new ProductInfo();
-                info.id = result.getString("id");
-                info.name = result.getString("name");
-                info.description = result.getString("description");
-                info.price = result.getDouble("price");
-                info.unitsInStock = result.getInt("units_in_stock");
+            if (result.next()) {
+                while (result.next()) {
+                    info = new ProductInfo();
+                    info.id = result.getString("id");
+                    info.name = result.getString("name");
+                    info.description = result.getString("description");
+                    info.price = result.getDouble("price");
+                    info.unitsInStock = result.getInt("units_in_stock");
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -105,14 +101,11 @@ public class JDBCProductRepository implements ProductRepository {
     public ArrayList<ProductInfo> getAllProductsInfoSaved() {
         String sql = "select * from product";
         ResultSet result;
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             result = stmt.executeQuery();
-            stmt.close();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
         return buildProductInfos(result);
     }
 
@@ -135,20 +128,19 @@ public class JDBCProductRepository implements ProductRepository {
     }
 
     public ProductInfo getProductInfoById(String id) {
-        String sql = "select single * from product where id = ?;";
+        String sql = "select * from product where id = ?";
         ResultSet result;
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, id);
-
             result = stmt.executeQuery();
-            stmt.close();
-        } catch (SQLException e) {
+            if (result.next() == false) {
+                return null;
+            } else {
+                return buildProductInfo(result);
+            }
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        return buildProductInfo(result);
     }
 
     public void updateProduct(String productId, ProductInfo newProductInfo) {
@@ -160,9 +152,7 @@ public class JDBCProductRepository implements ProductRepository {
         ResultSet result;
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-
             stmt.setString(1, productId);
-
             result = stmt.executeQuery();
             stmt.close();
         } catch (SQLException e) {

@@ -15,14 +15,14 @@ import spark.Route;
  */
 public class RegisterProductRoute implements Route{
 
-    private ProductReceiver receiver;
-    private ProductRepository repository;
     String name;
     String description;
     String price;
     String units;
-    private ProductInfo productInfo;
     Gson converter = new Gson();
+    private ProductReceiver receiver;
+    private ProductRepository repository;
+    private ProductInfo productInfo;
 
     public RegisterProductRoute(ProductRepository repository, ProductReceiver receiver) {
         this.repository = repository;
@@ -60,5 +60,6 @@ public class RegisterProductRoute implements Route{
             info.unitsInStock = 0;
         }
         this.productInfo = info;
+        this.productInfo.id = this.repository.createProductInfoID();
     }
 }

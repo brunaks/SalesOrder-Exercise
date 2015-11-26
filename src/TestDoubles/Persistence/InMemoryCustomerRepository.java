@@ -20,7 +20,7 @@ public class InMemoryCustomerRepository implements Interfaces.Persistence.Custom
     @Override
     public CustomerInfo getCustomerByID(String customerID) {
         for (CustomerInfo customer : this.customers) {
-            if (customer.id == customerID) {
+            if (customer.id.equals(customerID)) {
                 return customer;
             }
         }

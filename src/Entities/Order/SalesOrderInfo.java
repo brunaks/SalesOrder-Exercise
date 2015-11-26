@@ -10,4 +10,5 @@ import java.util.List;
  */
 public class SalesOrderInfo extends OrderInfo{
     public CustomerInfo customerInfo;
+    public String customer_id;
 }
