@@ -7,8 +7,8 @@ import Entities.Product.ProductInfo;
  */
 public class OrderItem {
 
-    private ProductInfo productInfo;
-    private int quantity;
+    public ProductInfo productInfo;
+    public int quantity;
 
     public OrderItem(ProductInfo productInfo, int quantity) {
         this.productInfo = productInfo;

@@ -2,6 +2,7 @@ package TestDoubles.Persistence;
 
 import Entities.Order.SalesOrderInfo;
 import Interfaces.Persistence.SalesOrderRepository;
+import Routes.RequestObjects.CreateSalesOrderItemRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,5 +42,10 @@ public class InMemorySalesOrderRepository implements SalesOrderRepository {
     @Override
     public void updateStatus(String id, String newStatus) {
         this.getById(id).status = newStatus;
+    }
+
+    @Override
+    public void createItem(CreateSalesOrderItemRequest createRequest) {
+
     }
 }

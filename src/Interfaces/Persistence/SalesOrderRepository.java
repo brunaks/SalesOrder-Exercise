@@ -1,6 +1,7 @@
 package Interfaces.Persistence;
 
 import Entities.Order.SalesOrderInfo;
+import Routes.RequestObjects.CreateSalesOrderItemRequest;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface SalesOrderRepository {
     SalesOrderInfo getById(String id);
     void deleteWithId(String id);
     void updateStatus(String id, String newStatus);
+
+    void createItem(CreateSalesOrderItemRequest createRequest);
 }

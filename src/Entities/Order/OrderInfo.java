@@ -1,5 +1,8 @@
 package Entities.Order;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +16,6 @@ public abstract class OrderInfo {
     public String id;
     public Date date;
     public String status;
-    public List<OrderItem> items;
+    public ArrayList<OrderItem> items;
     public double total;
 }

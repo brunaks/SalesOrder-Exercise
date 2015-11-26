@@ -22,7 +22,7 @@ public class CreatePurchaseOrderUseCase {
     private PurchaseOrderRepository purchaseOrderRepository;
     private PurchaseOrderReceiver receiver;
     private ProductRepository productRepository;
-    private List<OrderItem> items = new ArrayList<OrderItem>();
+    private ArrayList<OrderItem> items = new ArrayList<OrderItem>();
     private PurchaseOrderInfo purchaseOrderInfo;
 
     public CreatePurchaseOrderUseCase(String id, PurchaseOrderRepository purchaseOrderRepository, ProductRepository productRepository, PurchaseOrderReceiver receiver, Date date) {

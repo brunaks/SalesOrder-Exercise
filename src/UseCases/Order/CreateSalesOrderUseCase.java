@@ -24,7 +24,7 @@ public class CreateSalesOrderUseCase {
     private SalesOrderRepository salesOrderRepository;
     private ProductRepository productRepository;
     private SalesOrderReceiver receiver;
-    private List<OrderItem> items = new ArrayList<OrderItem>();
+    private ArrayList<OrderItem> items = new ArrayList<OrderItem>();
     private CustomerInfo customerInfo;
     private SalesOrderInfo salesOrderInfo;
 

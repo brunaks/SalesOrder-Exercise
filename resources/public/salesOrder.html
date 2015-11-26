@@ -3,8 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-</head>
-<body>
+    <script>
+        var headerRequest;
+        var itemsRequest;
 
+        function createTableHeader(json, table) {
+            var headerRow = document.createElement("tr");
+            var obj = json[0];
+            for (var key in obj) {
+                var header = document.createElement("th");
+                header.setAttribute("class", key);
+                var headerText = document.createTextNode(key);
+                header.appendChild(headerText);
+                headerRow.appendChild(header);
+            }
+            table.appendChild(headerRow);
+        }
+
+        function createRow(obj, row) {
+            for (var key in obj) {
+                var eachValueInRow = obj[key];
+                var data = document.createElement("td");
+                data.setAttribute("class", key);
+                var text = document.createTextNode(eachValueInRow);
+                var child;
+                if (key === 'id') {
+                    child = document.createElement("a");
+                    child.setAttribute("href", "/salesOrder.html?" + eachValueInRow);
+                    child.appendChild(text);
+                } else {
+                    child = text;
+                }
+                data.appendChild(child);
+                row.appendChild(data);
+            }
+        }
+        function showHeader() {
+            if (headerRequest.status === 200 && headerRequest.readyState === 4) {
+                var data = JSON.parse(headerRequest.response);
+                var headerDiv = document.getElementById("header");
+                for (var i = 0; i < headerDiv.childElementCount; i++) {
+                    var child = headerDiv.children[i];
+                    if (child.id && child.id.length > 0) {
+                        var value = eval("data." + child.id);
+                        child.appendChild(document.createTextNode(value));
+                    }
+                }
+            }
+        }
+        function showItems() {
+            if (itemsRequest.status === 200 && itemsRequest.readyState === 4) {
+                var data = JSON.parse(itemsRequest.response);
+                var table = document.getElementById("items");
+                createTableHeader(data, table);
+                for (var i = 0; i < data.length; i++) {
+                    var obj = data[i];
+                    var row = document.createElement("tr");
+                    createRow(obj, row);
+                    table.appendChild(row);
+                }
+            }
+        }
+        function loadOrder() {
+            headerRequest = new XMLHttpRequest();
+            headerRequest.onreadystatechange = showHeader;
+            headerRequest.open("get", "showSalesOrder" + window.location.search, true);
+            headerRequest.send();
+
+            itemsRequest = new XMLHttpRequest();
+            itemsRequest.onreadystatechange = showItems;
+            itemsRequest.open("get", "showSalesOrderItems" + window.location.search, true);
+            itemsRequest.send();
+        }
+        function goToCreateItemPage() {
+            window.location.href = "/createSalesOrderItem.html" + window.location.search;
+        }
+    </script>
+</head>
+<body onload="loadOrder()">
+<div id="orders">
+    <div id="header">
+        ID: <span id="id"></span><br/>
+        Date: <span id="date"></span><br/>
+        Customer ID: <span id="customerInfo.id"></span><br/>
+        Total: <span id="total"></span><br/>
+    </div>
+    <a href="#" onclick="goToCreateItemPage();">Create Item</a>
+    <table style="width:100%" id="items">
+    </table>
+</div>
 </body>
 </html>

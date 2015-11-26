@@ -82,18 +82,16 @@ public class JDBCProductRepository implements ProductRepository {
     private ProductInfo buildProductInfo(ResultSet result) {
         ProductInfo info = new ProductInfo();
         try {
-            if (result.next()) {
-                while (result.next()) {
-                    info = new ProductInfo();
-                    info.id = result.getString("id");
-                    info.name = result.getString("name");
-                    info.description = result.getString("description");
-                    info.price = result.getDouble("price");
-                    info.unitsInStock = result.getInt("units_in_stock");
-                }
-            }
+            do {
+                info = new ProductInfo();
+                info.id = result.getString("id");
+                info.name = result.getString("name");
+                info.description = result.getString("description");
+                info.price = result.getDouble("price");
+                info.unitsInStock = result.getInt("units_in_stock");
+            } while (result.next());
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return info;
     }
@@ -103,10 +101,10 @@ public class JDBCProductRepository implements ProductRepository {
         ResultSet result;
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             result = stmt.executeQuery();
+            return buildProductInfos(result);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return buildProductInfos(result);
     }
 
     private ArrayList<ProductInfo> buildProductInfos(ResultSet result) {
