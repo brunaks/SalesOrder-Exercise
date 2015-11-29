@@ -5,6 +5,7 @@ import Interfaces.Persistence.SalesOrderRepository;
 import Interfaces.Receivers.CustomerReceiver;
 import Interfaces.Receivers.ProductReceiver;
 import Interfaces.Receivers.SalesOrderReceiver;
+import Persistence.JDBCCustomerRepository;
 import Persistence.JDBCProductRepository;
 import Persistence.JDBCSalesOrderRepository;
 import Routes.Customer.ListCustomersRoute;
@@ -35,7 +36,7 @@ public class Main {
         SalesOrderRepository salesOrderRepository = new JDBCSalesOrderRepository(productRepository);
         SalesOrderReceiver salesOrderReceiver = new FakeSalesOrderReceiver();
 
-        CustomerRepository customerRepository = new InMemoryCustomerRepository();
+        CustomerRepository customerRepository = new JDBCCustomerRepository();
         CustomerReceiver customerReceiver = new FakeCustomerReceiver();
 
         Spark.externalStaticFileLocation("resources/public");
