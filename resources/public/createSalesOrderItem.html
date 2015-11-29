@@ -36,14 +36,9 @@
 
         function showRequestStatus() {
             if (request.status === 200 && request.readyState === 4) {
-                var json = JSON.parse(request.response);
-                if (json.orderFailed == false) {
-                    document.getElementById("message").innerHTML = "Registration Successful";
-                }
-                else {
-                    document.getElementById("message").innerHTML = "Registration Failed. Please check your input and try again.";
-                }
-                window.location.href = "/salesOrder" + window.location.search;
+                document.location.href = "/showSalesOrder.html" + window.location.search;
+            }else{
+                alert("Registration Failed. Please check your input and try again.");
             }
         }
 
