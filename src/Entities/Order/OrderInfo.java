@@ -13,6 +13,7 @@ public abstract class OrderInfo {
 
     public static final String IN_PROCESS = "In Process";
     public static final String DELIVERED = "Delivered";
+    public static final String OPEN = "Open";
     public String id;
     public Date date;
     public String status;

@@ -34,7 +34,7 @@ public class ListSalesOrdersUseCase {
             summary.date = info.date;
             summary.status = info.status;
             summary.total = info.total;
-            summary.customerId = info.customerInfo.id;
+            summary.customerId = info.customerId;
             summaries.add(summary);
         }
         return summaries;

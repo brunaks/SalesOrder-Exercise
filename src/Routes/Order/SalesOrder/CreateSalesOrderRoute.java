@@ -59,8 +59,7 @@ public class CreateSalesOrderRoute implements Route {
         this.orderInfo = new SalesOrderInfo();
         orderInfo.id = this.id;
         orderInfo.date = this.order_date;
-        orderInfo.customerInfo = new CustomerInfo();
-        orderInfo.customerInfo.id = this.customerId;
+        orderInfo.customerId = this.customerId;
     }
 
     private void getRequestInfo(Request rq) {

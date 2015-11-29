@@ -56,8 +56,7 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
         info.id = result.getString("id");
         info.status = result.getString("status");
         info.date = result.getDate("order_date");
-        info.customerInfo = new CustomerInfo();
-        info.customerInfo.id = result.getString("customer_id");
+        info.customerId = result.getString("customerId");
         info.items = getItems(info.id);
         info.total = getTotal(info.id);
         return info;
@@ -115,7 +114,7 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, salesOrderInfo.id);
             stmt.setDate(2, new Date(salesOrderInfo.date.getTime()));
-            stmt.setString(3, salesOrderInfo.customerInfo.id);
+            stmt.setString(3, salesOrderInfo.customerId);
             stmt.execute();
         } catch (Exception e) {
             throw new RuntimeException(e);

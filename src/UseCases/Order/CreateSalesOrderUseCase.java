@@ -23,7 +23,6 @@ public class CreateSalesOrderUseCase {
     private CustomerRepository customerRepository;
     private SalesOrderRepository salesOrderRepository;
     private SalesOrderReceiver receiver;
-    private CustomerInfo customerInfo;
     private SalesOrderInfo salesOrderInfo;
 
     public CreateSalesOrderUseCase(String id, String customerId, SalesOrderRepository salesOrderRepository, CustomerRepository customerRepository, SalesOrderReceiver receiver, Date date) {
@@ -36,8 +35,7 @@ public class CreateSalesOrderUseCase {
     }
 
     private void addCustomer(String customerID) {
-        this.customerInfo = customerRepository.getCustomerById(customerID);
-        if (this.customerInfo == null) {
+        if (customerRepository.getCustomerById(customerID) == null) {
             receiver.createOrderFailed();
             receiver.clientDoesNotExist();
         }
@@ -53,10 +51,8 @@ public class CreateSalesOrderUseCase {
         this.salesOrderInfo = new SalesOrderInfo();
         this.salesOrderInfo.id = this.id;
         this.salesOrderInfo.date = this.date;
-        if (this.customerInfo != null) {
-            this.salesOrderInfo.customerInfo = this.customerInfo;
-        }
-        this.salesOrderInfo.status = SalesOrderInfo.IN_PROCESS;
+        this.salesOrderInfo.customerId = this.customerId;
+        this.salesOrderInfo.status = SalesOrderInfo.OPEN;
         return salesOrderInfo;
     }
 }
