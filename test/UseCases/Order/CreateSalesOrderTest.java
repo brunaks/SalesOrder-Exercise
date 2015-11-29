@@ -3,12 +3,16 @@ package UseCases.Order;
 import Entities.Customer.CustomerInfo;
 import Entities.Order.SalesOrderInfo;
 import Entities.Product.ProductInfo;
+import Interfaces.Receivers.CustomerReceiver;
 import TestDoubles.Persistence.InMemoryCustomerRepository;
 import TestDoubles.Persistence.InMemoryProductRepository;
 import TestDoubles.Persistence.InMemorySalesOrderRepository;
+import TestDoubles.Receiver.FakeCustomerReceiver;
 import TestDoubles.Receiver.FakeProductReceiver;
 import TestDoubles.Receiver.FakeSalesOrderReceiver;
+import UseCases.Customer.RegisterCustomerUseCase;
 import UseCases.Product.RegisterProductUseCase;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +33,7 @@ public class CreateSalesOrderTest {
     CreateSalesOrderUseCase createOrder;
     InMemoryProductRepository productRepository;
     InMemoryCustomerRepository customerRepository;
+    private CustomerReceiver customerReceiver;
 
     @Before
     public void setUp() throws Exception {
@@ -36,91 +41,29 @@ public class CreateSalesOrderTest {
         salesOrderRepository = new InMemorySalesOrderRepository();
         productRepository = new InMemoryProductRepository();
         customerRepository = new InMemoryCustomerRepository();
+        customerReceiver = new FakeCustomerReceiver();
     }
 
     @Test
-    public void canCreateOrderWithSuccess_OneProduct() {
+    public void canCreateOrderWithSuccess() {
         Date date = givenDate("01/01/2015");
         String id = UUID.randomUUID().toString();
-        createOrder = new CreateSalesOrderUseCase(id, salesOrderRepository, productRepository, customerRepository, receiver, date);
-        ProductInfo productInfo = givenProductInfo("Name", "Description", 10, 10);
-        createOrder.addProduct(productInfo.id, 1);
-        CustomerInfo customerInfo = givenCustomerInfo("Name", "99999999999", "99999999999", "Rua AAAA, 999, Bairro BBB, Cidade AAAA, CEP 99999999");
-        createOrder.addCustomer(customerInfo.id);
+        CustomerInfo customerInfo = givenCustomer();
+
+        createOrder = new CreateSalesOrderUseCase(id, customerInfo.id, salesOrderRepository, customerRepository, receiver, date);
         createOrder.execute();
-        Assert.assertFalse(receiver.orderFailed);
-        assertTotalEquals(10.0);
+
+        ReadSalesOrderUseCase readOrder = new ReadSalesOrderUseCase(salesOrderRepository);
+        SalesOrderInfo info = readOrder.withId(id);
+
+        Assert.assertNotNull(info);
     }
 
-
-    @Test
-    public void canCreateOrderWithSuccess_TwoProducts() {
-        Date date = givenDate("01/01/2015");
-        String id = UUID.randomUUID().toString();
-        createOrder = new CreateSalesOrderUseCase(id, salesOrderRepository, productRepository, customerRepository, receiver, date);
-        ProductInfo productInfo = givenProductInfo("Name1", "Description1", 10, 10);
-        ProductInfo productInfo2 = givenProductInfo("Name2", "Description2", 20, 20);
-        createOrder.addProduct(productInfo.id, 1);
-        createOrder.addProduct(productInfo2.id, 2);
+    private CustomerInfo givenCustomer() {
         CustomerInfo customerInfo = givenCustomerInfo("Name", "99999999999", "99999999999", "Rua AAAA, 999, Bairro BBB, Cidade AAAA, CEP 99999999");
-        createOrder.addCustomer(customerInfo.id);
-        Assert.assertFalse(receiver.orderFailed);
-        assertTotalEquals(50.0);
-    }
-
-    @Test
-    public void createOrderFailed_productIdDoesNotExist() {
-        Date date = givenDate("01/01/2015");
-        String id = UUID.randomUUID().toString();
-        createOrder = new CreateSalesOrderUseCase(id, salesOrderRepository, productRepository, customerRepository, receiver, date);
-        createOrder.addProduct(UUID.randomUUID().toString(), 1);
-        CustomerInfo customerInfo = givenCustomerInfo("Name", "99999999999", "99999999999", "Rua AAAA, 999, Bairro BBB, Cidade AAAA, CEP 99999999");
-        createOrder.addCustomer(customerInfo.id);
-        Assert.assertTrue(receiver.orderFailed);
-        Assert.assertTrue(receiver.productDoesNotExist);
-        Assert.assertFalse(receiver.customerDoesNotExist);
-        assertTotalEquals(0.0);
-    }
-
-
-    @Test
-    public void createOrderFailed_clientIdDoesNotExist() {
-        Date date = givenDate("01/01/2015");
-        String id = UUID.randomUUID().toString();
-        createOrder = new CreateSalesOrderUseCase(id, salesOrderRepository, productRepository, customerRepository, receiver, date);
-        ProductInfo productInfo = givenProductInfo("Name1", "Description1", 10, 10);
-        createOrder.addProduct(productInfo.id, 1);
-        createOrder.addCustomer(UUID.randomUUID().toString());
-        Assert.assertTrue(receiver.orderFailed);
-        Assert.assertTrue(receiver.customerDoesNotExist);
-        Assert.assertFalse(receiver.productDoesNotExist);
-        assertTotalEquals(0.0);
-    }
-
-    @Test
-    public void createOrderSuccessful_canRetrieveSalesOrder() {
-        Date date = givenDate("01/01/2015");
-        String id = UUID.randomUUID().toString();
-        createOrder = new CreateSalesOrderUseCase(id, salesOrderRepository, productRepository, customerRepository, receiver, date);
-        ProductInfo productInfo = givenProductInfo("Name1", "Description1", 10, 10);
-        createOrder.addProduct(productInfo.id, 1);
-        CustomerInfo customerInfo = givenCustomerInfo("Name", "99999999999", "99999999999", "Rua AAAA, 999, Bairro BBB, Cidade AAAA, CEP 99999999");
-        createOrder.addCustomer(customerInfo.id);
-        createOrder.execute();
-        Assert.assertFalse(receiver.orderFailed);
-        Assert.assertFalse(receiver.productDoesNotExist);
-        Assert.assertFalse(receiver.customerDoesNotExist);
-        assertTotalEquals(10.0);
-        ListSalesOrdersUseCase listSalesOrders = new ListSalesOrdersUseCase(salesOrderRepository);
-        List<SalesOrderInfo> salesOrderInfos = listSalesOrders.getAll();
-
-        Assert.assertEquals(id, salesOrderInfos.get(0).id);
-        Assert.assertEquals(date, salesOrderInfos.get(0).date);
-        Assert.assertEquals(SalesOrderInfo.IN_PROCESS, salesOrderInfos.get(0).status);
-    }
-
-    private void assertTotalEquals(Double expectedTotal) {
-        Assert.assertEquals(expectedTotal, createOrder.getTotal(), 0.01);
+        RegisterCustomerUseCase registerCustomer = new RegisterCustomerUseCase(customerRepository, customerReceiver, customerInfo);
+        registerCustomer.execute();
+        return customerInfo;
     }
 
     private CustomerInfo givenCustomerInfo(String name, String cpf, String telephoneNumber, String address) {

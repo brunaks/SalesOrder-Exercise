@@ -8,7 +8,6 @@ import Interfaces.Persistence.SalesOrderRepository;
 import Interfaces.Receivers.SalesOrderReceiver;
 import Routes.RequestObjects.SalesOrderRequest;
 import UseCases.Order.CreateSalesOrderUseCase;
-import UseCases.Product.RegisterProductUseCase;
 import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;
@@ -47,12 +46,11 @@ public class CreateSalesOrderRoute implements Route {
         createOrderInfo();
 
         createOrder = new CreateSalesOrderUseCase(orderInfo.id,
+                this.customerId,
                 repository,
-                productRepository,
                 customerRepository,
                 receiver,
                 this.order_date);
-        createOrder.addCustomer(this.customerId);
         createOrder.execute();
         return converter.toJson(receiver);
     }

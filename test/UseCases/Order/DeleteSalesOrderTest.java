@@ -66,21 +66,14 @@ public class DeleteSalesOrderTest {
     private SalesOrderInfo givenValidSalesOrder() {
         Date date = givenDate("01/01/2015");
         String id = UUID.randomUUID().toString();
-        createOrder = new CreateSalesOrderUseCase(id, salesOrderRepository, productRepository, customerRepository, receiver, date);
-        ProductInfo productInfo = givenProductInfo("Name", "Description", 10, 10);
-        createOrder.addProduct(productInfo.id, 1);
         CustomerInfo customerInfo = givenCustomerInfo("Name", "99999999999", "99999999999", "Rua AAAA, 999, Bairro BBB, Cidade AAAA, CEP 99999999");
-        createOrder.addCustomer(customerInfo.id);
+        customerRepository.saveCustomer(customerInfo);
+        createOrder = new CreateSalesOrderUseCase(id, customerInfo.id, salesOrderRepository, customerRepository, receiver, date);
         createOrder.execute();
         Assert.assertFalse(receiver.orderFailed);
-        assertTotalEquals(10.0);
         ListSalesOrdersUseCase listSalesOrdersUseCase = new ListSalesOrdersUseCase(salesOrderRepository);
         List<SalesOrderInfo> salesOrderInfos = listSalesOrdersUseCase.getAll();
         return salesOrderInfos.get(0);
-    }
-
-    private void assertTotalEquals(double expectedTotal) {
-        Assert.assertEquals(expectedTotal, createOrder.getTotal(), 0.01);
     }
 
     private ProductInfo givenProductInfo(String name, String description, int unitsInStock, int unitPrice) {

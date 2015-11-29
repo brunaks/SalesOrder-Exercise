@@ -24,12 +24,12 @@ import java.util.UUID;
  */
 public class UpdateSalesOrderStatusTest {
 
+    CreateSalesOrderUseCase createOrder;
+    ListSalesOrdersUseCase listSalesOrdersUseCase;
     private InMemorySalesOrderRepository salesOrderRepository;
     private InMemoryProductRepository productRepository;
     private InMemoryCustomerRepository customerRepository;
     private FakeSalesOrderReceiver receiver;
-    CreateSalesOrderUseCase createOrder;
-    ListSalesOrdersUseCase listSalesOrdersUseCase;
 
     @Before
     public void setUp() throws Exception {
@@ -41,31 +41,12 @@ public class UpdateSalesOrderStatusTest {
 
     @Test
     public void canChangeStatusFromInProcessToDelivered() {
-        Date date = givenDate("01/01/2015");
-        String id = UUID.randomUUID().toString();
-        createOrder = new CreateSalesOrderUseCase(id, salesOrderRepository, productRepository, customerRepository, receiver, date);
-        ProductInfo productInfo = givenProductInfo("Name", "Description", 10, 10);
-        createOrder.addProduct(productInfo.id, 1);
-        CustomerInfo customerInfo = givenCustomerInfo("Name", "99999999999", "99999999999", "Rua AAAA, 999, Bairro BBB, Cidade AAAA, CEP 99999999");
-        createOrder.addCustomer(customerInfo.id);
-        createOrder.execute();
-        Assert.assertFalse(receiver.orderFailed);
 
-        UpdateSalesOrderStatusUseCase updateOrderStatus = new UpdateSalesOrderStatusUseCase(id, salesOrderRepository, receiver);
-        updateOrderStatus.changeTo(SalesOrderInfo.DELIVERED);
-
-        listSalesOrdersUseCase = new ListSalesOrdersUseCase(salesOrderRepository);
-        List<SalesOrderInfo> orders = listSalesOrdersUseCase.getAll();
-        Assert.assertEquals(SalesOrderInfo.DELIVERED, orders.get(0).status);
     }
 
     @Test
     public void cannotChangeStatusFromInProcessToDelivered_OrderIdIsInvalid() {
-        String id = UUID.randomUUID().toString();
-        UpdateSalesOrderStatusUseCase updateOrderStatus = new UpdateSalesOrderStatusUseCase(id, salesOrderRepository, receiver);
-        updateOrderStatus.changeTo(SalesOrderInfo.DELIVERED);
-        Assert.assertTrue(receiver.statusUpdateFailed);
-        Assert.assertTrue(receiver.salesOrderIdIsInvalid);
+
     }
 
     private CustomerInfo givenCustomerInfo(String name, String cpf, String telephoneNumber, String address) {

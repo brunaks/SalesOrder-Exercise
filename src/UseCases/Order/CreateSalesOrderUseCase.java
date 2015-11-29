@@ -17,36 +17,25 @@ import java.util.Date;
  */
 public class CreateSalesOrderUseCase {
 
+    private final String customerId;
     private Date date;
     private String id;
     private CustomerRepository customerRepository;
     private SalesOrderRepository salesOrderRepository;
-    private ProductRepository productRepository;
     private SalesOrderReceiver receiver;
-    private ArrayList<OrderItem> items = new ArrayList<OrderItem>();
     private CustomerInfo customerInfo;
     private SalesOrderInfo salesOrderInfo;
 
-    public CreateSalesOrderUseCase(String id, SalesOrderRepository salesOrderRepository, ProductRepository productRepository, CustomerRepository customerRepository, SalesOrderReceiver receiver, Date date) {
+    public CreateSalesOrderUseCase(String id, String customerId, SalesOrderRepository salesOrderRepository, CustomerRepository customerRepository, SalesOrderReceiver receiver, Date date) {
         this.salesOrderRepository = salesOrderRepository;
-        this.productRepository = productRepository;
-        this.receiver = receiver;
         this.customerRepository = customerRepository;
+        this.receiver = receiver;
         this.id = id;
         this.date = date;
+        this.customerId = customerId;
     }
 
-    public void addProduct(String productInfoID, int quantity) {
-        ProductInfo productInfo = productRepository.getProductInfoById(productInfoID);
-        if (productInfo != null) {
-            items.add(new OrderItem(productInfo, quantity));
-        } else {
-            this.receiver.createOrderFailed();
-            this.receiver.productDoesNotExist();
-        }
-    }
-
-    public void addCustomer(String customerID) {
+    private void addCustomer(String customerID) {
         this.customerInfo = customerRepository.getCustomerById(customerID);
         if (this.customerInfo == null) {
             receiver.createOrderFailed();
@@ -54,21 +43,8 @@ public class CreateSalesOrderUseCase {
         }
     }
 
-    public double getTotal() {
-        return calculateTotalValueOfOrder();
-    }
-
-    private double calculateTotalValueOfOrder() {
-        Double total = 0.0;
-        if (this.customerInfo != null) {
-            for (OrderItem item : items) {
-                total += item.getProductInfo().price * item.getQuantity();
-            }
-        }
-        return total;
-    }
-
     public void execute() {
+        this.addCustomer(this.customerId);
         SalesOrderInfo salesOrderInfo = this.createSalesOrderInfoToSave();
         this.salesOrderRepository.save(salesOrderInfo);
     }
@@ -80,10 +56,6 @@ public class CreateSalesOrderUseCase {
         if (this.customerInfo != null) {
             this.salesOrderInfo.customerInfo = this.customerInfo;
         }
-        if (this.items != null) {
-            this.salesOrderInfo.items = this.items;
-        }
-        this.salesOrderInfo.total = this.getTotal();
         this.salesOrderInfo.status = SalesOrderInfo.IN_PROCESS;
         return salesOrderInfo;
     }
