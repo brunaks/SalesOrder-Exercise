@@ -1,6 +1,5 @@
 package Persistence;
 
-import Entities.Customer.CustomerInfo;
 import Entities.Order.OrderItem;
 import Entities.Order.SalesOrderInfo;
 import Entities.Product.ProductInfo;
@@ -43,8 +42,9 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
     private List<SalesOrderInfo> buildOrderInfos(ResultSet result) {
         ArrayList<SalesOrderInfo> infos = new ArrayList<>();
         try {
-            while (result.next())
+            do
                 infos.add(buildOrderInfo(result));
+            while (result.next());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -56,7 +56,7 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
         info.id = result.getString("id");
         info.status = result.getString("status");
         info.date = result.getDate("order_date");
-        info.customerId = result.getString("customerId");
+        info.customerId = result.getString("customer_id");
         info.items = getItems(info.id);
         info.total = getTotal(info.id);
         return info;
