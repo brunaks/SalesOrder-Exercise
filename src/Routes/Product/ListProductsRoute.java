@@ -1,4 +1,4 @@
-package Routes.ProductRoutes;
+package Routes.Product;
 
 import Interfaces.Persistence.ProductRepository;
 import UseCases.Product.ListProductsUseCase;

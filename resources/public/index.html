@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <style>
 
         body {
@@ -15,15 +16,20 @@
     </style>
 </head>
 <body>
+<div ui-view>
 <h1>What would you like to do?</h1>
 <ul>
 
-    <li><a href="/registerProduct.html">Register a Product</a></li>
-    <li><a href="/listProducts.html">See All Registered Products</a></li>
+    <li><a href="/registerProduct.html">Register Product</a></li>
+    <li><a href="/listProducts.html">List Products</a></li>
+
+    <li><a href="/registerCustomer.html">Register Customer</a></li>
+    <li><a href="/listCustomers.html">List Customers</a></li>
 
     <li><a href="/createSalesOrder.html">Create Sales Order</a></li>
-    <li><a href="/listSalesOrders.html">List Sales Order</a></li>
+    <li><a href="/listSalesOrders.html">List Sales Orders</a></li>
 
 </ul>
+</div>
 </body>
 </html>

@@ -4,6 +4,7 @@ import Entities.Customer.CustomerInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Bruna Koch Schmitt on 18/11/2015.
@@ -18,12 +19,22 @@ public class InMemoryCustomerRepository implements Interfaces.Persistence.Custom
     }
 
     @Override
-    public CustomerInfo getCustomerByID(String customerID) {
+    public CustomerInfo getCustomerById(String customerID) {
         for (CustomerInfo customer : this.customers) {
             if (customer.id.equals(customerID)) {
                 return customer;
             }
         }
         return null;
+    }
+
+    @Override
+    public List<CustomerInfo> getAll() {
+        return customers;
+    }
+
+    @Override
+    public String generateId() {
+        return UUID.randomUUID().toString();
     }
 }

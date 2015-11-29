@@ -1,4 +1,4 @@
-package Routes.ProductRoutes;
+package Routes.Product;
 
 import Entities.Product.ProductInfo;
 import Interfaces.Receivers.ProductReceiver;
@@ -15,9 +15,9 @@ import spark.Route;
  * Created by Bruna Koch Schmitt on 30/08/2015.
  */
 public class UpdateProductRoute implements Route {
+    Gson converter = new Gson();
     private ProductRepository repository;
     private ProductReceiver receiver;
-    Gson converter = new Gson();
     private String productId;
     private String name;
     private String description;

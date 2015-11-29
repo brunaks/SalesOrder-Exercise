@@ -1,4 +1,4 @@
-package Routes.ProductRoutes;
+package Routes.Product;
 
 import Interfaces.Receivers.ProductReceiver;
 import Interfaces.Persistence.ProductRepository;

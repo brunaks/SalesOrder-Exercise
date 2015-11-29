@@ -11,7 +11,6 @@ import Interfaces.Receivers.SalesOrderReceiver;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Bruna Koch Schmitt on 12/09/2015.
@@ -48,7 +47,7 @@ public class CreateSalesOrderUseCase {
     }
 
     public void addCustomer(String customerID) {
-        this.customerInfo = customerRepository.getCustomerByID(customerID);
+        this.customerInfo = customerRepository.getCustomerById(customerID);
         if (this.customerInfo == null) {
             receiver.createOrderFailed();
             receiver.clientDoesNotExist();

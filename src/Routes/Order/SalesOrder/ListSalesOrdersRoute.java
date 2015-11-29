@@ -1,4 +1,4 @@
-package Routes.Order;
+package Routes.Order.SalesOrder;
 
 import Interfaces.Persistence.SalesOrderRepository;
 import Interfaces.Receivers.SalesOrderReceiver;
