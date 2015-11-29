@@ -14,7 +14,6 @@ import Routes.Product.DeleteProductRoute;
 import Routes.Product.ListProductsRoute;
 import Routes.Product.RegisterProductRoute;
 import Routes.Product.UpdateProductRoute;
-import Routes.Order.SalesOrder.ShowSalesOrderRoute;
 import TestDoubles.Receiver.FakeCustomerReceiver;
 import TestDoubles.Receiver.FakeProductReceiver;
 import TestDoubles.Receiver.FakeSalesOrderReceiver;
@@ -46,7 +45,7 @@ public class Main {
 
         Spark.post("/createSalesOrder", new CreateSalesOrderRoute(salesOrderRepository, salesOrderReceiver, productRepository, customerRepository));
         Spark.get("/listSalesOrders", new ListSalesOrdersRoute(salesOrderRepository, salesOrderReceiver));
-        Spark.get("/showSalesOrder", new ShowSalesOrderRoute(salesOrderRepository));
+        Spark.get("/showSalesOrder", new DisplaySalesOrderRoute(salesOrderRepository));
         Spark.get("/showSalesOrderItems", new ShowSalesOrderItemsRoute(salesOrderRepository));
         Spark.post("/createSalesOrderItem", new CreateSalesOrderItemRoute(salesOrderRepository));
     }
