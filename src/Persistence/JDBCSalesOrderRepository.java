@@ -59,7 +59,21 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
         info.customerInfo = new CustomerInfo();
         info.customerInfo.id = result.getString("customer_id");
         info.items = getItems(info.id);
+        info.total = getTotal(info.id);
         return info;
+    }
+
+    private double getTotal(String id) {
+        String sql = "{? = call calculate_sales_order_total(?)}";
+        ResultSet result;
+        try (CallableStatement stmt = connection.prepareCall(sql)) {
+            stmt.registerOutParameter(1, oracle.jdbc.OracleTypes.NUMBER);
+            stmt.setString(2, id);
+            stmt.executeQuery();
+            return stmt.getDouble(1);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private ArrayList<OrderItem> getItems(String id) {

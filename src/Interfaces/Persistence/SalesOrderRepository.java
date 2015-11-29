@@ -14,6 +14,5 @@ public interface SalesOrderRepository {
     SalesOrderInfo getById(String id);
     void deleteWithId(String id);
     void updateStatus(String id, String newStatus);
-
     void createItem(CreateSalesOrderItemRequest createRequest);
 }
