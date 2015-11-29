@@ -59,6 +59,11 @@ public class CreateSalesOrderTest {
         Assert.assertNotNull(info);
     }
 
+    @Test
+    public void cannotCreateOrder_CustomerDoesNotExist() {
+        
+    }
+
     private CustomerInfo givenCustomer() {
         CustomerInfo customerInfo = givenCustomerInfo("Name", "99999999999", "99999999999", "Rua AAAA, 999, Bairro BBB, Cidade AAAA, CEP 99999999");
         RegisterCustomerUseCase registerCustomer = new RegisterCustomerUseCase(customerRepository, customerReceiver, customerInfo);
