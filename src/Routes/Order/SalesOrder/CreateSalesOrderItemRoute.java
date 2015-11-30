@@ -1,10 +1,12 @@
 package Routes.Order.SalesOrder;
 
 import Entities.Order.SalesOrderInfo;
+import Interfaces.Persistence.ProductRepository;
 import Interfaces.Persistence.SalesOrderRepository;
 import Interfaces.Receivers.SalesOrderReceiver;
 import Routes.RequestObjects.CreateSalesOrderItemRequest;
 import Routes.RequestObjects.SalesOrderSummary;
+import UseCases.Order.AddSalesOrderItemUseCase;
 import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;
@@ -14,17 +16,25 @@ import spark.Route;
  * Created by Bruna Koch Schmitt on 26/11/2015.
  */
 public class CreateSalesOrderItemRoute implements Route {
+    private SalesOrderReceiver receiver;
+    private ProductRepository productRepositoty;
     private SalesOrderRepository salesOrderRepository;
     private Gson converter = new Gson();
 
-    public CreateSalesOrderItemRoute(SalesOrderRepository salesOrderRepository) {
+    public CreateSalesOrderItemRoute(SalesOrderRepository salesOrderRepository, ProductRepository productRepository, SalesOrderReceiver receiver) {
         this.salesOrderRepository = salesOrderRepository;
+        this.productRepositoty = productRepository;
+        this.receiver = receiver;
     }
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
         CreateSalesOrderItemRequest createRequest = converter.fromJson(request.body(), CreateSalesOrderItemRequest.class);
-        salesOrderRepository.createItem(createRequest);
-        return converter.toJson(null);
+        AddSalesOrderItemUseCase addItem = new AddSalesOrderItemUseCase(createRequest.orderId,
+                salesOrderRepository,
+                productRepositoty,
+                receiver);
+        addItem.withProductIdAndQuantity(createRequest.productId, createRequest.quantity);
+        return converter.toJson(receiver);
     }
 }

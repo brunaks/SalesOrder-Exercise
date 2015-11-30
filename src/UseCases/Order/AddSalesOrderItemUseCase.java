@@ -31,11 +31,11 @@ public class AddSalesOrderItemUseCase {
             if (productInfo != null) {
                 if (!this.productWasAlreadyAddedAsItem(order, productId) &&
                         productInfo.unitsInStock >= quantity &&
-                        order.status.equals(SalesOrderInfo.OPEN)) {
+                        order.status.equalsIgnoreCase(SalesOrderInfo.OPEN)) {
                     OrderItem item = new OrderItem(productInfo, quantity);
                     order.total = order.total + productInfo.price * quantity;
                     order.items.add(item);
-                    this.repository.save(order);
+                    this.repository.addItem(order, item);
                     this.receiver.addItemWasSuccessful();
                 } else {
                     this.receiver.addItemFailed();

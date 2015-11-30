@@ -20,6 +20,11 @@
             color: #000000;
             background-color: #EAF2D3;
         }
+
+        #header.p {
+            padding: 150%;
+        }
+
     </style>
     <script>
         var headerRequest;
@@ -56,19 +61,25 @@
                 row.appendChild(data);
             }
         }
+
         function showHeader() {
             if (headerRequest.status === 200 && headerRequest.readyState === 4) {
                 var data = JSON.parse(headerRequest.response);
                 var headerDiv = document.getElementById("header");
-                for (var i = 0; i < headerDiv.childElementCount; i++) {
-                    var child = headerDiv.children[i];
-                    if (child.id && child.id.length > 0) {
-                        var value = eval("data." + child.id);
-                        child.appendChild(document.createTextNode(value));
-                    }
-                }
+                headerDiv.appendChild(document.createElement("p").appendChild(document.createTextNode("Order ID: " + data.id)));
+                headerDiv.appendChild(document.createElement("br"));
+                headerDiv.appendChild(document.createElement("p").appendChild(document.createTextNode("Customer ID: " + data.customerId)));
+                headerDiv.appendChild(document.createElement("br"));
+                headerDiv.appendChild(document.createElement("p").appendChild(document.createTextNode("Date: " + data.date)));
+                headerDiv.appendChild(document.createElement("br"));
+                headerDiv.appendChild(document.createElement("p").appendChild(document.createTextNode("Status: " + data.status)));
+                headerDiv.appendChild(document.createElement("br"));
+                headerDiv.appendChild(document.createElement("p").appendChild(document.createTextNode("Total: " + data.total)));
+                headerDiv.appendChild(document.createElement("br"));
+                styleHeader();
             }
         }
+
         function showItems() {
             if (itemsRequest.status === 200 && itemsRequest.readyState === 4) {
                 var data = JSON.parse(itemsRequest.response);
@@ -101,10 +112,6 @@
 <body onload="loadOrder()">
 <div id="orders">
     <div id="header">
-        ID: <span id="id"></span><br/>
-        Date: <span id="date"></span><br/>
-        Customer ID: <span id="customerInfo.id"></span><br/>
-        Total: <span id="total"></span><br/>
     </div>
     <a href="#" onclick="goToCreateItemPage();">Create Item</a>
     <table style="width:100%" id="items">

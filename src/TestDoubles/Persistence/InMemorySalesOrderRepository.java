@@ -1,5 +1,6 @@
 package TestDoubles.Persistence;
 
+import Entities.Order.OrderItem;
 import Entities.Order.SalesOrderInfo;
 import Interfaces.Persistence.SalesOrderRepository;
 import Routes.RequestObjects.CreateSalesOrderItemRequest;
@@ -53,5 +54,12 @@ public class InMemorySalesOrderRepository implements SalesOrderRepository {
     @Override
     public void createItem(CreateSalesOrderItemRequest createRequest) {
 
+    }
+
+    @Override
+    public void addItem(SalesOrderInfo order, OrderItem item) {
+        SalesOrderInfo info = getById(order.id);
+        this.salesOrders.remove(info);
+        this.salesOrders.add(order);
     }
 }

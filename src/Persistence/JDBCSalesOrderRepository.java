@@ -163,4 +163,20 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void addItem(SalesOrderInfo order, OrderItem item) {
+        String sql = "insert into items_sales_order " +
+                "(order_id, product_id, quantity)" +
+                " values (?,?,?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ProductInfo productInfo = productRepository.getProductInfoById(item.productInfo.id);
+            stmt.setString(1, order.id);
+            stmt.setString(2, productInfo.id);
+            stmt.setDouble(3, item.quantity);
+            stmt.execute();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

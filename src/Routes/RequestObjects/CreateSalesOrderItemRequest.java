@@ -7,5 +7,5 @@ public class CreateSalesOrderItemRequest {
     public String orderId;
     public String productName;
     public String productId;
-    public double quantity;
+    public int quantity;
 }

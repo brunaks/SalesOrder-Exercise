@@ -1,5 +1,6 @@
 package Interfaces.Persistence;
 
+import Entities.Order.OrderItem;
 import Entities.Order.SalesOrderInfo;
 import Routes.RequestObjects.CreateSalesOrderItemRequest;
 
@@ -15,4 +16,6 @@ public interface SalesOrderRepository {
     void deleteWithId(String id);
     void updateStatus(String id, String newStatus);
     void createItem(CreateSalesOrderItemRequest createRequest);
+
+    void addItem(SalesOrderInfo order, OrderItem item);
 }
