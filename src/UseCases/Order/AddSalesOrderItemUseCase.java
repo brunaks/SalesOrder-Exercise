@@ -5,20 +5,23 @@ import Entities.Order.SalesOrderInfo;
 import Entities.Product.ProductInfo;
 import Interfaces.Persistence.ProductRepository;
 import Interfaces.Persistence.SalesOrderRepository;
+import Interfaces.Receivers.SalesOrderReceiver;
 
 /**
  * Created by Bruna Koch Schmitt on 30/11/2015.
  */
 public class AddSalesOrderItemUseCase {
 
+    private SalesOrderReceiver receiver;
     private ProductRepository productRepository;
     private SalesOrderRepository repository;
     private String orderId;
 
-    public AddSalesOrderItemUseCase(String orderId, SalesOrderRepository salesRepository, ProductRepository productRepository) {
+    public AddSalesOrderItemUseCase(String orderId, SalesOrderRepository salesRepository, ProductRepository productRepository, SalesOrderReceiver orderReceiver) {
         this.orderId = orderId;
         this.repository = salesRepository;
         this.productRepository = productRepository;
+        this.receiver = orderReceiver;
     }
 
     public void withProductIdAndQuantity(String productId, int quantity) {
@@ -26,17 +29,35 @@ public class AddSalesOrderItemUseCase {
         if (order != null) {
             ProductInfo productInfo = this.productRepository.getProductInfoById(productId);
             if (productInfo != null) {
-                OrderItem item = new OrderItem(productInfo, quantity);
-                order.total = order.total + productInfo.price * quantity;
-                order.items.add(item);
-                this.repository.save(order);
+                if (!this.productWasAlreadyAddedAsItem(order, productId)) {
+                    OrderItem item = new OrderItem(productInfo, quantity);
+                    order.total = order.total + productInfo.price * quantity;
+                    order.items.add(item);
+                    this.repository.save(order);
+                    this.receiver.addItemWasSuccessful();
+                } else {
+                    this.receiver.addItemFailed();
+                }
+            } else {
+                this.receiver.addItemFailed();
+            }
+        } else {
+            this.receiver.addItemFailed();
+        }
+    }
+
+    private boolean productWasAlreadyAddedAsItem(SalesOrderInfo order, String productId) {
+        for (OrderItem item : order.items) {
+            if (item.productInfo.id.equals(productId)) {
+                return true;
             }
         }
+        return false;
     }
 
     public void closeOrder() {
         SalesOrderInfo order = this.repository.getById(this.orderId);
-        if (order != null) {
+        if (order != null && order.items.size() > 0) {
             order.status = SalesOrderInfo.IN_PROCESS;
             this.repository.save(order);
         }

@@ -8,17 +8,11 @@ import Interfaces.Receivers.SalesOrderReceiver;
 public class FakeSalesOrderReceiver implements SalesOrderReceiver {
 
     public boolean createOrderFailed = false;
-    public boolean productDoesNotExist = false;
     public boolean customerDoesNotExist = false;
     public boolean salesOrderIdIsInvalid = false;
     public boolean deleteFailed = false;
     public boolean statusUpdateFailed = false;
     public boolean addItemFailed = false;
-
-    @Override
-    public void productDoesNotExist() {
-        this.productDoesNotExist = true;
-    }
 
     @Override
     public void createOrderFailed() {
@@ -43,5 +37,15 @@ public class FakeSalesOrderReceiver implements SalesOrderReceiver {
     @Override
     public void updateStatusFailed() {
         this.statusUpdateFailed = true;
+    }
+
+    @Override
+    public void addItemFailed() {
+        this.addItemFailed = true;
+    }
+
+    @Override
+    public void addItemWasSuccessful() {
+        this.addItemFailed = false;
     }
 }
