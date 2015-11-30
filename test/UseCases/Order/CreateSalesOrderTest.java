@@ -12,7 +12,6 @@ import TestDoubles.Receiver.FakeProductReceiver;
 import TestDoubles.Receiver.FakeSalesOrderReceiver;
 import UseCases.Customer.RegisterCustomerUseCase;
 import UseCases.Product.RegisterProductUseCase;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +19,6 @@ import org.junit.Test;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -57,11 +55,33 @@ public class CreateSalesOrderTest {
         SalesOrderInfo info = readOrder.withId(id);
 
         Assert.assertNotNull(info);
+        Assert.assertEquals(id, info.id);
+        Assert.assertEquals(date, info.date);
+        Assert.assertEquals(customerInfo.id, info.customerId);
+        Assert.assertEquals(SalesOrderInfo.OPEN, info.status);
+        Assert.assertEquals(0.0, info.total, 0.01);
+        Assert.assertEquals(0, info.items.size());
+        Assert.assertFalse(this.receiver.createOrderFailed);
+        Assert.assertFalse(this.receiver.salesOrderIdIsInvalid);
+        Assert.assertFalse(this.receiver.customerDoesNotExist);
     }
 
     @Test
     public void cannotCreateOrder_CustomerDoesNotExist() {
-        
+        Date date = givenDate("01/01/2015");
+        String id = UUID.randomUUID().toString();
+        String customerId = UUID.randomUUID().toString();
+
+        createOrder = new CreateSalesOrderUseCase(id, customerId, salesOrderRepository, customerRepository, receiver, date);
+        createOrder.execute();
+
+        ReadSalesOrderUseCase readOrder = new ReadSalesOrderUseCase(salesOrderRepository);
+        SalesOrderInfo info = readOrder.withId(id);
+
+        Assert.assertNull(info);
+        Assert.assertTrue(this.receiver.createOrderFailed);
+        Assert.assertFalse(this.receiver.salesOrderIdIsInvalid);
+        Assert.assertTrue(this.receiver.customerDoesNotExist);
     }
 
     private CustomerInfo givenCustomer() {

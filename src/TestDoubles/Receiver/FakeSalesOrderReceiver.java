@@ -7,12 +7,13 @@ import Interfaces.Receivers.SalesOrderReceiver;
  */
 public class FakeSalesOrderReceiver implements SalesOrderReceiver {
 
-    public boolean orderFailed = false;
+    public boolean createOrderFailed = false;
     public boolean productDoesNotExist = false;
     public boolean customerDoesNotExist = false;
     public boolean salesOrderIdIsInvalid = false;
     public boolean deleteFailed = false;
     public boolean statusUpdateFailed = false;
+    public boolean addItemFailed = false;
 
     @Override
     public void productDoesNotExist() {
@@ -21,11 +22,11 @@ public class FakeSalesOrderReceiver implements SalesOrderReceiver {
 
     @Override
     public void createOrderFailed() {
-        this.orderFailed = true;
+        this.createOrderFailed = true;
     }
 
     @Override
-    public void clientDoesNotExist() {
+    public void customerDoesNotExist() {
         this.customerDoesNotExist = true;
     }
 

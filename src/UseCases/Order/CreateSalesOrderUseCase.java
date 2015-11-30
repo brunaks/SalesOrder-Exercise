@@ -1,15 +1,10 @@
 package UseCases.Order;
 
-import Entities.Customer.CustomerInfo;
 import Entities.Order.SalesOrderInfo;
-import Entities.Order.OrderItem;
-import Entities.Product.ProductInfo;
 import Interfaces.Persistence.CustomerRepository;
-import Interfaces.Persistence.ProductRepository;
 import Interfaces.Persistence.SalesOrderRepository;
 import Interfaces.Receivers.SalesOrderReceiver;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -17,7 +12,7 @@ import java.util.Date;
  */
 public class CreateSalesOrderUseCase {
 
-    private final String customerId;
+    private String customerId;
     private Date date;
     private String id;
     private CustomerRepository customerRepository;
@@ -34,17 +29,14 @@ public class CreateSalesOrderUseCase {
         this.customerId = customerId;
     }
 
-    private void addCustomer(String customerID) {
-        if (customerRepository.getCustomerById(customerID) == null) {
-            receiver.createOrderFailed();
-            receiver.clientDoesNotExist();
-        }
-    }
-
     public void execute() {
-        this.addCustomer(this.customerId);
-        SalesOrderInfo salesOrderInfo = this.createSalesOrderInfoToSave();
-        this.salesOrderRepository.save(salesOrderInfo);
+        if (customerRepository.getCustomerById(customerId) == null) {
+            receiver.createOrderFailed();
+            receiver.customerDoesNotExist();
+        } else {
+            SalesOrderInfo salesOrderInfo = this.createSalesOrderInfoToSave();
+            this.salesOrderRepository.save(salesOrderInfo);
+        }
     }
 
     private SalesOrderInfo createSalesOrderInfoToSave() {

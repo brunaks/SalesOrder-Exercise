@@ -24,6 +24,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Maven: com.oracle:ojdbc6:1.0" level="project" />
     <orderEntry type="library" name="Maven: com.sparkjava:spark-core:2.2" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.7.7" level="project" />

@@ -17,6 +17,6 @@ public abstract class OrderInfo {
     public String id;
     public Date date;
     public String status;
-    public ArrayList<OrderItem> items;
+    public ArrayList<OrderItem> items = new ArrayList<>();
     public double total;
 }

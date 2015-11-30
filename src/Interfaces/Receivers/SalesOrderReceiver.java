@@ -6,7 +6,8 @@ package Interfaces.Receivers;
 public interface SalesOrderReceiver {
     void productDoesNotExist();
     void createOrderFailed();
-    void clientDoesNotExist();
+
+    void customerDoesNotExist();
     void salesOrderIdIsInvalid();
     void deleteFailed();
     void updateStatusFailed();

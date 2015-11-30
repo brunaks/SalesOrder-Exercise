@@ -21,7 +21,13 @@ public class InMemorySalesOrderRepository implements SalesOrderRepository {
 
     @Override
     public void save(SalesOrderInfo salesOrderInfo) {
-        this.salesOrders.add(salesOrderInfo);
+        if (getById(salesOrderInfo.id) == null) {
+            this.salesOrders.add(salesOrderInfo);
+        } else {
+            SalesOrderInfo info = getById(salesOrderInfo.id);
+            this.salesOrders.remove(info);
+            this.salesOrders.add(salesOrderInfo);
+        }
     }
 
     @Override

@@ -70,7 +70,7 @@ public class DeleteSalesOrderTest {
         customerRepository.saveCustomer(customerInfo);
         createOrder = new CreateSalesOrderUseCase(id, customerInfo.id, salesOrderRepository, customerRepository, receiver, date);
         createOrder.execute();
-        Assert.assertFalse(receiver.orderFailed);
+        Assert.assertFalse(receiver.createOrderFailed);
         ListSalesOrdersUseCase listSalesOrdersUseCase = new ListSalesOrdersUseCase(salesOrderRepository);
         List<SalesOrderInfo> salesOrderInfos = listSalesOrdersUseCase.getAll();
         return salesOrderInfos.get(0);
