@@ -6,9 +6,6 @@ import Entities.Product.ProductInfo;
 import Interfaces.Persistence.CustomerRepository;
 import Interfaces.Persistence.ProductRepository;
 import Interfaces.Persistence.SalesOrderRepository;
-import Interfaces.Receivers.CustomerReceiver;
-import Interfaces.Receivers.ProductReceiver;
-import Interfaces.Receivers.SalesOrderReceiver;
 import TestDoubles.Persistence.InMemoryCustomerRepository;
 import TestDoubles.Persistence.InMemoryProductRepository;
 import TestDoubles.Persistence.InMemorySalesOrderRepository;
@@ -17,7 +14,6 @@ import TestDoubles.Receiver.FakeProductReceiver;
 import TestDoubles.Receiver.FakeSalesOrderReceiver;
 import UseCases.Customer.RegisterCustomerUseCase;
 import UseCases.Product.RegisterProductUseCase;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,7 +63,7 @@ public class createSalesOrderItemTest {
         registerProduct.execute();
 
         addItem.withProductIdAndQuantity(productInfo.id, 5);
-        addItem.closeOrder();
+        addItem.setOrderToProcessing();
 
         ReadSalesOrderUseCase readOrder = new ReadSalesOrderUseCase(salesRepository);
         SalesOrderInfo info = readOrder.withId(orderId);
@@ -106,7 +102,7 @@ public class createSalesOrderItemTest {
 
         addItem.withProductIdAndQuantity(productInfo.id, 5);
         addItem.withProductIdAndQuantity(productInfo2.id, 5);
-        addItem.closeOrder();
+        addItem.setOrderToProcessing();
 
         ReadSalesOrderUseCase readOrder = new ReadSalesOrderUseCase(salesRepository);
         SalesOrderInfo info = readOrder.withId(orderId);
@@ -135,7 +131,7 @@ public class createSalesOrderItemTest {
 
         this.addItem = new AddSalesOrderItemUseCase(orderId, salesRepository, productRepository, orderReceiver);
         addItem.withProductIdAndQuantity(UUID.randomUUID().toString(), 5);
-        addItem.closeOrder();
+        addItem.setOrderToProcessing();
 
         ReadSalesOrderUseCase readOrder = new ReadSalesOrderUseCase(salesRepository);
         SalesOrderInfo info = readOrder.withId(orderId);
@@ -162,7 +158,7 @@ public class createSalesOrderItemTest {
 
         this.addItem = new AddSalesOrderItemUseCase(orderId, salesRepository, productRepository, orderReceiver);
         addItem.withProductIdAndQuantity(productInfo.id, 5);
-        addItem.closeOrder();
+        addItem.setOrderToProcessing();
 
         ReadSalesOrderUseCase readOrder = new ReadSalesOrderUseCase(salesRepository);
         SalesOrderInfo info = readOrder.withId(orderId);
@@ -190,7 +186,7 @@ public class createSalesOrderItemTest {
         Assert.assertFalse(this.orderReceiver.addItemFailed);
         addItem.withProductIdAndQuantity(productInfo.id, 5);
         Assert.assertTrue(this.orderReceiver.addItemFailed);
-        addItem.closeOrder();
+        addItem.setOrderToProcessing();
 
         ReadSalesOrderUseCase readOrder = new ReadSalesOrderUseCase(salesRepository);
         SalesOrderInfo info = readOrder.withId(orderId);
@@ -207,12 +203,79 @@ public class createSalesOrderItemTest {
         Assert.assertFalse(this.orderReceiver.customerDoesNotExist);
     }
 
+    @Test
     public void cannotAddItemWithNoSufficientUnitsInStock() {
+        String orderId = UUID.randomUUID().toString();
+        Date date = givenDate("01/01/2015");
+        CustomerInfo customerInfo = givenCustomer();
 
+        createOrder = new CreateSalesOrderUseCase(orderId, customerInfo.id, salesRepository, customerRepository, orderReceiver, date);
+        createOrder.execute();
+
+        this.addItem = new AddSalesOrderItemUseCase(orderId, salesRepository, productRepository, orderReceiver);
+
+        ProductInfo productInfo = givenProductInfo("Name", "Description", 20.0, 10);
+        RegisterProductUseCase registerProduct = new RegisterProductUseCase(productReceiver, productInfo, productRepository);
+        registerProduct.execute();
+
+        addItem.withProductIdAndQuantity(productInfo.id, 15);
+        Assert.assertTrue(this.orderReceiver.addItemFailed);
+        addItem.setOrderToProcessing();
+
+        ReadSalesOrderUseCase readOrder = new ReadSalesOrderUseCase(salesRepository);
+        SalesOrderInfo info = readOrder.withId(orderId);
+
+        Assert.assertNotNull(info);
+        Assert.assertEquals(orderId, info.id);
+        Assert.assertEquals(date, info.date);
+        Assert.assertEquals(customerInfo.id, info.customerId);
+        Assert.assertEquals(SalesOrderInfo.OPEN, info.status);
+        Assert.assertEquals(0.0, info.total, 0.01);
+        Assert.assertEquals(0, info.items.size());
+        Assert.assertFalse(this.orderReceiver.createOrderFailed);
+        Assert.assertFalse(this.orderReceiver.salesOrderIdIsInvalid);
+        Assert.assertFalse(this.orderReceiver.customerDoesNotExist);
     }
 
+    @Test
     public void cannotAddItemToOrderWithStatusDifferentFromOpen() {
+        String orderId = UUID.randomUUID().toString();
+        Date date = givenDate("01/01/2015");
+        CustomerInfo customerInfo = givenCustomer();
 
+        createOrder = new CreateSalesOrderUseCase(orderId, customerInfo.id, salesRepository, customerRepository, orderReceiver, date);
+        createOrder.execute();
+
+        this.addItem = new AddSalesOrderItemUseCase(orderId, salesRepository, productRepository, orderReceiver);
+
+        ProductInfo productInfo = givenProductInfo("Name", "Description", 20.0, 10);
+        RegisterProductUseCase registerProduct = new RegisterProductUseCase(productReceiver, productInfo, productRepository);
+        registerProduct.execute();
+
+        ProductInfo productInfo2 = givenProductInfo("Name2", "Description2", 30.0, 10);
+        RegisterProductUseCase registerProduct2 = new RegisterProductUseCase(productReceiver, productInfo2, productRepository);
+        registerProduct2.execute();
+
+        addItem.withProductIdAndQuantity(productInfo.id, 5);
+        Assert.assertFalse(this.orderReceiver.addItemFailed);
+        addItem.setOrderToProcessing();
+
+        addItem.withProductIdAndQuantity(productInfo2.id, 8);
+        Assert.assertTrue(this.orderReceiver.addItemFailed);
+
+        ReadSalesOrderUseCase readOrder = new ReadSalesOrderUseCase(salesRepository);
+        SalesOrderInfo info = readOrder.withId(orderId);
+
+        Assert.assertNotNull(info);
+        Assert.assertEquals(orderId, info.id);
+        Assert.assertEquals(date, info.date);
+        Assert.assertEquals(customerInfo.id, info.customerId);
+        Assert.assertEquals(SalesOrderInfo.IN_PROCESS, info.status);
+        Assert.assertEquals((20.0 * 5), info.total, 0.01);
+        Assert.assertEquals(1, info.items.size());
+        Assert.assertFalse(this.orderReceiver.createOrderFailed);
+        Assert.assertFalse(this.orderReceiver.salesOrderIdIsInvalid);
+        Assert.assertFalse(this.orderReceiver.customerDoesNotExist);
     }
 
     private ProductInfo givenProductInfo(String name, String description, double price, int unitsIsStock) {

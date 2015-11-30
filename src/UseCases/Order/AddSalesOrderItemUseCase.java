@@ -29,7 +29,9 @@ public class AddSalesOrderItemUseCase {
         if (order != null) {
             ProductInfo productInfo = this.productRepository.getProductInfoById(productId);
             if (productInfo != null) {
-                if (!this.productWasAlreadyAddedAsItem(order, productId)) {
+                if (!this.productWasAlreadyAddedAsItem(order, productId) &&
+                        productInfo.unitsInStock >= quantity &&
+                        order.status.equals(SalesOrderInfo.OPEN)) {
                     OrderItem item = new OrderItem(productInfo, quantity);
                     order.total = order.total + productInfo.price * quantity;
                     order.items.add(item);
@@ -55,7 +57,7 @@ public class AddSalesOrderItemUseCase {
         return false;
     }
 
-    public void closeOrder() {
+    public void setOrderToProcessing() {
         SalesOrderInfo order = this.repository.getById(this.orderId);
         if (order != null && order.items.size() > 0) {
             order.status = SalesOrderInfo.IN_PROCESS;
