@@ -76,6 +76,10 @@
                 headerDiv.appendChild(document.createElement("br"));
                 headerDiv.appendChild(document.createElement("p").appendChild(document.createTextNode("Total: " + data.total)));
                 headerDiv.appendChild(document.createElement("br"));
+                var changeStatusLink = document.createElement("a");
+                changeStatusLink.setAttribute("href", "/updateSalesOrderStatus.html?orderId=" + data.id);
+                changeStatusLink.appendChild(document.createTextNode("Change Status"));
+                headerDiv.appendChild(changeStatusLink);
                 styleHeader();
             }
         }

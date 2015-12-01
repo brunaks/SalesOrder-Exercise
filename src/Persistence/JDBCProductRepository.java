@@ -25,16 +25,14 @@ public class JDBCProductRepository implements ProductRepository {
     }
 
     private void update(ProductInfo product) {
-        String sql = "update product set " +
-                "name = ?, description = ?, price = ?, units_in_stock = ?" +
-                "where id = ?";
+        String sql = "BEGIN create_sales_order (?, ?, ?, ?, ?); end;";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, product.name);
-            stmt.setString(2, product.description);
-            stmt.setDouble(3, product.price);
-            stmt.setInt(4, product.unitsInStock);
-            stmt.setString(5, product.id);
+            stmt.setString(1, product.id);
+            stmt.setString(2, product.name);
+            stmt.setString(3, product.description);
+            stmt.setDouble(4, product.price);
+            stmt.setInt(5, product.unitsInStock);
 
             stmt.execute();
             stmt.close();

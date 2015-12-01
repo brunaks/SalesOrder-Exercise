@@ -48,5 +48,8 @@ public class Main {
         Spark.get("/showSalesOrder", new DisplaySalesOrderRoute(salesOrderRepository));
         Spark.get("/showSalesOrderItems", new ShowSalesOrderItemsRoute(salesOrderRepository));
         Spark.post("/createSalesOrderItem", new CreateSalesOrderItemRoute(salesOrderRepository, productRepository, salesOrderReceiver));
+
+        Spark.post("/updateSalesOrderStatus", new UpdateSalesOrderStatusRoute(salesOrderRepository, salesOrderReceiver, productRepository));
+
     }
 }

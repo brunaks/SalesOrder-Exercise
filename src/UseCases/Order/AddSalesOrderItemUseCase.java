@@ -61,7 +61,9 @@ public class AddSalesOrderItemUseCase {
         SalesOrderInfo order = this.repository.getById(this.orderId);
         if (order != null && order.items.size() > 0) {
             order.status = SalesOrderInfo.IN_PROCESS;
-            this.repository.save(order);
+            //this.repository.save(order);
+            UpdateSalesOrderStatusUseCase updateStatus = new UpdateSalesOrderStatusUseCase(order.id, this.repository, this.receiver);
+            updateStatus.changeTo(SalesOrderInfo.IN_PROCESS);
         }
     }
 }
