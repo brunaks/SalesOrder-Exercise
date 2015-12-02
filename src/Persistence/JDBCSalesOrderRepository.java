@@ -53,8 +53,8 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
 
     private SalesOrderInfo buildOrderInfo(ResultSet result) throws SQLException {
         SalesOrderInfo info = new SalesOrderInfo();
-        info.id = result.getString("id");
-        info.status = result.getString("status");
+        info.id = result.getString("order_id");
+        info.status = result.getString("order_status");
         info.date = result.getDate("order_date");
         info.customerId = result.getString("customer_id");
         info.items = getItems(info.id);
@@ -123,7 +123,7 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
 
     @Override
     public SalesOrderInfo getById(String id) {
-        String sql = "select * from sales_order where id = ?";
+        String sql = "select * from sales_order where order_id = ?";
         ResultSet result;
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, id);
@@ -140,12 +140,17 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
 
     @Override
     public void deleteWithId(String id) {
-
     }
 
     @Override
     public void updateStatus(String id, String newStatus) {
-
+        String sql = "BEGIN set_sales_order_to_in_process (?); end;";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, id);
+            stmt.execute();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

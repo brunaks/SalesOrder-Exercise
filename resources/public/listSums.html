@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        table {
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid green;
+        }
+
+        th {
+            background-color: #A7C942;
+            color: #ffffff;
+            text-transform: capitalize;
+        }
+
+        td {
+            color: #000000;
+            background-color: #EAF2D3;
+        }
+
+    </style>
+
+    <script>
+        var request;
+        var totalRequest;
+
+        function createTableHeader(json, table) {
+            var headerRow = document.createElement("tr");
+            var obj = json[0];
+            for (var key in obj) {
+                var header = document.createElement("th");
+                header.setAttribute("class", key);
+                var headerText = document.createTextNode(key);
+                header.appendChild(headerText);
+                headerRow.appendChild(header);
+            }
+            table.appendChild(headerRow);
+        }
+
+        function createRow(obj, row) {
+            for (var key in obj) {
+                var eachValueInRow = obj[key];
+                var data = document.createElement("td");
+                data.setAttribute("class", key);
+                var text = document.createTextNode(eachValueInRow);
+                data.appendChild(text);
+                row.appendChild(data);
+            }
+        }
+
+        function showList() {
+            if (request.status === 200 && request.readyState === 4) {
+                var table = document.getElementById("table_receive");
+                var json = JSON.parse(request.response);
+                createTableHeader(json, table);
+                for (var i = 0; i < json.length; i++) {
+                    var obj = json[i];
+                    var row = document.createElement("tr");
+                    createRow(obj, row);
+                    table.appendChild(row);
+                }
+            }
+        }
+
+        function showTotal() {
+            if (totalRequest.status === 200 && totalRequest.readyState === 4) {
+                var total = document.getElementById("total_receive");
+                var json = JSON.parse(totalRequest.response);
+                total.appendChild(document.createTextNode(" R$" + json.totalToReceive));
+            }
+        }
+
+        function load() {
+            request = new XMLHttpRequest();
+            request.onreadystatechange = showList;
+            request.open("get", "listSumsToReceive", true);
+            request.send();
+
+            totalRequest = new XMLHttpRequest();
+            totalRequest.onreadystatechange = showTotal;
+            totalRequest.open("get", "getTotalToReceive", true);
+            totalRequest.send();
+
+            payRequest = new XMLHttpRequest();
+            payRequest.onreadystatechange = showListPay;
+            payRequest.open("get", "listSumsToPay", true);
+            payRequest.send();
+
+            totalPayRequest = new XMLHttpRequest();
+            totalPayRequest.onreadystatechange = showTotalPay;
+            totalPayRequest.open("get", "getTotalToPay", true);
+            totalPayRequest.send();
+        }
+        //-------------------------------------------------------
+        var payRequest;
+        var totalPayRequest;
+
+        function createTableHeaderPay(json, table) {
+            var headerRow = document.createElement("tr");
+            var obj = json[0];
+            for (var key in obj) {
+                var header = document.createElement("th");
+                header.setAttribute("class", key);
+                var headerText = document.createTextNode(key);
+                header.appendChild(headerText);
+                headerRow.appendChild(header);
+            }
+            table.appendChild(headerRow);
+        }
+
+        function createRowPay(obj, row) {
+            for (var key in obj) {
+                var eachValueInRow = obj[key];
+                var data = document.createElement("td");
+                data.setAttribute("class", key);
+                var text = document.createTextNode(eachValueInRow);
+                data.appendChild(text);
+                row.appendChild(data);
+            }
+        }
+
+        function showListPay() {
+            if (payRequest.status === 200 && payRequest.readyState === 4) {
+                var table = document.getElementById("total_pay");
+                var json = JSON.parse(payRequest.response);
+                createTableHeader(json, table);
+                for (var i = 0; i < json.length; i++) {
+                    var obj = json[i];
+                    var row = document.createElement("tr");
+                    createRow(obj, row);
+                    table.appendChild(row);
+                }
+            }
+        }
+
+        function showTotalPay() {
+            if (totalPayRequest.status === 200 && totalPayRequest.readyState === 4) {
+                var total = document.getElementById("totalPay");
+                var json = JSON.parse(totalPayRequest.response);
+                total.appendChild(document.createTextNode(" R$" + json.totalToPay));
+            }
+        }
+
+
+    </script>
+</head>
+<body onload="load()">
+<div id="sums">
+    <p>Sums to receive: </p>
+    <table style="width:100%" id="table_receive">
+    </table>
+
+    <p id="total_receive">Total to receive:</p>
+    <hr>
+    <p>Sums to pay: </p>
+    <table style="width:100%" id="table_pay">
+    </table>
+
+    <p id="total_pay">Total to pay:</p>
+</div>
+</body>
+</html>

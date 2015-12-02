@@ -36,6 +36,7 @@ public class UpdateSalesOrderStatusRoute implements Route {
                     this.repository,
                     this.productRepository,
                     this.receiver);
+            addItem.setOrderToProcessing();
         } else {
             UpdateSalesOrderStatusUseCase updateStatus = new UpdateSalesOrderStatusUseCase(updateRequest.orderId, this.repository, this.receiver);
             updateStatus.changeTo(updateRequest.newStatus);

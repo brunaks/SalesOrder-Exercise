@@ -25,7 +25,7 @@ public class JDBCCustomerRepository implements CustomerRepository {
     @Override
     public void saveCustomer(CustomerInfo customerInfo) {
         String sql = "insert into customer " +
-                "(id, name, cpf, phoneNumber, address)" +
+                "(customer_id, customer_name, cpf, phoneNumber, address)" +
                 " values (?,?,?,?,?)";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -45,7 +45,7 @@ public class JDBCCustomerRepository implements CustomerRepository {
 
     @Override
     public CustomerInfo getCustomerById(String customerID) {
-        String sql = "select * from customer where id = ?";
+        String sql = "select * from customer where customer_id = ?";
         ResultSet result;
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, customerID);
@@ -64,8 +64,8 @@ public class JDBCCustomerRepository implements CustomerRepository {
         CustomerInfo info = new CustomerInfo();
         try {
             do {
-                info.id = result.getString("id");
-                info.name = result.getString("name");
+                info.id = result.getString("customer_id");
+                info.name = result.getString("customer_name");
                 info.cpf = result.getString("cpf");
                 info.telephoneNumber = result.getString("phoneNumber");
                 info.address = result.getString("address");
@@ -93,8 +93,8 @@ public class JDBCCustomerRepository implements CustomerRepository {
         try {
             while (result.next()) {
                 CustomerInfo info = new CustomerInfo();
-                info.id = result.getString("id");
-                info.name = result.getString("name");
+                info.id = result.getString("customer_id");
+                info.name = result.getString("customer_name");
                 info.cpf = result.getString("cpf");
                 info.telephoneNumber = result.getString("phoneNumber");
                 info.address = result.getString("address");

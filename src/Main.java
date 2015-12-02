@@ -1,14 +1,14 @@
-import Interfaces.Persistence.CustomerRepository;
-import Interfaces.Persistence.ProductRepository;
-import Interfaces.Persistence.SalesOrderRepository;
+import Interfaces.Persistence.*;
 import Interfaces.Receivers.CustomerReceiver;
 import Interfaces.Receivers.ProductReceiver;
 import Interfaces.Receivers.SalesOrderReceiver;
-import Persistence.JDBCCustomerRepository;
-import Persistence.JDBCProductRepository;
-import Persistence.JDBCSalesOrderRepository;
+import Persistence.*;
 import Routes.Customer.ListCustomersRoute;
 import Routes.Customer.RegisterCustomerRoute;
+import Routes.Financials.GetTotalToPayRoute;
+import Routes.Financials.GetTotalToReceiveRoute;
+import Routes.Financials.ListSumsToPayRoute;
+import Routes.Financials.ListSumsToReceiveRoute;
 import Routes.Order.SalesOrder.*;
 import Routes.Product.DeleteProductRoute;
 import Routes.Product.ListProductsRoute;
@@ -33,6 +33,9 @@ public class Main {
         CustomerRepository customerRepository = new JDBCCustomerRepository();
         CustomerReceiver customerReceiver = new FakeCustomerReceiver();
 
+        SumToReceiveRepository sumToReceiveRepository = new JDBCSumToReceiveRepository();
+        SumToPayRepository sumToPayRepository = new JDBCSumToPayRepository();
+
         Spark.externalStaticFileLocation("resources/public");
 
         Spark.post("/registerProduct", new RegisterProductRoute(productRepository, receiver));
@@ -48,8 +51,12 @@ public class Main {
         Spark.get("/showSalesOrder", new DisplaySalesOrderRoute(salesOrderRepository));
         Spark.get("/showSalesOrderItems", new ShowSalesOrderItemsRoute(salesOrderRepository));
         Spark.post("/createSalesOrderItem", new CreateSalesOrderItemRoute(salesOrderRepository, productRepository, salesOrderReceiver));
-
         Spark.post("/updateSalesOrderStatus", new UpdateSalesOrderStatusRoute(salesOrderRepository, salesOrderReceiver, productRepository));
 
+        Spark.get("/listSumsToReceive", new ListSumsToReceiveRoute(sumToReceiveRepository));
+        Spark.get("/getTotalToReceive", new GetTotalToReceiveRoute(sumToReceiveRepository));
+
+        Spark.get("/listSumsToPay", new ListSumsToPayRoute(sumToPayRepository));
+        Spark.get("/getTotalToPay", new GetTotalToPayRoute(sumToPayRepository));
     }
 }

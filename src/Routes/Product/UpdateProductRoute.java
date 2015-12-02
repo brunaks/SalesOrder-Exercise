@@ -52,6 +52,7 @@ public class UpdateProductRoute implements Route {
 
     private void createProductInfo() {
         ProductInfo info = new ProductInfo();
+        info.id = this.productId;
         info.name = this.name;
         info.description = this.description;
         try {

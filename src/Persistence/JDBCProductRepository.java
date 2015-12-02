@@ -25,7 +25,7 @@ public class JDBCProductRepository implements ProductRepository {
     }
 
     private void update(ProductInfo product) {
-        String sql = "BEGIN create_sales_order (?, ?, ?, ?, ?); end;";
+        String sql = "BEGIN update_product (?, ?, ?, ?, ?); end;";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, product.id);
@@ -43,7 +43,7 @@ public class JDBCProductRepository implements ProductRepository {
 
     private void insert(ProductInfo product) {
         String sql = "insert into product " +
-                "(id, name,description,price,units_in_stock)" +
+                "(product_id, product_name, description, price, units_in_stock)" +
                 " values (?,?,?,?,?)";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -62,7 +62,7 @@ public class JDBCProductRepository implements ProductRepository {
     }
 
     public ProductInfo getProductInfoByName(String productName) {
-        String sql = "select * from product where name = ?";
+        String sql = "select * from product where product_name = ?";
         ResultSet result;
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, productName);
@@ -82,8 +82,8 @@ public class JDBCProductRepository implements ProductRepository {
         try {
             do {
                 info = new ProductInfo();
-                info.id = result.getString("id");
-                info.name = result.getString("name");
+                info.id = result.getString("product_id");
+                info.name = result.getString("product_name");
                 info.description = result.getString("description");
                 info.price = result.getDouble("price");
                 info.unitsInStock = result.getInt("units_in_stock");
@@ -110,8 +110,8 @@ public class JDBCProductRepository implements ProductRepository {
         try {
             while (result.next()) {
                 ProductInfo info = new ProductInfo();
-                info.id = result.getString("id");
-                info.name = result.getString("name");
+                info.id = result.getString("product_id");
+                info.name = result.getString("product_name");
                 info.description = result.getString("description");
                 info.price = result.getDouble("price");
                 info.unitsInStock = result.getInt("units_in_stock");
@@ -124,7 +124,7 @@ public class JDBCProductRepository implements ProductRepository {
     }
 
     public ProductInfo getProductInfoById(String id) {
-        String sql = "select * from product where id = ?";
+        String sql = "select * from product where product_id = ?";
         ResultSet result;
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, id);
@@ -144,7 +144,7 @@ public class JDBCProductRepository implements ProductRepository {
     }
 
     public void deleteProductWithId(String productId) {
-        String sql = "delete from product where id = ?";
+        String sql = "delete from product where product_id = ?";
         ResultSet result;
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
