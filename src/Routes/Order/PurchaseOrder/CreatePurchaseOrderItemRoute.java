@@ -2,11 +2,9 @@ package Routes.Order.PurchaseOrder;
 
 import Interfaces.Persistence.ProductRepository;
 import Interfaces.Persistence.PurchaseOrderRepository;
-import Interfaces.Persistence.PurchaseOrderRepository;
-import Interfaces.Receivers.PurchaseOrderReceiver;
 import Interfaces.Receivers.PurchaseOrderReceiver;
 import Routes.RequestObjects.CreatePurchaseOrderItemRequest;
-import UseCases.Order.AddPurchaseOrderItemUseCase;
+import UseCases.Order.Purchase.AddPurchaseOrderItemUseCase;
 import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;

@@ -2,16 +2,15 @@ package UseCases.Order;
 
 import Entities.Customer.CustomerInfo;
 import Entities.Order.SalesOrderInfo;
-import Entities.Product.ProductInfo;
 import Interfaces.Receivers.CustomerReceiver;
 import TestDoubles.Persistence.InMemoryCustomerRepository;
 import TestDoubles.Persistence.InMemoryProductRepository;
 import TestDoubles.Persistence.InMemorySalesOrderRepository;
 import TestDoubles.Receiver.FakeCustomerReceiver;
-import TestDoubles.Receiver.FakeProductReceiver;
 import TestDoubles.Receiver.FakeSalesOrderReceiver;
 import UseCases.Customer.RegisterCustomerUseCase;
-import UseCases.Product.RegisterProductUseCase;
+import UseCases.Order.Sales.CreateSalesOrderUseCase;
+import UseCases.Order.Sales.ReadSalesOrderUseCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

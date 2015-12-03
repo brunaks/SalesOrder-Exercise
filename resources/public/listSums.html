@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- <style>
         table {
             text-align: center;
             vertical-align: middle;
@@ -21,11 +25,14 @@
             background-color: #EAF2D3;
         }
 
-    </style>
+    </style> -->
 
     <script>
         var request;
         var totalRequest;
+        var payRequest;
+        var totalPayRequest;
+        var balanceRequest;
 
         function createTableHeader(json, table) {
             var headerRow = document.createElement("tr");
@@ -37,7 +44,9 @@
                 header.appendChild(headerText);
                 headerRow.appendChild(header);
             }
-            table.appendChild(headerRow);
+            var head = document.createElement("thead");
+            table.appendChild(head);
+            head.appendChild(headerRow);
         }
 
         function createRow(obj, row) {
@@ -56,11 +65,13 @@
                 var table = document.getElementById("table_receive");
                 var json = JSON.parse(request.response);
                 createTableHeader(json, table);
+                var tbody = document.createElement("tbody");
+                table.appendChild(tbody);
                 for (var i = 0; i < json.length; i++) {
                     var obj = json[i];
                     var row = document.createElement("tr");
                     createRow(obj, row);
-                    table.appendChild(row);
+                    tbody.appendChild(row);
                 }
             }
         }
@@ -93,10 +104,13 @@
             totalPayRequest.onreadystatechange = showTotalPay;
             totalPayRequest.open("get", "getTotalToPay", true);
             totalPayRequest.send();
+
+            balanceRequest = new XMLHttpRequest();
+            balanceRequest.onreadystatechange = showBalance;
+            balanceRequest.open("get", "getBalance", true);
+            balanceRequest.send();
         }
         //-------------------------------------------------------
-        var payRequest;
-        var totalPayRequest;
 
         function createTableHeaderPay(json, table) {
             var headerRow = document.createElement("tr");
@@ -108,7 +122,9 @@
                 header.appendChild(headerText);
                 headerRow.appendChild(header);
             }
-            table.appendChild(headerRow);
+            var head = document.createElement("thead");
+            table.appendChild(head);
+            head.appendChild(headerRow);
         }
 
         function createRowPay(obj, row) {
@@ -127,20 +143,30 @@
                 var table = document.getElementById("total_pay");
                 var json = JSON.parse(payRequest.response);
                 createTableHeader(json, table);
+                var tbody = document.createElement("tbody");
+                table.appendChild(tbody);
                 for (var i = 0; i < json.length; i++) {
                     var obj = json[i];
                     var row = document.createElement("tr");
                     createRow(obj, row);
-                    table.appendChild(row);
+                    tbody.appendChild(row);
                 }
             }
         }
 
         function showTotalPay() {
             if (totalPayRequest.status === 200 && totalPayRequest.readyState === 4) {
-                var total = document.getElementById("totalPay");
+                var total = document.getElementById("total_pay");
                 var json = JSON.parse(totalPayRequest.response);
                 total.appendChild(document.createTextNode(" R$" + json.totalToPay));
+            }
+        }
+
+        function showBalance() {
+            if (balanceRequest.status === 200 && balanceRequest.readyState === 4) {
+                var total = document.getElementById("balance");
+                var json = JSON.parse(balanceRequest.response);
+                total.appendChild(document.createTextNode(" R$" + json.balance));
             }
         }
 
@@ -148,18 +174,20 @@
     </script>
 </head>
 <body onload="load()">
-<div id="sums">
+<div id="sums" class="container">
     <p>Sums to receive: </p>
-    <table style="width:100%" id="table_receive">
+    <table style="width:100%" id="table_receive" class="table table-striped">
     </table>
 
     <p id="total_receive">Total to receive:</p>
     <hr>
     <p>Sums to pay: </p>
-    <table style="width:100%" id="table_pay">
+    <table style="width:100%" id="table_pay" class="table table-striped">
     </table>
 
     <p id="total_pay">Total to pay:</p>
+
+    <p id="balance">Balance: </p>
 </div>
 </body>
 </html>

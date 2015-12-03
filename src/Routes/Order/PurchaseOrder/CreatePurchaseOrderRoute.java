@@ -5,7 +5,7 @@ import Interfaces.Persistence.ProductRepository;
 import Interfaces.Persistence.PurchaseOrderRepository;
 import Interfaces.Receivers.PurchaseOrderReceiver;
 import Routes.RequestObjects.PurchaseOrderRequest;
-import UseCases.Order.CreatePurchaseOrderUseCase;
+import UseCases.Order.Purchase.CreatePurchaseOrderUseCase;
 import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;

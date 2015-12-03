@@ -4,6 +4,7 @@ import Entities.Order.PurchaseOrderInfo;
 import TestDoubles.Persistence.InMemoryProductRepository;
 import TestDoubles.Persistence.InMemoryPurchaseOrderRepository;
 import TestDoubles.Receiver.FakePurchaseOrderReceiver;
+import UseCases.Order.Purchase.CreatePurchaseOrderUseCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

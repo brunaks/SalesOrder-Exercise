@@ -1,4 +1,4 @@
-package UseCases.Order;
+package UseCases.Order.Purchase;
 
 import Interfaces.Persistence.PurchaseOrderRepository;
 import Interfaces.Receivers.PurchaseOrderReceiver;

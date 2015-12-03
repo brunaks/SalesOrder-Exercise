@@ -2,7 +2,7 @@ package Routes.Order.SalesOrder;
 
 import Interfaces.Persistence.SalesOrderRepository;
 import Interfaces.Receivers.SalesOrderReceiver;
-import UseCases.Order.ListSalesOrdersUseCase;
+import UseCases.Order.Sales.ListSalesOrdersUseCase;
 import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;

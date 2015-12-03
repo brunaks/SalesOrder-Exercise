@@ -9,6 +9,8 @@ import TestDoubles.Persistence.InMemoryProductRepository;
 import TestDoubles.Persistence.InMemoryPurchaseOrderRepository;
 import TestDoubles.Receiver.FakeProductReceiver;
 import TestDoubles.Receiver.FakePurchaseOrderReceiver;
+import UseCases.Order.Purchase.AddPurchaseOrderItemUseCase;
+import UseCases.Order.Purchase.CreatePurchaseOrderUseCase;
 import UseCases.Product.RegisterProductUseCase;
 import org.junit.Assert;
 import org.junit.Before;

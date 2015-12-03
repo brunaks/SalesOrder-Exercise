@@ -2,12 +2,12 @@ package UseCases.Order;
 
 import Entities.Order.PurchaseOrderInfo;
 import Entities.Order.SalesOrderInfo;
-import Entities.Product.ProductInfo;
 import TestDoubles.Persistence.InMemoryProductRepository;
 import TestDoubles.Persistence.InMemoryPurchaseOrderRepository;
-import TestDoubles.Receiver.FakeProductReceiver;
 import TestDoubles.Receiver.FakePurchaseOrderReceiver;
-import UseCases.Product.RegisterProductUseCase;
+import UseCases.Order.Purchase.CreatePurchaseOrderUseCase;
+import UseCases.Order.Purchase.ListPurchaseOrdersUseCase;
+import UseCases.Order.Purchase.UpdatePurchaseOrderStatusUseCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

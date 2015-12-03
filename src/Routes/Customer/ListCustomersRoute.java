@@ -2,13 +2,10 @@ package Routes.Customer;
 
 import Interfaces.Persistence.CustomerRepository;
 import UseCases.Customer.ListCustomersUseCase;
-import UseCases.Order.ListSalesOrdersUseCase;
 import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;
 import spark.Route;
-
-import java.util.List;
 
 /**
  * Created by Bruna Koch Schmitt on 28/11/2015.

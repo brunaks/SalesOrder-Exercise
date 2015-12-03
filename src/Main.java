@@ -6,10 +6,7 @@ import Interfaces.Receivers.SalesOrderReceiver;
 import Persistence.*;
 import Routes.Customer.ListCustomersRoute;
 import Routes.Customer.RegisterCustomerRoute;
-import Routes.Financials.GetTotalToPayRoute;
-import Routes.Financials.GetTotalToReceiveRoute;
-import Routes.Financials.ListSumsToPayRoute;
-import Routes.Financials.ListSumsToReceiveRoute;
+import Routes.Financials.*;
 import Routes.Order.PurchaseOrder.*;
 import Routes.Order.SalesOrder.*;
 import Routes.Product.DeleteProductRoute;
@@ -36,12 +33,13 @@ public class Main {
         PurchaseOrderRepository purchaseOrderRepository = new JDBCPurchaseOrderRepository(productRepository);
         PurchaseOrderReceiver purchaseOrderReceiver = new FakePurchaseOrderReceiver();
 
-
         CustomerRepository customerRepository = new JDBCCustomerRepository();
         CustomerReceiver customerReceiver = new FakeCustomerReceiver();
 
         SumToReceiveRepository sumToReceiveRepository = new JDBCSumToReceiveRepository();
         SumToPayRepository sumToPayRepository = new JDBCSumToPayRepository();
+
+        BalanceRepository balanceRepository = new JDBCBalanceRepository();
 
         Spark.externalStaticFileLocation("resources/public");
 
@@ -72,5 +70,8 @@ public class Main {
 
         Spark.get("/listSumsToPay", new ListSumsToPayRoute(sumToPayRepository));
         Spark.get("/getTotalToPay", new GetTotalToPayRoute(sumToPayRepository));
+        Spark.get("/getBalance", new GetBalanceRoute(balanceRepository));
+
+
     }
 }

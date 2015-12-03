@@ -1,13 +1,12 @@
 package Routes.Order.SalesOrder;
 
-import Entities.Customer.CustomerInfo;
 import Entities.Order.SalesOrderInfo;
 import Interfaces.Persistence.CustomerRepository;
 import Interfaces.Persistence.ProductRepository;
 import Interfaces.Persistence.SalesOrderRepository;
 import Interfaces.Receivers.SalesOrderReceiver;
 import Routes.RequestObjects.SalesOrderRequest;
-import UseCases.Order.CreateSalesOrderUseCase;
+import UseCases.Order.Sales.CreateSalesOrderUseCase;
 import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;

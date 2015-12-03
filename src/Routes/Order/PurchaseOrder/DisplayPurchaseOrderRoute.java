@@ -26,6 +26,7 @@ public class DisplayPurchaseOrderRoute implements Route {
     }
 
     private PurchaseOrderInfo makePurchaseOrderInfo(Request request) {
+        String requestString = request.queryString();
         return purchaseOrderRepository.getById(request.queryString());
     }
 }

@@ -6,4 +6,5 @@ package Entities.FinancialRecords;
 public class TotalToReceiveAndPayInfo {
     public Double totalToReceive;
     public Double totalToPay;
+    public Double balance;
 }

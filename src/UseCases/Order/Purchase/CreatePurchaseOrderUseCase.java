@@ -1,4 +1,4 @@
-package UseCases.Order;
+package UseCases.Order.Purchase;
 
 import Entities.Order.OrderItem;
 import Entities.Order.PurchaseOrderInfo;

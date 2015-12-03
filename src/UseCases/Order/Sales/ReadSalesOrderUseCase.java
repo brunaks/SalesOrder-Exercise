@@ -1,4 +1,4 @@
-package UseCases.Order;
+package UseCases.Order.Sales;
 
 import Entities.Order.SalesOrderInfo;
 import Interfaces.Persistence.SalesOrderRepository;

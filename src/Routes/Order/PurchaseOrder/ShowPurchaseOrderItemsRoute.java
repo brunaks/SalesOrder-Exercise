@@ -1,6 +1,7 @@
 package Routes.Order.PurchaseOrder;
 
 import Entities.Order.OrderItem;
+import Entities.Order.PurchaseOrderInfo;
 import Interfaces.Persistence.PurchaseOrderRepository;
 import Routes.RequestObjects.OrderItemInfo;
 import com.google.gson.Gson;
@@ -28,11 +29,14 @@ public class ShowPurchaseOrderItemsRoute implements Route {
 
     private ArrayList<OrderItemInfo> getPurchaseOrderItems(Request request) {
         ArrayList<OrderItemInfo> itemInfos = new ArrayList<>();
-        for (OrderItem item : purchaseOrderRepository.getById(request.queryString()).items) {
-            OrderItemInfo itemInfo = new OrderItemInfo();
-            itemInfo.productName = item.productInfo.name;
-            itemInfo.quantity = item.quantity;
-            itemInfos.add(itemInfo);
+        PurchaseOrderInfo purchaseOrderInfo = purchaseOrderRepository.getById(request.queryString());
+        if (purchaseOrderInfo != null) {
+            for (OrderItem item :purchaseOrderInfo.items) {
+                OrderItemInfo itemInfo = new OrderItemInfo();
+                itemInfo.productName = item.productInfo.name;
+                itemInfo.quantity = item.quantity;
+                itemInfos.add(itemInfo);
+            }
         }
         return itemInfos;
     }

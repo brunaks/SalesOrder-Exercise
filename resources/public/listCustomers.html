@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!--<style>
         table {
             text-align: center;
             vertical-align: middle;
@@ -21,7 +25,7 @@
             background-color: #EAF2D3;
         }
 
-    </style>
+    </style> -->
 
     <script>
         var request;
@@ -38,7 +42,9 @@
                 header.appendChild(headerText);
                 headerRow.appendChild(header);
             }
-            table.appendChild(headerRow);
+            var head = document.createElement("thead");
+            table.appendChild(head);
+            head.appendChild(headerRow);
         }
 
         function createRow(obj, row) {
@@ -58,11 +64,13 @@
                 var table = document.getElementById("table");
                 var json = JSON.parse(request.response);
                 createTableHeader(json, table);
+                var tbody = document.createElement("tbody");
+                table.appendChild(tbody);
                 for (var i = 0; i < json.length; i++) {
                     var obj = json[i];
                     var row = document.createElement("tr");
                     createRow(obj, row);
-                    table.appendChild(row);
+                    tbody.appendChild(row);
                 }
             }
         }
@@ -77,8 +85,8 @@
     </script>
 </head>
 <body onload="load()">
-<div id="customers">
-    <table style="width:100%" id="table">
+<div id="customers" class="container">
+    <table style="width:100%" id="table" class="table table-striped">
     </table>
 </div>
 </body>

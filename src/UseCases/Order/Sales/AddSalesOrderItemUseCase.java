@@ -1,36 +1,37 @@
-package UseCases.Order;
+package UseCases.Order.Sales;
 
 import Entities.Order.OrderItem;
-import Entities.Order.PurchaseOrderInfo;
+import Entities.Order.SalesOrderInfo;
 import Entities.Product.ProductInfo;
 import Interfaces.Persistence.ProductRepository;
-import Interfaces.Persistence.PurchaseOrderRepository;
-import Interfaces.Receivers.PurchaseOrderReceiver;
+import Interfaces.Persistence.SalesOrderRepository;
+import Interfaces.Receivers.SalesOrderReceiver;
 
 /**
- * Created by Bruna Koch Schmitt on 02/12/2015.
+ * Created by Bruna Koch Schmitt on 30/11/2015.
  */
-public class AddPurchaseOrderItemUseCase {
-    private PurchaseOrderReceiver receiver;
+public class AddSalesOrderItemUseCase {
+
+    private SalesOrderReceiver receiver;
     private ProductRepository productRepository;
-    private PurchaseOrderRepository repository;
+    private SalesOrderRepository repository;
     private String orderId;
 
-    public AddPurchaseOrderItemUseCase(String orderId, PurchaseOrderRepository purchaseRepository, ProductRepository productRepository, PurchaseOrderReceiver orderReceiver) {
+    public AddSalesOrderItemUseCase(String orderId, SalesOrderRepository salesRepository, ProductRepository productRepository, SalesOrderReceiver orderReceiver) {
         this.orderId = orderId;
-        this.repository = purchaseRepository;
+        this.repository = salesRepository;
         this.productRepository = productRepository;
         this.receiver = orderReceiver;
     }
 
     public void withProductIdAndQuantity(String productId, int quantity) {
-        PurchaseOrderInfo order = this.repository.getById(this.orderId);
+        SalesOrderInfo order = this.repository.getById(this.orderId);
         if (order != null) {
             ProductInfo productInfo = this.productRepository.getProductInfoById(productId);
             if (productInfo != null) {
                 if (!this.productWasAlreadyAddedAsItem(order, productId) &&
                         productInfo.unitsInStock >= quantity &&
-                        order.status.equalsIgnoreCase(PurchaseOrderInfo.OPEN)) {
+                        order.status.equalsIgnoreCase(SalesOrderInfo.OPEN)) {
                     OrderItem item = new OrderItem(productInfo, quantity);
                     order.total = order.total + productInfo.price * quantity;
                     order.items.add(item);
@@ -47,7 +48,7 @@ public class AddPurchaseOrderItemUseCase {
         }
     }
 
-    private boolean productWasAlreadyAddedAsItem(PurchaseOrderInfo order, String productId) {
+    private boolean productWasAlreadyAddedAsItem(SalesOrderInfo order, String productId) {
         for (OrderItem item : order.items) {
             if (item.productInfo.id.equals(productId)) {
                 return true;
@@ -57,12 +58,12 @@ public class AddPurchaseOrderItemUseCase {
     }
 
     public void setOrderToProcessing() {
-        PurchaseOrderInfo order = this.repository.getById(this.orderId);
+        SalesOrderInfo order = this.repository.getById(this.orderId);
         if (order != null && order.items.size() > 0) {
-            order.status = PurchaseOrderInfo.IN_PROCESS;
+            order.status = SalesOrderInfo.IN_PROCESS;
             //this.repository.save(order);
-            UpdatePurchaseOrderStatusUseCase updateStatus = new UpdatePurchaseOrderStatusUseCase(order.id, this.repository, this.receiver);
-            updateStatus.changeTo(PurchaseOrderInfo.IN_PROCESS);
+            UpdateSalesOrderStatusUseCase updateStatus = new UpdateSalesOrderStatusUseCase(order.id, this.repository, this.receiver);
+            updateStatus.changeTo(SalesOrderInfo.IN_PROCESS);
         }
     }
 }
