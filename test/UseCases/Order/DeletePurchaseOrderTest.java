@@ -63,30 +63,11 @@ public class DeletePurchaseOrderTest {
         Date date = givenDate("01/01/2015");
         String id = UUID.randomUUID().toString();
         createOrder = new CreatePurchaseOrderUseCase(id, purchaseOrderRepository, productRepository, receiver, date);
-        ProductInfo productInfo = givenProductInfo("Name", "Description", 10, 10);
-        createOrder.addProduct(productInfo.id, 1);
         createOrder.execute();
-        Assert.assertFalse(receiver.orderFailed);
-        assertTotalEquals(10.0);
+        Assert.assertFalse(receiver.createOrderFailed);
         ListPurchaseOrdersUseCase listOrdersUseCase = new ListPurchaseOrdersUseCase(purchaseOrderRepository);
         List<PurchaseOrderInfo> orderInfos = listOrdersUseCase.getAll();
         return orderInfos.get(0);
-    }
-
-    private void assertTotalEquals(double expectedTotal) {
-        Assert.assertEquals(expectedTotal, createOrder.getTotal(), 0.01);
-    }
-
-    private ProductInfo givenProductInfo(String name, String description, int unitsInStock, int unitPrice) {
-        ProductInfo productInfo = new ProductInfo();
-        productInfo.name = name;
-        productInfo.description = description;
-        productInfo.unitsInStock = unitsInStock;
-        productInfo.price = unitPrice;
-        productInfo.id = productRepository.createProductInfoID();
-        RegisterProductUseCase registerProductUseCase = new RegisterProductUseCase(new FakeProductReceiver(), productInfo, productRepository);
-        registerProductUseCase.execute();
-        return productInfo;
     }
 
     private Date givenDate(String date) {

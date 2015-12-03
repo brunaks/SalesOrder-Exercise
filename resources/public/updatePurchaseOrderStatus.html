@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+
+        body {
+            margin-left: 5%;
+        }
+
+        form {
+            padding-top: 1%;
+        }
+
+        input {
+            margin: 1%;
+            text-align: center;
+        }
+
+        #name, #description, #price, #units {
+            width: 20%;
+            height: 20px;
+            border-radius: 10px;
+        }
+
+        #message {
+            text-align: center;
+            font-size: 16px;
+        }
+
+    </style>
+
+    <script>
+        var request;
+
+        function showRequestStatus() {
+            if (request.status === 200 && request.readyState === 4) {
+                var json = JSON.parse(request.response);
+                if (json.statusUpdateFailed == false) {
+                    document.getElementById("message").innerHTML = "Update Successful";
+                }
+                else {
+                    document.getElementById("message").innerHTML = "Update Failed.";
+                }
+            }
+        }
+
+        function change() {
+            request = new XMLHttpRequest();
+            request.onreadystatechange = showRequestStatus;
+            request.open("POST", "updatePurchaseOrderStatus", true);
+            request.send(JSON.stringify(
+                    {
+                        orderId: window.location.search.substring(9),
+                        newStatus: document.getElementById('select').value
+                    }
+            ));
+        }
+
+    </script>
+</head>
+<body>
+<h2 id="message"></h2>
+
+<h1>Change a purchase order status using the form below:</h1>
+
+<form>
+    <select id="select">
+        <option value="InProcess">In Process</option>
+        <option value="Delivered">Delivered</option>
+    </select>
+    <input type="button" value="Change" onclick="change();">
+</form>
+</body>
+</html>

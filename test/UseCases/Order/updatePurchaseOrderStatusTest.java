@@ -23,11 +23,11 @@ import java.util.UUID;
  */
 public class updatePurchaseOrderStatusTest {
 
+    CreatePurchaseOrderUseCase createOrder;
+    ListPurchaseOrdersUseCase listOrders;
     private InMemoryPurchaseOrderRepository orderRepository;
     private InMemoryProductRepository productRepository;
     private FakePurchaseOrderReceiver receiver;
-    CreatePurchaseOrderUseCase createOrder;
-    ListPurchaseOrdersUseCase listOrders;
 
     @Before
     public void setUp() throws Exception {
@@ -41,10 +41,8 @@ public class updatePurchaseOrderStatusTest {
         Date date = givenDate("01/01/2015");
         String id = UUID.randomUUID().toString();
         createOrder = new CreatePurchaseOrderUseCase(id, orderRepository, productRepository, receiver, date);
-        ProductInfo productInfo = givenProductInfo("Name", "Description", 10, 10);
-        createOrder.addProduct(productInfo.id, 1);
         createOrder.execute();
-        Assert.assertFalse(receiver.orderFailed);
+        Assert.assertFalse(receiver.createOrderFailed);
 
         UpdatePurchaseOrderStatusUseCase updateOrderStatus = new UpdatePurchaseOrderStatusUseCase(id, orderRepository, receiver);
         updateOrderStatus.changeTo(PurchaseOrderInfo.DELIVERED);
@@ -74,15 +72,4 @@ public class updatePurchaseOrderStatusTest {
         return parsedDate;
     }
 
-    private ProductInfo givenProductInfo(String name, String description, int unitsInStock, double unitPrice) {
-        ProductInfo productInfo = new ProductInfo();
-        productInfo.name = name;
-        productInfo.description = description;
-        productInfo.unitsInStock = unitsInStock;
-        productInfo.price = unitPrice;
-        productInfo.id = productRepository.createProductInfoID();
-        RegisterProductUseCase registerProductUseCase = new RegisterProductUseCase(new FakeProductReceiver(), productInfo, productRepository);
-        registerProductUseCase.execute();
-        return productInfo;
-    }
 }

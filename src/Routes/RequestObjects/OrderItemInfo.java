@@ -1,4 +1,4 @@
-package Routes.Order.SalesOrder;
+package Routes.RequestObjects;
 
 /**
  * Created by Bruna Koch Schmitt on 26/11/2015.

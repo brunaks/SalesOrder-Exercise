@@ -1,31 +1,32 @@
 package Persistence;
 
+import Routes.RequestObjects.CreatePurchaseOrderItemRequest;
 import Entities.Order.OrderItem;
-import Entities.Order.SalesOrderInfo;
+import Entities.Order.PurchaseOrderInfo;
 import Entities.Product.ProductInfo;
 import Interfaces.Persistence.ProductRepository;
-import Interfaces.Persistence.SalesOrderRepository;
-import Routes.RequestObjects.CreateSalesOrderItemRequest;
+import Interfaces.Persistence.PurchaseOrderRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Bruna Koch Schmitt on 25/11/2015.
+ * Created by Bruna Koch Schmitt on 03/12/2015.
  */
-public class JDBCSalesOrderRepository implements SalesOrderRepository {
+public class JDBCPurchaseOrderRepository implements PurchaseOrderRepository {
+
     private ProductRepository productRepository;
     private Connection connection;
 
-    public JDBCSalesOrderRepository(ProductRepository productRepository) {
+    public JDBCPurchaseOrderRepository(ProductRepository productRepository) {
         this.productRepository = productRepository;
         connection = ConnectionFactory.getConnection();
     }
 
     @Override
-    public List<SalesOrderInfo> getAll() {
-        String sql = "select * from sales_order";
+    public List<PurchaseOrderInfo> getAll() {
+        String sql = "select * from purchase_order";
         ResultSet result;
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             result = stmt.executeQuery();
@@ -39,8 +40,8 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
         }
     }
 
-    private List<SalesOrderInfo> buildOrderInfos(ResultSet result) {
-        ArrayList<SalesOrderInfo> infos = new ArrayList<>();
+    private List<PurchaseOrderInfo> buildOrderInfos(ResultSet result) {
+        ArrayList<PurchaseOrderInfo> infos = new ArrayList<>();
         try {
             do
                 infos.add(buildOrderInfo(result));
@@ -51,19 +52,18 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
         return infos;
     }
 
-    private SalesOrderInfo buildOrderInfo(ResultSet result) throws SQLException {
-        SalesOrderInfo info = new SalesOrderInfo();
+    private PurchaseOrderInfo buildOrderInfo(ResultSet result) throws SQLException {
+        PurchaseOrderInfo info = new PurchaseOrderInfo();
         info.id = result.getString("order_id");
         info.status = result.getString("order_status");
         info.date = result.getDate("order_date");
-        info.customerId = result.getString("customer_id");
         info.items = getItems(info.id);
         info.total = getTotal(info.id);
         return info;
     }
 
     private double getTotal(String id) {
-        String sql = "{? = call calculate_sales_order_total(?)}";
+        String sql = "{? = call calculate_purchase_order_total(?)}";
         ResultSet result;
         try (CallableStatement stmt = connection.prepareCall(sql)) {
             stmt.registerOutParameter(1, oracle.jdbc.OracleTypes.NUMBER);
@@ -76,7 +76,7 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
     }
 
     private ArrayList<OrderItem> getItems(String id) {
-        String sql = "select * from items_sales_order where order_id = ?";
+        String sql = "select * from items_purchase_order where order_id = ?";
         ResultSet result;
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, id);
@@ -109,12 +109,11 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
     }
 
     @Override
-    public void save(SalesOrderInfo salesOrderInfo) {
-        String sql = "BEGIN create_sales_order (?, ?, ?); end;";
+    public void save(PurchaseOrderInfo purchaseOrderInfo) {
+        String sql = "BEGIN create_purchase_order (?, ?); end;";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, salesOrderInfo.id);
-            stmt.setDate(2, new Date(salesOrderInfo.date.getTime()));
-            stmt.setString(3, salesOrderInfo.customerId);
+            stmt.setString(1, purchaseOrderInfo.id);
+            stmt.setDate(2, new Date(purchaseOrderInfo.date.getTime()));
             stmt.execute();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -122,8 +121,8 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
     }
 
     @Override
-    public SalesOrderInfo getById(String id) {
-        String sql = "select * from sales_order where order_id = ?";
+    public PurchaseOrderInfo getById(String id) {
+        String sql = "select * from purchase_order where order_id = ?";
         ResultSet result;
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, id);
@@ -139,12 +138,13 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
     }
 
     @Override
-    public void deleteWithId(String id) {
+    public void removeWithId(String id) {
+
     }
 
     @Override
     public void updateStatus(String id, String newStatus) {
-        String sql = "BEGIN set_sales_order_to_in_process (?); end;";
+        String sql = "BEGIN set_purchase_to_in_process (?); end;";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, id);
             stmt.execute();
@@ -153,9 +153,8 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
         }
     }
 
-    @Override
-    public void createItem(CreateSalesOrderItemRequest request) {
-        String sql = "insert into items_sales_order " +
+    public void createItem(CreatePurchaseOrderItemRequest request) {
+        String sql = "insert into items_purchase_order " +
                 "(order_id, product_id, quantity)" +
                 " values (?,?,?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -170,11 +169,11 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
     }
 
     @Override
-    public void addItem(SalesOrderInfo order, OrderItem item) {
-        //String sql = "insert into items_sales_order " +
-        //        "(order_id, product_id, quantity)" +
-        //        " values (?,?,?)";
-        String sql = "BEGIN insert_sales_order_item (?, ?, ?); end;";
+    public void addItem(PurchaseOrderInfo order, OrderItem item) {
+        //String sql = "insert into items_purchase_order " +
+        //       "(order_id, product_id, quantity)" +
+        //       " values (?,?,?)";
+        String sql = "BEGIN insert_purchase_order_item (?, ?, ?); end;";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             ProductInfo productInfo = productRepository.getProductInfoById(item.productInfo.id);
             stmt.setString(1, order.id);

@@ -1,5 +1,6 @@
 package Interfaces.Persistence;
 
+import Entities.Order.OrderItem;
 import Entities.Order.PurchaseOrderInfo;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface PurchaseOrderRepository {
     PurchaseOrderInfo getById(String id);
     void removeWithId(String id);
     void updateStatus(String id, String newStatus);
+
+    void addItem(PurchaseOrderInfo order, OrderItem item);
 }

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Sales Order Item</title>
+    <style>
+
+        body {
+            margin-left: 5%;
+        }
+
+        form {
+            padding-top: 1%;
+        }
+
+        input {
+            margin: 1%;
+            text-align: center;
+        }
+
+        #productId, #quantity {
+            width: 20%;
+            height: 20px;
+            border-radius: 10px;
+        }
+
+        #message {
+            text-align: center;
+            font-size: 16px;
+        }
+
+        table {
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid green;
+        }
+
+        th {
+            background-color: #A7C942;
+            color: #ffffff;
+            text-transform: capitalize;
+        }
+
+        td {
+            color: #000000;
+            background-color: #EAF2D3;
+        }
+    </style>
+
+    <script>
+        var request;
+
+        function showRequestStatus() {
+            if (request.status === 200 && request.readyState === 4) {
+                var json = JSON.parse(request.response);
+                if (json.addItemFailed === false) {
+                    document.location.href = "/showPurchaseOrder.html" + window.location.search;
+                } else {
+                    alert("Registration Failed. Please check your input and try again.");
+                }
+            }
+        }
+
+        function register() {
+            request = new XMLHttpRequest();
+            request.onreadystatechange = showRequestStatus;
+            request.open("POST", "createPurchaseOrderItem", true);
+            request.send(JSON.stringify(
+                    {
+                        orderId: window.location.search.substring(1),
+                        productId: document.getElementById('productId').value,
+                        quantity: document.getElementById('quantity').value
+                    }
+            ));
+        }
+
+        var requestProducts;
+
+        function createTableHeader(json, table) {
+            var headerRow = document.createElement("tr");
+            var obj = json[0];
+            for (var key in obj) {
+                var header = document.createElement("th");
+                header.setAttribute("class", key);
+                var headerText = document.createTextNode(key);
+                header.appendChild(headerText);
+                headerRow.appendChild(header);
+            }
+            table.appendChild(headerRow);
+        }
+
+        function createRow(obj, row) {
+            for (var key in obj) {
+                var eachValueInRow = obj[key];
+                var data = document.createElement("td");
+                data.setAttribute("class", key);
+                var text = document.createTextNode(eachValueInRow);
+                data.appendChild(text);
+                row.appendChild(data);
+            }
+        }
+        function showProductList() {
+            if (requestProducts.status === 200 && requestProducts.readyState === 4) {
+                var table = document.getElementById("table");
+                var json = JSON.parse(requestProducts.response);
+                createTableHeader(json, table);
+                for (var i = 0; i < json.length; i++) {
+                    var obj = json[i];
+                    var row = document.createElement("tr");
+                    createRow(obj, row);
+                    table.appendChild(row);
+                }
+            }
+        }
+
+        function loadProductList() {
+            requestProducts = new XMLHttpRequest();
+            requestProducts.onreadystatechange = showProductList;
+            requestProducts.open("get", "products", true);
+            requestProducts.send();
+        }
+
+    </script>
+</head>
+<body id="content" onload="loadProductList()">
+<h2 id="message"></h2>
+
+<h1>Register a purchase order item using the form below:</h1>
+
+<form>
+    <input type="text" name="productId" placeholder="Product Id" id="productId"><br>
+    <input type="text" name="quantity" placeholder="Quantity" id="quantity"><br>
+    <input type="button" value="Save" onclick="register();">
+</form>
+<div id="products">
+    <table style="width:100%" id="table">
+    </table>
+</div>
+</body>
+</html>

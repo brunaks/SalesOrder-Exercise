@@ -50,7 +50,13 @@
                 data.setAttribute("class", key);
                 var text = document.createTextNode(eachValueInRow);
                 var child;
-                child = text;
+                if (key === 'id') {
+                    child = document.createElement("a");
+                    child.setAttribute("href", "/purchaseOrder.html?" + eachValueInRow);
+                    child.appendChild(text);
+                } else {
+                    child = text;
+                }
                 data.appendChild(child);
                 row.appendChild(data);
             }
@@ -62,8 +68,6 @@
                 var headerDiv = document.getElementById("header");
                 headerDiv.appendChild(document.createElement("p").appendChild(document.createTextNode("Order ID: " + data.id)));
                 headerDiv.appendChild(document.createElement("br"));
-                headerDiv.appendChild(document.createElement("p").appendChild(document.createTextNode("Customer ID: " + data.customerId)));
-                headerDiv.appendChild(document.createElement("br"));
                 headerDiv.appendChild(document.createElement("p").appendChild(document.createTextNode("Date: " + data.date)));
                 headerDiv.appendChild(document.createElement("br"));
                 headerDiv.appendChild(document.createElement("p").appendChild(document.createTextNode("Status: " + data.status)));
@@ -71,7 +75,7 @@
                 headerDiv.appendChild(document.createElement("p").appendChild(document.createTextNode("Total: " + data.total)));
                 headerDiv.appendChild(document.createElement("br"));
                 var changeStatusLink = document.createElement("a");
-                changeStatusLink.setAttribute("href", "/updateSalesOrderStatus.html?orderId=" + data.id);
+                changeStatusLink.setAttribute("href", "/updatePurchaseOrderStatus.html?orderId=" + data.id);
                 changeStatusLink.appendChild(document.createTextNode("Change Status"));
                 headerDiv.appendChild(changeStatusLink);
             }
@@ -93,16 +97,16 @@
         function loadOrder() {
             headerRequest = new XMLHttpRequest();
             headerRequest.onreadystatechange = showHeader;
-            headerRequest.open("get", "showSalesOrder" + window.location.search, true);
+            headerRequest.open("get", "showPurchaseOrder" + window.location.search, true);
             headerRequest.send();
 
             itemsRequest = new XMLHttpRequest();
             itemsRequest.onreadystatechange = showItems;
-            itemsRequest.open("get", "showSalesOrderItems" + window.location.search, true);
+            itemsRequest.open("get", "showPurchaseOrderItems" + window.location.search, true);
             itemsRequest.send();
         }
         function goToCreateItemPage() {
-            window.location.href = "/createSalesOrderItem.html" + window.location.search;
+            window.location.href = "/createPurchaseOrderItem.html" + window.location.search;
         }
     </script>
 </head>

@@ -1,5 +1,6 @@
 package TestDoubles.Persistence;
 
+import Entities.Order.OrderItem;
 import Entities.Order.PurchaseOrderInfo;
 import Interfaces.Persistence.PurchaseOrderRepository;
 
@@ -44,5 +45,12 @@ public class InMemoryPurchaseOrderRepository implements PurchaseOrderRepository 
     @Override
     public void updateStatus(String id, String newStatus) {
         this.getById(id).status = newStatus;
+    }
+
+    @Override
+    public void addItem(PurchaseOrderInfo order, OrderItem item) {
+        PurchaseOrderInfo info = getById(order.id);
+        this.orders.remove(info);
+        this.orders.add(order);
     }
 }

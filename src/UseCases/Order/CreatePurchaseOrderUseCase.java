@@ -33,16 +33,6 @@ public class CreatePurchaseOrderUseCase {
         this.purchaseOrderRepository = purchaseOrderRepository;
     }
 
-    public void addProduct(String id, int quantity) {
-        ProductInfo productInfo = this.productRepository.getProductInfoById(id);
-        if (productInfo != null) {
-            this.items.add(new OrderItem(productInfo, quantity));
-        } else {
-            this.receiver.createOrderFailed();
-            this.receiver.productDoesNotExist();
-        }
-    }
-
     public void execute() {
         PurchaseOrderInfo purchaseOrderInfo = this.createInfoToSave();
         this.purchaseOrderRepository.save(purchaseOrderInfo);
@@ -53,16 +43,9 @@ public class CreatePurchaseOrderUseCase {
         this.purchaseOrderInfo.id = this.id;
         this.purchaseOrderInfo.date = this.date;
         this.purchaseOrderInfo.items = this.items;
-        this.purchaseOrderInfo.total = this.getTotal();
-        this.purchaseOrderInfo.status = PurchaseOrderInfo.IN_PROCESS;
+        this.purchaseOrderInfo.total = 0.0;
+        this.purchaseOrderInfo.status = PurchaseOrderInfo.OPEN;
         return this.purchaseOrderInfo;
     }
 
-    public double getTotal() {
-        Double total = 0.0;
-        for (OrderItem item : items) {
-            total += item.getProductInfo().price * item.getQuantity();
-        }
-        return total;
-    }
 }

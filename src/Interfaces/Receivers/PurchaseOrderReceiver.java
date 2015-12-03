@@ -9,4 +9,8 @@ public interface PurchaseOrderReceiver {
     void deleteFailed();
     void orderIdIsInvalid();
     void updateStatusFailed();
+
+    void addItemWasSuccessful();
+
+    void addItemFailed();
 }

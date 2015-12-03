@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Sales Order</title>
+    <style>
+
+        body {
+            margin-left: 5%;
+        }
+
+        form {
+            padding-top: 1%;
+        }
+
+        input {
+            margin: 1%;
+            text-align: center;
+        }
+
+        #customer_id, #date {
+            width: 20%;
+            height: 20px;
+            border-radius: 10px;
+        }
+
+        #message {
+            text-align: center;
+            font-size: 16px;
+        }
+
+        table {
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid green;
+        }
+
+        th {
+            background-color: #A7C942;
+            color: #ffffff;
+            text-transform: capitalize;
+        }
+
+        td {
+            color: #000000;
+            background-color: #EAF2D3;
+        }
+    </style>
+
+    <script>
+        var request;
+
+        function showRequestStatus() {
+            if (request.status === 200 && request.readyState === 4) {
+                var json = JSON.parse(request.response);
+                if (json.createOrderFailed == false) {
+                    document.getElementById("message").innerHTML = "Registration Successful";
+                }
+                else {
+                    document.getElementById("message").innerHTML = "Registration Failed. Please check your input and try again.";
+                }
+            }
+        }
+
+        function register() {
+            request = new XMLHttpRequest();
+            request.onreadystatechange = showRequestStatus;
+            request.open("POST", "createPurchaseOrder", true);
+            request.send(JSON.stringify(
+                    {
+                        date: document.getElementById('date').value
+                    }
+            ));
+        }
+
+    </script>
+</head>
+<body id="content">
+<h2 id="message"></h2>
+
+<h1>Register a purchase order using the form below:</h1>
+
+<form>
+    <input type="text" name="date" placeholder="Date" id="date"><br>
+    <input type="button" value="Save" onclick="register();">
+</form>
+<li><a href="/listPurchaseOrders.html">List Purchase Orders</a></li>
+
+</body>
+</html>

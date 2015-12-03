@@ -112,16 +112,4 @@ public class CreateSalesOrderTest {
         }
         return parsedDate;
     }
-
-    private ProductInfo givenProductInfo(String name, String description, int unitsInStock, double unitPrice) {
-        ProductInfo productInfo = new ProductInfo();
-        productInfo.name = name;
-        productInfo.description = description;
-        productInfo.unitsInStock = unitsInStock;
-        productInfo.price = unitPrice;
-        productInfo.id = productRepository.createProductInfoID();
-        RegisterProductUseCase registerProductUseCase = new RegisterProductUseCase(new FakeProductReceiver(), productInfo, productRepository);
-        registerProductUseCase.execute();
-        return productInfo;
-    }
 }

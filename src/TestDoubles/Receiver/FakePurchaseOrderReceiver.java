@@ -6,15 +6,16 @@ import Interfaces.Receivers.PurchaseOrderReceiver;
  * Created by Bruna Koch Schmitt on 19/11/2015.
  */
 public class FakePurchaseOrderReceiver implements PurchaseOrderReceiver {
-    public boolean orderFailed = false;
+    public boolean createOrderFailed = false;
     public boolean productDoesNotExist = false;
     public boolean deleteFailed = false;
     public boolean statusUpdateFailed = false;
     public boolean orderIdIsInvalid = false;
+    public boolean addItemFailed = false;
 
     @Override
     public void createOrderFailed() {
-        orderFailed = true;
+        createOrderFailed = true;
     }
 
     @Override
@@ -35,5 +36,15 @@ public class FakePurchaseOrderReceiver implements PurchaseOrderReceiver {
     @Override
     public void updateStatusFailed() {
         this.statusUpdateFailed = true;
+    }
+
+    @Override
+    public void addItemWasSuccessful() {
+        this.addItemFailed = false;
+    }
+
+    @Override
+    public void addItemFailed() {
+        this.addItemFailed = true;
     }
 }

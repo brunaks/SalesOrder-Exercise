@@ -1,6 +1,7 @@
 import Interfaces.Persistence.*;
 import Interfaces.Receivers.CustomerReceiver;
 import Interfaces.Receivers.ProductReceiver;
+import Interfaces.Receivers.PurchaseOrderReceiver;
 import Interfaces.Receivers.SalesOrderReceiver;
 import Persistence.*;
 import Routes.Customer.ListCustomersRoute;
@@ -9,6 +10,7 @@ import Routes.Financials.GetTotalToPayRoute;
 import Routes.Financials.GetTotalToReceiveRoute;
 import Routes.Financials.ListSumsToPayRoute;
 import Routes.Financials.ListSumsToReceiveRoute;
+import Routes.Order.PurchaseOrder.*;
 import Routes.Order.SalesOrder.*;
 import Routes.Product.DeleteProductRoute;
 import Routes.Product.ListProductsRoute;
@@ -16,6 +18,7 @@ import Routes.Product.RegisterProductRoute;
 import Routes.Product.UpdateProductRoute;
 import TestDoubles.Receiver.FakeCustomerReceiver;
 import TestDoubles.Receiver.FakeProductReceiver;
+import TestDoubles.Receiver.FakePurchaseOrderReceiver;
 import TestDoubles.Receiver.FakeSalesOrderReceiver;
 import spark.Spark;
 
@@ -29,6 +32,10 @@ public class Main {
         ProductRepository productRepository = new JDBCProductRepository();
         SalesOrderRepository salesOrderRepository = new JDBCSalesOrderRepository(productRepository);
         SalesOrderReceiver salesOrderReceiver = new FakeSalesOrderReceiver();
+
+        PurchaseOrderRepository purchaseOrderRepository = new JDBCPurchaseOrderRepository(productRepository);
+        PurchaseOrderReceiver purchaseOrderReceiver = new FakePurchaseOrderReceiver();
+
 
         CustomerRepository customerRepository = new JDBCCustomerRepository();
         CustomerReceiver customerReceiver = new FakeCustomerReceiver();
@@ -52,6 +59,13 @@ public class Main {
         Spark.get("/showSalesOrderItems", new ShowSalesOrderItemsRoute(salesOrderRepository));
         Spark.post("/createSalesOrderItem", new CreateSalesOrderItemRoute(salesOrderRepository, productRepository, salesOrderReceiver));
         Spark.post("/updateSalesOrderStatus", new UpdateSalesOrderStatusRoute(salesOrderRepository, salesOrderReceiver, productRepository));
+
+        Spark.post("/createPurchaseOrder", new CreatePurchaseOrderRoute(purchaseOrderRepository, purchaseOrderReceiver, productRepository));
+        Spark.get("/listPurchaseOrders", new ListPurchaseOrdersRoute(purchaseOrderRepository, purchaseOrderReceiver));
+        Spark.get("/showPurchaseOrder", new DisplayPurchaseOrderRoute(purchaseOrderRepository));
+        Spark.get("/showPurchaseOrderItems", new ShowPurchaseOrderItemsRoute(purchaseOrderRepository));
+        Spark.post("/createPurchaseOrderItem", new CreatePurchaseOrderItemRoute(purchaseOrderRepository, productRepository, purchaseOrderReceiver));
+        Spark.post("/updatePurchaseOrderStatus", new UpdatePurchaseOrderStatusRoute(purchaseOrderRepository, purchaseOrderReceiver, productRepository));
 
         Spark.get("/listSumsToReceive", new ListSumsToReceiveRoute(sumToReceiveRepository));
         Spark.get("/getTotalToReceive", new GetTotalToReceiveRoute(sumToReceiveRepository));

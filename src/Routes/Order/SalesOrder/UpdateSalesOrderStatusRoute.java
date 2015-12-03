@@ -47,6 +47,4 @@ public class UpdateSalesOrderStatusRoute implements Route {
     private void getRequestInfo(Request request) {
         updateRequest = converter.fromJson(request.body(), UpdateOrderStatusRequest.class);
     }
-
-
 }
