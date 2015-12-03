@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- <style>
 
         body {
             margin-left: 5%;
@@ -29,7 +33,7 @@
             font-size: 16px;
         }
 
-    </style>
+    </style> -->
 
     <script>
         var request;
@@ -63,17 +67,31 @@
     </script>
 </head>
 <body id="content">
-<div ui-view>
+<div ui-view class="container">
     <h2 id="message"></h2>
 
     <h1>Register a product using the form below:</h1>
 
-    <form>
-        <input type="text" name="name" placeholder="Name" id="name"><br>
-        <input type="text" name="cpf" maxlength="11" placeholder="CPF" id="cpf"><br>
-        <input type="text" name="telephone" maxlength="10" placeholder="Telephone Number" id="telephone"><br>
-        <input type="text" name="address" placeholder="Address" id="address">
-        <input type="button" value="Save" onclick="register();">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <input type="text" name="name" class="form-control" placeholder="Name" id="name"><br>
+        </div>
+
+        <div class="form-group">
+            <input type="text" name="cpf"  class="form-control"maxlength="11" placeholder="CPF" id="cpf"><br>
+        </div>
+
+        <div class="form-group">
+            <input type="text" name="telephone" class="form-control" maxlength="10" placeholder="Telephone Number" id="telephone"><br>
+        </div>
+
+        <div class="form-group">
+            <input type="text" name="address" class="form-control" placeholder="Address" id="address">
+        </div>
+
+        <div class="form-group">
+            <input type="button" value="Save" class="btn btn-default" onclick="register();">
+        </div>
     </form>
 </div>
 </body>

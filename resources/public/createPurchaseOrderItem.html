@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create Sales Order Item</title>
-    <style>
+    <title>Create Purchase Order Item</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- <style>
 
         body {
             margin-left: 5%;
@@ -45,7 +49,7 @@
             color: #000000;
             background-color: #EAF2D3;
         }
-    </style>
+    </style> -->
 
     <script>
         var request;
@@ -86,7 +90,9 @@
                 header.appendChild(headerText);
                 headerRow.appendChild(header);
             }
-            table.appendChild(headerRow);
+            var head = document.createElement("thead");
+            table.appendChild(head);
+            head.appendChild(headerRow);
         }
 
         function createRow(obj, row) {
@@ -104,11 +110,13 @@
                 var table = document.getElementById("table");
                 var json = JSON.parse(requestProducts.response);
                 createTableHeader(json, table);
+                var tbody = document.createElement("tbody");
+                table.appendChild(tbody);
                 for (var i = 0; i < json.length; i++) {
                     var obj = json[i];
                     var row = document.createElement("tr");
                     createRow(obj, row);
-                    table.appendChild(row);
+                    tbody.appendChild(row);
                 }
             }
         }
@@ -123,18 +131,26 @@
     </script>
 </head>
 <body id="content" onload="loadProductList()">
-<h2 id="message"></h2>
+<div class="container">
+    <h2 id="message"></h2>
 
-<h1>Register a purchase order item using the form below:</h1>
+    <h1>Register a purchase order item using the form below:</h1>
 
-<form>
-    <input type="text" name="productId" placeholder="Product Id" id="productId"><br>
-    <input type="text" name="quantity" placeholder="Quantity" id="quantity"><br>
-    <input type="button" value="Save" onclick="register();">
-</form>
-<div id="products">
-    <table style="width:100%" id="table">
-    </table>
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <input type="text" name="productId" class="form-control" placeholder="Product Id" id="productId"><br>
+        </div>
+        <div class="form-group">
+            <input type="text" name="quantity" class="form-control" placeholder="Quantity" id="quantity"><br>
+        </div>
+        <div class="form-group">
+            <input type="button" class="btn btn-default" value="Save" onclick="register();">
+        </div>
+    </form>
+    <div id="products">
+        <table style="width:100%" id="table" class="table table-striped">
+        </table>
+    </div>
 </div>
 </body>
 </html>

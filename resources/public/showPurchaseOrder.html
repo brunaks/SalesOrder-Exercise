@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- <style>
         table {
             text-align: center;
             vertical-align: middle;
@@ -25,7 +29,7 @@
             padding: 150%;
         }
 
-    </style>
+    </style> -->
     <script>
         var headerRequest;
         var itemsRequest;
@@ -40,7 +44,9 @@
                 header.appendChild(headerText);
                 headerRow.appendChild(header);
             }
-            table.appendChild(headerRow);
+            var head = document.createElement("thead");
+            table.appendChild(head);
+            head.appendChild(headerRow);
         }
 
         function createRow(obj, row) {
@@ -86,11 +92,13 @@
                 var data = JSON.parse(itemsRequest.response);
                 var table = document.getElementById("items");
                 createTableHeader(data, table);
+                var tbody = document.createElement("tbody");
+                table.appendChild(tbody);
                 for (var i = 0; i < data.length; i++) {
                     var obj = data[i];
                     var row = document.createElement("tr");
                     createRow(obj, row);
-                    table.appendChild(row);
+                    tbody.appendChild(row);
                 }
             }
         }
@@ -111,11 +119,11 @@
     </script>
 </head>
 <body onload="loadOrder()">
-<div id="orders">
+<div id="orders" class="container">
     <div id="header">
     </div>
     <a href="#" onclick="goToCreateItemPage();">Create Item</a>
-    <table style="width:100%" id="items">
+    <table style="width:100%" id="items" class="table table-striped">
     </table>
 </div>
 </body>
