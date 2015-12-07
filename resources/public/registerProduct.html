@@ -7,34 +7,6 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <!-- <style>
-
-        body{
-            margin-left: 5%;
-        }
-
-        form {
-            padding-top: 1%;
-        }
-
-        input  {
-            margin: 1%;
-            text-align: center;
-        }
-
-        #name, #description, #price, #units {
-            width: 20%;
-            height: 20px;
-            border-radius: 10px;
-        }
-
-        #message {
-            text-align: center;
-            font-size: 16px;
-        }
-
-    </style> -->
-
     <script>
         var request;
 
@@ -69,12 +41,22 @@
 <div ui-view class="container">
 <h2 id="message"></h2>
     <h1>Register a product using the form below:</h1>
-    <form>
-        <input type="text" name="name" placeholder="Product Name" id="name"><br>
-        <input type="text" name="description" placeholder="Product Description" id="description"><br>
-        <input type="number" name="price" placeholder="Price" id="price"><br>
-        <input type="number" name="units" placeholder="Units In Stock" id="units">
-        <input type="button" value="Save" onclick="register();">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <input type="text" name="name" placeholder="Product Name" id="name">
+        </div>
+        <div class="form-group">
+            <input type="text" name="description" placeholder="Product Description" id="description">
+        </div>
+        <div class="form-group">
+            <input type="number" name="price" placeholder="Price" id="price">
+        </div>
+        <div class="form-group">
+            <input type="number" name="units" placeholder="Units In Stock" id="units">
+        </div>
+        <div class="form-group">
+            <input type="button" value="Save" class="btn btn-primary" onclick="register();">
+        </div>
     </form>
 </div>
 </body>

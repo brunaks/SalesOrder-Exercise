@@ -7,50 +7,6 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <!-- <style>
-
-        body {
-            margin-left: 5%;
-        }
-
-        form {
-            padding-top: 1%;
-        }
-
-        input {
-            margin: 1%;
-            text-align: center;
-        }
-
-        #customer_id, #date {
-            width: 20%;
-            height: 20px;
-            border-radius: 10px;
-        }
-
-        #message {
-            text-align: center;
-            font-size: 16px;
-        }
-
-        table {
-            text-align: center;
-            vertical-align: middle;
-            border: 1px solid green;
-        }
-
-        th {
-            background-color: #A7C942;
-            color: #ffffff;
-            text-transform: capitalize;
-        }
-
-        td {
-            color: #000000;
-            background-color: #EAF2D3;
-        }
-    </style> -->
-
     <script>
         var request;
 
@@ -82,16 +38,13 @@
 <body id="content">
 <div class="container">
 <h2 id="message"></h2>
-
-<h1>Register a purchase order using the form below:</h1>
-
 <form class="form-horizontal" role="form">
     <div class="form-group">
-        <input type="text" name="date" class="form-control" placeholder="Date" id="date"><br>
+        <input type="text" name="date" class="form-control" placeholder="Date" id="date">
     </div>
 
     <div class="form-group">
-        <input type="button" class="btn btn-default" value="Save" onclick="register();">
+        <input type="button" class="btn btn-primary" value="Save" onclick="register();">
     </div>
 </form>
 <li><a href="/listPurchaseOrders.html">List Purchase Orders</a></li>

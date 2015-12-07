@@ -7,26 +7,6 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <!-- <style>
-        table {
-            text-align: center;
-            vertical-align: middle;
-            border: 1px solid green;
-        }
-
-        th {
-            background-color: #A7C942;
-            color: #ffffff;
-            text-transform: capitalize;
-        }
-
-        td {
-            color: #000000;
-            background-color: #EAF2D3;
-        }
-
-    </style> -->
-
     <script>
         var request;
         var totalRequest;
@@ -40,7 +20,7 @@
             for (var key in obj) {
                 var header = document.createElement("th");
                 header.setAttribute("class", key);
-                var headerText = document.createTextNode(key);
+                var headerText = document.createTextNode(key.toUpperCase());
                 header.appendChild(headerText);
                 headerRow.appendChild(header);
             }
@@ -118,7 +98,7 @@
             for (var key in obj) {
                 var header = document.createElement("th");
                 header.setAttribute("class", key);
-                var headerText = document.createTextNode(key);
+                var headerText = document.createTextNode(key.toUpperCase());
                 header.appendChild(headerText);
                 headerRow.appendChild(header);
             }

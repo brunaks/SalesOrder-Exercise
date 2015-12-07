@@ -7,34 +7,6 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <!-- <style>
-        table {
-            text-align: center;
-            vertical-align: middle;
-            border: 1px solid green;
-        }
-
-        th {
-            background-color: #A7C942;
-            color: #ffffff;
-            text-transform: capitalize;
-        }
-
-        td {
-            color: #000000;
-            background-color: #EAF2D3;
-        }
-
-        .id {
-            display: none;
-        }
-
-        .deleteImage {
-            width: 10%;
-            height: 30%;
-        }
-    </style> -->
-    
     <script>
         var request;
         var updateRequest;
@@ -43,7 +15,7 @@
         function createDeleteHeader(headerRow) {
             var deleteHeader = document.createElement("th");
             deleteHeader.setAttribute("class", "delete");
-            var deleteHeaderText = document.createTextNode("Delete");
+            var deleteHeaderText = document.createTextNode("Delete".toUpperCase());
             deleteHeader.appendChild(deleteHeaderText);
             headerRow.appendChild(deleteHeader);
         }
@@ -54,7 +26,7 @@
             for (var key in obj) {
                 var header = document.createElement("th");
                 header.setAttribute("class",key);
-                var headerText = document.createTextNode(key);
+                var headerText = document.createTextNode(key.toUpperCase());
                 header.appendChild(headerText);
                 headerRow.appendChild(header);
             }
@@ -102,11 +74,16 @@
 
         function createDeleteColumn(row) {
             var deleteColumn = document.createElement("td");
-            var img = document.createElement("img");
+            //var img = document.createElement("img");
             //img.src = "http://www2.psd100.com/ppp/2013/12/0201/Empty-the-trash-can-1202120531.png";
-            img.className = "deleteImage";
-            img.setAttribute("onclick", "deleteProduct(this)");
-            deleteColumn.appendChild(img);
+            var span = document.createElement("span");
+            span.setAttribute("class", "glyphicon glyphicon-trash");
+            span.setAttribute("onclick", "deleteProduct(this)");
+            deleteColumn.appendChild(span);
+            //<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            //img.className = "deleteImage";
+            //img.setAttribute("onclick", "deleteProduct(this)");
+            //deleteColumn.appendChild(img);
             row.appendChild(deleteColumn);
         }
 

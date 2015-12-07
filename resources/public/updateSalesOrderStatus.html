@@ -7,34 +7,6 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <!-- <style>
-
-        body {
-            margin-left: 5%;
-        }
-
-        form {
-            padding-top: 1%;
-        }
-
-        input {
-            margin: 1%;
-            text-align: center;
-        }
-
-        #name, #description, #price, #units {
-            width: 20%;
-            height: 20px;
-            border-radius: 10px;
-        }
-
-        #message {
-            text-align: center;
-            font-size: 16px;
-        }
-
-    </style> -->
-
     <script>
         var request;
 
@@ -67,15 +39,17 @@
 <body>
 <div class="container">
     <h2 id="message"></h2>
-
-    <h1>Change a sales order status using the form below:</h1>
-
-    <form>
-        <select id="select">
-            <option value="InProcess">In Process</option>
-            <option value="Delivered">Delivered</option>
-        </select>
-        <input type="button" value="Change" onclick="change();">
+    <form role="form">
+        <div class="form-group">
+            <label for="select">Change the sales order status using the form below:</label>
+            <select class="form-control" id="select">
+                <option value="InProcess">In Process</option>
+                <option value="Delivered">Delivered</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="button" value="Change" class="btn btn-primary" onclick="change();">
+        </div>
     </form>
 </div>
 </body>
