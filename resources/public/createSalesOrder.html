@@ -88,19 +88,72 @@
 </head>
 <body id="content" onload="loadCustomerList()">
 <div class="container">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="bs-example">
+                <ul class="nav nav-pills">
+                    <li class="active"><a href="/index.html">HOME</a></li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Customer<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/registerCustomer.html">Register Customer</a></li>
+                            <li><a href="/listCustomers.html">List Customers</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Product<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/registerProduct.html">Register Product</a></li>
+                            <li><a href="/listProducts.html">List Products</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Sales Order<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/createSalesOrder.html">Create Sales Order</a></li>
+                            <li><a href="/listSalesOrders.html">List Sales Orders</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Purchase Order<b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/createPurchaseOrder.html">Create Purchase Order</a></li>
+                            <li><a href="/listPurchaseOrders.html">List Purchase Orders</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Financials<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/listSums.html">List Sums to Pay and Receive</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <h2 id="message"></h2>
 
-    <h1>Register a sales order using the form below:</h1>
+    <h2 class="page-header">Register a sales order using the form below:</h2>
 
     <form class="form-horizontal" role="form">
         <div class="form-group">
-            <input type="text" name="customer_id" class="form-control" placeholder="Customer ID" id="customer_id">
+            <label class="control-label col-sm-2" for="customer_id">Customer ID:</label>
+
+            <div class="col-sm-6">
+                <input type="text" name="customer_id" class="form-control" placeholder="Customer ID" id="customer_id">
+            </div>
         </div>
         <div class="form-group">
-            <input type="text" name="date" class="form-control" placeholder="Date" id="date">
+            <label class="control-label col-sm-2" for="date">Date:</label>
+
+            <div class="col-sm-6">
+                <input type="text" name="date" class="form-control" placeholder="Date" id="date"></div>
         </div>
         <div class="form-group">
-            <input type="button" class="btn btn-primary" value="Save" onclick="register();">
+            <div class="col-sm-offset-2 col-sm-6">
+                <input type="button" class="btn btn-primary" value="Save" onclick="register();">
+            </div>
         </div>
     </form>
     <li><a href="/listSalesOrders.html">List Sales Orders</a></li>

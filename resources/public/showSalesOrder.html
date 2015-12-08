@@ -43,16 +43,57 @@
             if (headerRequest.status === 200 && headerRequest.readyState === 4) {
                 var data = JSON.parse(headerRequest.response);
                 var headerDiv = document.getElementById("header");
-                headerDiv.appendChild(document.createElement("p").appendChild(document.createTextNode("Order ID: " + data.id)));
-                headerDiv.appendChild(document.createElement("br"));
-                headerDiv.appendChild(document.createElement("p").appendChild(document.createTextNode("Customer ID: " + data.customerId)));
-                headerDiv.appendChild(document.createElement("br"));
-                headerDiv.appendChild(document.createElement("p").appendChild(document.createTextNode("Date: " + data.date)));
-                headerDiv.appendChild(document.createElement("br"));
-                headerDiv.appendChild(document.createElement("p").appendChild(document.createTextNode("Status: " + data.status)));
-                headerDiv.appendChild(document.createElement("br"));
-                headerDiv.appendChild(document.createElement("p").appendChild(document.createTextNode("Total: " + data.total)));
-                headerDiv.appendChild(document.createElement("br"));
+
+                var p = document.createElement("strong");
+                p.appendChild(document.createTextNode("Order ID:"));
+                p.setAttribute("class", "col-sm-2");
+                headerDiv.appendChild(p);
+
+                p = document.createElement("p");
+                p.appendChild(document.createTextNode(data.id));
+                p.setAttribute("class", "col-sm-10");
+                headerDiv.appendChild(p);
+
+                p = document.createElement("strong");
+                p.appendChild(document.createTextNode("Customer ID:"));
+                p.setAttribute("class", "col-sm-2");
+                headerDiv.appendChild(p);
+
+                p = document.createElement("p");
+                p.appendChild(document.createTextNode(data.customerId));
+                p.setAttribute("class", "col-sm-10");
+                headerDiv.appendChild(p);
+
+                p = document.createElement("strong");
+                p.appendChild(document.createTextNode("Date: "));
+                p.setAttribute("class", "col-sm-2");
+                headerDiv.appendChild(p);
+
+                p = document.createElement("p");
+                p.appendChild(document.createTextNode(data.date));
+                p.setAttribute("class", "col-sm-10");
+                headerDiv.appendChild(p);
+
+                p = document.createElement("strong");
+                p.appendChild(document.createTextNode("Status"));
+                p.setAttribute("class", "col-sm-2");
+                headerDiv.appendChild(p);
+
+                p = document.createElement("p");
+                p.appendChild(document.createTextNode(data.status));
+                p.setAttribute("class", "col-sm-10");
+                headerDiv.appendChild(p);
+
+                p = document.createElement("strong");
+                p.appendChild(document.createTextNode("Total: "));
+                p.setAttribute("class", "col-sm-2");
+                headerDiv.appendChild(p);
+
+                p = document.createElement("p");
+                p.appendChild(document.createTextNode(data.total));
+                p.setAttribute("class", "col-sm-10");
+                headerDiv.appendChild(p);
+
                 var changeStatusLink = document.createElement("a");
                 changeStatusLink.setAttribute("href", "/updateSalesOrderStatus.html?orderId=" + data.id);
                 changeStatusLink.appendChild(document.createTextNode("Change Status"));
@@ -93,7 +134,51 @@
 </head>
 <body onload="loadOrder()">
 <div id="orders" class="container">
-    <div id="header">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="bs-example">
+                <ul class="nav nav-pills">
+                    <li class="active"><a href="/index.html">HOME</a></li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Customer<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/registerCustomer.html">Register Customer</a></li>
+                            <li><a href="/listCustomers.html">List Customers</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Product<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/registerProduct.html">Register Product</a></li>
+                            <li><a href="/listProducts.html">List Products</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Sales Order<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/createSalesOrder.html">Create Sales Order</a></li>
+                            <li><a href="/listSalesOrders.html">List Sales Orders</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Purchase Order<b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/createPurchaseOrder.html">Create Purchase Order</a></li>
+                            <li><a href="/listPurchaseOrders.html">List Purchase Orders</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Financials<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/listSums.html">List Sums to Pay and Receive</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div id="header" class="well">
     </div>
     <a href="#" onclick="goToCreateItemPage();">Create Item</a>
     <table style="width:100%" id="items" class="table table-striped">
