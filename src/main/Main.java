@@ -1,3 +1,5 @@
+package main;
+
 import Interfaces.Persistence.*;
 import Interfaces.Receivers.CustomerReceiver;
 import Interfaces.Receivers.ProductReceiver;
