@@ -27,6 +27,8 @@ import spark.Spark;
 public class Main {
 
     public static void main(String[] args) {
+        Spark.port(Integer.parseInt(System.getenv("PORT")));
+
         ProductReceiver receiver = new FakeProductReceiver();
         ProductRepository productRepository = new JDBCProductRepository();
         SalesOrderRepository salesOrderRepository = new JDBCSalesOrderRepository(productRepository);
