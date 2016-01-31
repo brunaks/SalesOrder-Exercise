@@ -21,7 +21,7 @@ import java.util.UUID;
 /**
  * Created by Bruna Koch Schmitt on 22/11/2015.
  */
-public class updatePurchaseOrderStatusTest {
+public class UpdatePurchaseOrderStatusTest {
 
     CreatePurchaseOrderUseCase createOrder;
     ListPurchaseOrdersUseCase listOrders;

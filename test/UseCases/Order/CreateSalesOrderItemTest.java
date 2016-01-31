@@ -29,7 +29,7 @@ import java.util.UUID;
 /**
  * Created by Bruna Koch Schmitt on 29/11/2015.
  */
-public class createSalesOrderItemTest {
+public class CreateSalesOrderItemTest {
 
     private SalesOrderRepository salesRepository;
     private ProductRepository productRepository;
