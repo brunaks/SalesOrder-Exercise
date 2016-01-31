@@ -3,7 +3,6 @@ package Persistence;
 import Entities.FinancialRecords.SumToPayInfo;
 import Entities.FinancialRecords.TotalToReceiveAndPayInfo;
 import Interfaces.Persistence.SumToPayRepository;
-import Interfaces.Persistence.SumToReceiveRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -37,11 +36,11 @@ public class JDBCSumToPayRepository implements SumToPayRepository {
         try {
             while (result.next()) {
                 SumToPayInfo info = new SumToPayInfo();
-                info.sum_id = result.getString("sumId");
-                info.pay_date = result.getString("payDate");
-                info.pay_status = result.getString("payStatus");
-                info.sum_to_pay = result.getDouble("sum_to_pay");
-                info.order_id = result.getString("orderId");
+                info.sumId = result.getString("sum_id");
+                info.payDate = result.getString("pay_date");
+                info.payStatus = result.getString("pay_status");
+                info.sumToPay = result.getDouble("sum_to_pay");
+                info.orderId = result.getString("order_id");
                 infos.add(info);
             }
         } catch (SQLException e) {

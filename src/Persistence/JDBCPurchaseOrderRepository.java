@@ -54,7 +54,7 @@ public class JDBCPurchaseOrderRepository implements PurchaseOrderRepository {
 
     private PurchaseOrderInfo buildOrderInfo(ResultSet result) throws SQLException {
         PurchaseOrderInfo info = new PurchaseOrderInfo();
-        info.id = result.getString("orderId");
+        info.id = result.getString("order_id");
         info.status = result.getString("order_status");
         info.date = result.getDate("order_date");
         info.items = getItems(info.id);

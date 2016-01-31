@@ -53,7 +53,7 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
 
     private SalesOrderInfo buildOrderInfo(ResultSet result) throws SQLException {
         SalesOrderInfo info = new SalesOrderInfo();
-        info.id = result.getString("orderId");
+        info.id = result.getString("order_id");
         info.status = result.getString("order_status");
         info.date = result.getDate("order_date");
         info.customerId = result.getString("customer_id");

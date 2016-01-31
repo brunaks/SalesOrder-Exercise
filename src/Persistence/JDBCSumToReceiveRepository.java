@@ -57,11 +57,11 @@ public class JDBCSumToReceiveRepository implements SumToReceiveRepository {
         try {
             while (result.next()) {
                 SumToReceiveInfo info = new SumToReceiveInfo();
-                info.sumId = result.getString("sumId");
-                info.payDate = result.getString("payDate");
-                info.payStatus = result.getString("payStatus");
-                info.sumWithDeduction = result.getDouble("sumWithDeduction");
-                info.orderId = result.getString("orderId");
+                info.sumId = result.getString("sum_id");
+                info.payDate = result.getString("pay_date");
+                info.payStatus = result.getString("pay_status");
+                info.sumWithDeduction = result.getDouble("sum_with_deduction");
+                info.orderId = result.getString("order_id");
                 infos.add(info);
             }
         } catch (SQLException e) {
