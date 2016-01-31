@@ -11,6 +11,6 @@ import java.util.List;
  */
 public interface SumToReceiveRepository {
     List<SumToReceiveInfo> getAll();
-
     TotalToReceiveAndPayInfo getTotals();
+    void save(SumToReceiveInfo sumToReceiveInfo);
 }

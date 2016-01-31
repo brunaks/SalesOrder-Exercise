@@ -2,6 +2,7 @@ package Routes.Order.SalesOrder;
 
 import Interfaces.Persistence.ProductRepository;
 import Interfaces.Persistence.SalesOrderRepository;
+import Interfaces.Persistence.SumToReceiveRepository;
 import Interfaces.Receivers.SalesOrderReceiver;
 import Routes.RequestObjects.UpdateOrderStatusRequest;
 import UseCases.Order.Sales.AddSalesOrderItemUseCase;
@@ -21,11 +22,13 @@ public class UpdateSalesOrderStatusRoute implements Route {
     private Gson converter = new Gson();
     private UpdateOrderStatusRequest updateRequest;
     private ProductRepository productRepository;
+    private SumToReceiveRepository sumToReceiveRepository;
 
-    public UpdateSalesOrderStatusRoute(SalesOrderRepository salesOrderRepository, SalesOrderReceiver salesOrderReceiver, ProductRepository productRepository) {
+    public UpdateSalesOrderStatusRoute(SalesOrderRepository salesOrderRepository, SalesOrderReceiver salesOrderReceiver, ProductRepository productRepository, SumToReceiveRepository sumToReceiveRepository) {
         this.repository = salesOrderRepository;
         this.receiver = salesOrderReceiver;
         this.productRepository = productRepository;
+        this.sumToReceiveRepository = sumToReceiveRepository;
     }
 
     @Override
@@ -35,7 +38,8 @@ public class UpdateSalesOrderStatusRoute implements Route {
             AddSalesOrderItemUseCase addItem = new AddSalesOrderItemUseCase(updateRequest.orderId,
                     this.repository,
                     this.productRepository,
-                    this.receiver);
+                    this.receiver,
+                    sumToReceiveRepository);
             addItem.setOrderToProcessing();
         } else {
             UpdateSalesOrderStatusUseCase updateStatus = new UpdateSalesOrderStatusUseCase(updateRequest.orderId, this.repository, this.receiver);

@@ -53,7 +53,7 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
 
     private SalesOrderInfo buildOrderInfo(ResultSet result) throws SQLException {
         SalesOrderInfo info = new SalesOrderInfo();
-        info.id = result.getString("order_id");
+        info.id = result.getString("orderId");
         info.status = result.getString("order_status");
         info.date = result.getDate("order_date");
         info.customerId = result.getString("customer_id");
@@ -172,7 +172,7 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
     @Override
     public void addItem(SalesOrderInfo order, OrderItem item) {
         //String sql = "insert into items_sales_order " +
-        //        "(order_id, product_id, quantity)" +
+        //        "(orderId, product_id, quantity)" +
         //        " values (?,?,?)";
         String sql = "BEGIN insert_sales_order_item (?, ?, ?); end;";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {

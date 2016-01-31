@@ -37,11 +37,11 @@ public class JDBCSumToPayRepository implements SumToPayRepository {
         try {
             while (result.next()) {
                 SumToPayInfo info = new SumToPayInfo();
-                info.sum_id = result.getString("sum_id");
-                info.pay_date = result.getString("pay_date");
-                info.pay_status = result.getString("pay_status");
+                info.sum_id = result.getString("sumId");
+                info.pay_date = result.getString("payDate");
+                info.pay_status = result.getString("payStatus");
                 info.sum_to_pay = result.getDouble("sum_to_pay");
-                info.order_id = result.getString("order_id");
+                info.order_id = result.getString("orderId");
                 infos.add(info);
             }
         } catch (SQLException e) {

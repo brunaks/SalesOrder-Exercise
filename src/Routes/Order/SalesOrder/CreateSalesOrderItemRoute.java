@@ -2,6 +2,7 @@ package Routes.Order.SalesOrder;
 
 import Interfaces.Persistence.ProductRepository;
 import Interfaces.Persistence.SalesOrderRepository;
+import Interfaces.Persistence.SumToReceiveRepository;
 import Interfaces.Receivers.SalesOrderReceiver;
 import Routes.RequestObjects.CreateSalesOrderItemRequest;
 import UseCases.Order.Sales.AddSalesOrderItemUseCase;
@@ -17,12 +18,14 @@ public class CreateSalesOrderItemRoute implements Route {
     private SalesOrderReceiver receiver;
     private ProductRepository productRepositoty;
     private SalesOrderRepository salesOrderRepository;
+    private SumToReceiveRepository sumToReceiveRepository;
     private Gson converter = new Gson();
 
-    public CreateSalesOrderItemRoute(SalesOrderRepository salesOrderRepository, ProductRepository productRepository, SalesOrderReceiver receiver) {
+    public CreateSalesOrderItemRoute(SalesOrderRepository salesOrderRepository, ProductRepository productRepository, SalesOrderReceiver receiver, SumToReceiveRepository sumToReceiveRepository) {
         this.salesOrderRepository = salesOrderRepository;
         this.productRepositoty = productRepository;
         this.receiver = receiver;
+        this.sumToReceiveRepository = sumToReceiveRepository;
     }
 
     @Override
@@ -31,7 +34,8 @@ public class CreateSalesOrderItemRoute implements Route {
         AddSalesOrderItemUseCase addItem = new AddSalesOrderItemUseCase(createRequest.orderId,
                 salesOrderRepository,
                 productRepositoty,
-                receiver);
+                receiver,
+                sumToReceiveRepository);
         addItem.withProductIdAndQuantity(createRequest.productId, createRequest.quantity);
         return converter.toJson(receiver);
     }

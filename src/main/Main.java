@@ -59,8 +59,8 @@ public class Main {
         Spark.get("/listSalesOrders", new ListSalesOrdersRoute(salesOrderRepository, salesOrderReceiver));
         Spark.get("/showSalesOrder", new DisplaySalesOrderRoute(salesOrderRepository));
         Spark.get("/showSalesOrderItems", new ShowSalesOrderItemsRoute(salesOrderRepository));
-        Spark.post("/createSalesOrderItem", new CreateSalesOrderItemRoute(salesOrderRepository, productRepository, salesOrderReceiver));
-        Spark.post("/updateSalesOrderStatus", new UpdateSalesOrderStatusRoute(salesOrderRepository, salesOrderReceiver, productRepository));
+        Spark.post("/createSalesOrderItem", new CreateSalesOrderItemRoute(salesOrderRepository, productRepository, salesOrderReceiver, sumToReceiveRepository));
+        Spark.post("/updateSalesOrderStatus", new UpdateSalesOrderStatusRoute(salesOrderRepository, salesOrderReceiver, productRepository, sumToReceiveRepository));
 
         Spark.post("/createPurchaseOrder", new CreatePurchaseOrderRoute(purchaseOrderRepository, purchaseOrderReceiver, productRepository));
         Spark.get("/listPurchaseOrders", new ListPurchaseOrdersRoute(purchaseOrderRepository, purchaseOrderReceiver));

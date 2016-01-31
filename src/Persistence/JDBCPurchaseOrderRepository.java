@@ -54,7 +54,7 @@ public class JDBCPurchaseOrderRepository implements PurchaseOrderRepository {
 
     private PurchaseOrderInfo buildOrderInfo(ResultSet result) throws SQLException {
         PurchaseOrderInfo info = new PurchaseOrderInfo();
-        info.id = result.getString("order_id");
+        info.id = result.getString("orderId");
         info.status = result.getString("order_status");
         info.date = result.getDate("order_date");
         info.items = getItems(info.id);
@@ -171,7 +171,7 @@ public class JDBCPurchaseOrderRepository implements PurchaseOrderRepository {
     @Override
     public void addItem(PurchaseOrderInfo order, OrderItem item) {
         //String sql = "insert into items_purchase_order " +
-        //       "(order_id, product_id, quantity)" +
+        //       "(orderId, product_id, quantity)" +
         //       " values (?,?,?)";
         String sql = "BEGIN insert_purchase_order_item (?, ?, ?); end;";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {

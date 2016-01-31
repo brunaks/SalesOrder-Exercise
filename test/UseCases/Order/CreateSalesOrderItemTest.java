@@ -6,6 +6,7 @@ import Entities.Product.ProductInfo;
 import Interfaces.Persistence.CustomerRepository;
 import Interfaces.Persistence.ProductRepository;
 import Interfaces.Persistence.SalesOrderRepository;
+import Persistence.InMemorySumsToReceiveRepository;
 import TestDoubles.Persistence.InMemoryCustomerRepository;
 import TestDoubles.Persistence.InMemoryProductRepository;
 import TestDoubles.Persistence.InMemorySalesOrderRepository;
@@ -39,6 +40,7 @@ public class CreateSalesOrderItemTest {
     private FakeCustomerReceiver customerReceiver;
     private AddSalesOrderItemUseCase addItem;
     private FakeProductReceiver productReceiver;
+    private InMemorySumsToReceiveRepository sumsToReceiveRepository;
 
     @Before
     public void setUp() throws Exception {
@@ -48,6 +50,7 @@ public class CreateSalesOrderItemTest {
         this.orderReceiver = new FakeSalesOrderReceiver();
         this.customerReceiver = new FakeCustomerReceiver();
         this.productReceiver = new FakeProductReceiver();
+        this.sumsToReceiveRepository = new InMemorySumsToReceiveRepository();
     }
 
     @Test
@@ -59,7 +62,7 @@ public class CreateSalesOrderItemTest {
         createOrder = new CreateSalesOrderUseCase(orderId, customerInfo.id, salesRepository, customerRepository, orderReceiver, date);
         createOrder.execute();
 
-        this.addItem = new AddSalesOrderItemUseCase(orderId, salesRepository, productRepository, orderReceiver);
+        this.addItem = new AddSalesOrderItemUseCase(orderId, salesRepository, productRepository, orderReceiver, sumsToReceiveRepository);
 
         ProductInfo productInfo = givenProductInfo("Name", "Description", 20.0, 10);
         RegisterProductUseCase registerProduct = new RegisterProductUseCase(productReceiver, productInfo, productRepository);
@@ -93,7 +96,7 @@ public class CreateSalesOrderItemTest {
         createOrder = new CreateSalesOrderUseCase(orderId, customerInfo.id, salesRepository, customerRepository, orderReceiver, date);
         createOrder.execute();
 
-        this.addItem = new AddSalesOrderItemUseCase(orderId, salesRepository, productRepository, orderReceiver);
+        this.addItem = new AddSalesOrderItemUseCase(orderId, salesRepository, productRepository, orderReceiver, sumsToReceiveRepository);
 
         ProductInfo productInfo = givenProductInfo("Name", "Description", 20.0, 10);
         RegisterProductUseCase registerProduct = new RegisterProductUseCase(productReceiver, productInfo, productRepository);
@@ -132,7 +135,7 @@ public class CreateSalesOrderItemTest {
         createOrder = new CreateSalesOrderUseCase(orderId, customerInfo.id, salesRepository, customerRepository, orderReceiver, date);
         createOrder.execute();
 
-        this.addItem = new AddSalesOrderItemUseCase(orderId, salesRepository, productRepository, orderReceiver);
+        this.addItem = new AddSalesOrderItemUseCase(orderId, salesRepository, productRepository, orderReceiver, sumsToReceiveRepository);
         addItem.withProductIdAndQuantity(UUID.randomUUID().toString(), 5);
         addItem.setOrderToProcessing();
 
@@ -159,7 +162,7 @@ public class CreateSalesOrderItemTest {
         RegisterProductUseCase registerProduct = new RegisterProductUseCase(productReceiver, productInfo, productRepository);
         registerProduct.execute();
 
-        this.addItem = new AddSalesOrderItemUseCase(orderId, salesRepository, productRepository, orderReceiver);
+        this.addItem = new AddSalesOrderItemUseCase(orderId, salesRepository, productRepository, orderReceiver, sumsToReceiveRepository);
         addItem.withProductIdAndQuantity(productInfo.id, 5);
         addItem.setOrderToProcessing();
 
@@ -179,7 +182,7 @@ public class CreateSalesOrderItemTest {
         createOrder = new CreateSalesOrderUseCase(orderId, customerInfo.id, salesRepository, customerRepository, orderReceiver, date);
         createOrder.execute();
 
-        this.addItem = new AddSalesOrderItemUseCase(orderId, salesRepository, productRepository, orderReceiver);
+        this.addItem = new AddSalesOrderItemUseCase(orderId, salesRepository, productRepository, orderReceiver, sumsToReceiveRepository);
 
         ProductInfo productInfo = givenProductInfo("Name", "Description", 20.0, 10);
         RegisterProductUseCase registerProduct = new RegisterProductUseCase(productReceiver, productInfo, productRepository);
@@ -215,7 +218,7 @@ public class CreateSalesOrderItemTest {
         createOrder = new CreateSalesOrderUseCase(orderId, customerInfo.id, salesRepository, customerRepository, orderReceiver, date);
         createOrder.execute();
 
-        this.addItem = new AddSalesOrderItemUseCase(orderId, salesRepository, productRepository, orderReceiver);
+        this.addItem = new AddSalesOrderItemUseCase(orderId, salesRepository, productRepository, orderReceiver, sumsToReceiveRepository);
 
         ProductInfo productInfo = givenProductInfo("Name", "Description", 20.0, 10);
         RegisterProductUseCase registerProduct = new RegisterProductUseCase(productReceiver, productInfo, productRepository);
@@ -249,7 +252,7 @@ public class CreateSalesOrderItemTest {
         createOrder = new CreateSalesOrderUseCase(orderId, customerInfo.id, salesRepository, customerRepository, orderReceiver, date);
         createOrder.execute();
 
-        this.addItem = new AddSalesOrderItemUseCase(orderId, salesRepository, productRepository, orderReceiver);
+        this.addItem = new AddSalesOrderItemUseCase(orderId, salesRepository, productRepository, orderReceiver, sumsToReceiveRepository);
 
         ProductInfo productInfo = givenProductInfo("Name", "Description", 20.0, 10);
         RegisterProductUseCase registerProduct = new RegisterProductUseCase(productReceiver, productInfo, productRepository);
