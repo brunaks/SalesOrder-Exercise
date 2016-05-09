@@ -14,7 +14,7 @@ public class JDBCProductRepository implements ProductRepository {
     private final Connection connection;
 
     public JDBCProductRepository() {
-        connection = ConnectionFactory.getConnection();
+        connection = OracleConnectionFactory.getConnection();
     }
 
     public void saveProduct(ProductInfo product) {

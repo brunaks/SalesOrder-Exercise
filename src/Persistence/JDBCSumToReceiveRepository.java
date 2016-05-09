@@ -16,7 +16,7 @@ public class JDBCSumToReceiveRepository implements SumToReceiveRepository {
     private final Connection connection;
 
     public JDBCSumToReceiveRepository() {
-        connection = ConnectionFactory.getConnection();
+        connection = OracleConnectionFactory.getConnection();
     }
 
     @Override

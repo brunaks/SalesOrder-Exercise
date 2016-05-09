@@ -16,7 +16,7 @@ public class JDBCSumToPayRepository implements SumToPayRepository {
     private final Connection connection;
 
     public JDBCSumToPayRepository() {
-        connection = ConnectionFactory.getConnection();
+        connection = OracleConnectionFactory.getConnection();
     }
 
     @Override

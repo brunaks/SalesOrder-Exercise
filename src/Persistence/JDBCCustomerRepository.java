@@ -19,7 +19,7 @@ public class JDBCCustomerRepository implements CustomerRepository {
     private Connection connection;
 
     public JDBCCustomerRepository() {
-        this.connection = ConnectionFactory.getConnection();
+        this.connection = OracleConnectionFactory.getConnection();
     }
 
     @Override

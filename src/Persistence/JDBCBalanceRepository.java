@@ -2,7 +2,6 @@ package Persistence;
 
 import Entities.FinancialRecords.TotalToReceiveAndPayInfo;
 import Interfaces.Persistence.BalanceRepository;
-import Interfaces.Persistence.SumToPayRepository;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -16,7 +15,7 @@ public class JDBCBalanceRepository implements BalanceRepository {
     private final Connection connection;
 
     public JDBCBalanceRepository() {
-        connection = ConnectionFactory.getConnection();
+        connection = OracleConnectionFactory.getConnection();
     }
 
     @Override
