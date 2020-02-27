@@ -15,7 +15,7 @@ public class JDBCBalanceRepository implements BalanceRepository {
     private final Connection connection;
 
     public JDBCBalanceRepository() {
-        connection = OracleConnectionFactory.getConnection();
+        connection = DatabaseConnectionFactory.getConnection();
     }
 
     @Override

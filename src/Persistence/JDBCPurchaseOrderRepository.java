@@ -21,7 +21,7 @@ public class JDBCPurchaseOrderRepository implements PurchaseOrderRepository {
 
     public JDBCPurchaseOrderRepository(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        connection = OracleConnectionFactory.getConnection();
+        connection = DatabaseConnectionFactory.getConnection();
     }
 
     @Override

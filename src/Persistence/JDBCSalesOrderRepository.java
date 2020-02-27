@@ -20,7 +20,7 @@ public class JDBCSalesOrderRepository implements SalesOrderRepository {
 
     public JDBCSalesOrderRepository(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        connection = OracleConnectionFactory.getConnection();
+        connection = DatabaseConnectionFactory.getConnection();
     }
 
     @Override
