@@ -14,10 +14,16 @@ public class PostgresqlConnectionFactory {
         try {
             URI databaseUri = new URI(System.getenv("DATABASE_URL"));
 
+            System.out.print("Database URI: " + databaseUri);
+
             String username = databaseUri.getUserInfo().split(":")[0];
             String password = databaseUri.getUserInfo().split(":")[1];
 
-            String databaseUrl = "jdbc:postgresql://" + databaseUri.getHost() + ':' + databaseUri.getPort() + databaseUri.getPath();
+            System.out.println("Username" + username);
+            System.out.println("Password" + password);
+
+            String databaseUrl = "jdbc:postgresql://" + databaseUri.getHost() + ':' + databaseUri.getPort() + databaseUri.getPath() + "?sslmode=require";
+            System.out.println("DB URL" + databaseUrl);
 
             return DriverManager.getConnection(databaseUrl, username, password);
 
