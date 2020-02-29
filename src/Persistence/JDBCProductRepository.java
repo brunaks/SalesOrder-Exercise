@@ -43,8 +43,8 @@ public class JDBCProductRepository implements ProductRepository {
 
     private void insert(ProductInfo product) {
         String sql = "insert into product " +
-                "(product_id, product_name, description, CAST ( price AS MONEY ), units_in_stock)" +
-                " values (?,?,?,?,?)";
+                "(product_id, product_name, description, price , units_in_stock)" +
+                " values (?,?,?,?::money,?)";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
 
