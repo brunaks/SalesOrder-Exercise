@@ -51,7 +51,8 @@ public class JDBCProductRepository implements ProductRepository {
             stmt.setString(1, product.id);
             stmt.setString(2, product.name);
             stmt.setString(3, product.description);
-            stmt.setDouble(4, product.price);
+            //stmt.setDouble(4, product.price);
+            stmt.setString(4, "$" + product.price);
             stmt.setInt(5, product.unitsInStock);
 
             stmt.execute();
